@@ -3,9 +3,14 @@ import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import React, { useState } from "react";
 // Components
+import Home from "./components/home";
+import Login from "./components/login";
 import FetchData from "./components/read";
 import AddData from "./components/create";
 import AlertComponent from "./components/alertComponent";
+// Context
+import { AuthContext } from "./context/authContext";
+import { ProtectedRoute } from "./context/protectedRoute";
 
 function App() {
   // Alert
@@ -24,23 +29,39 @@ function App() {
 
   const router = createBrowserRouter([
     {
+      path: "/",
+      element: <Home />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
       path: "/maksetut",
-      element: <FetchData triggerAlert={triggerAlert}></FetchData>,
+      element: (
+        <ProtectedRoute>
+          <FetchData triggerAlert={triggerAlert} />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/lisaa",
-      element: <AddData></AddData>,
+      element: (
+        <ProtectedRoute>
+          <AddData />
+        </ProtectedRoute>
+      ),
     },
   ]);
   return (
-    <>
+    <AuthContext>
       <RouterProvider router={router} />
       <AlertComponent
         alertMessage={alertMessage}
         showAlert={showAlert}
         onClose={closeAlert}
       />
-    </>
+    </AuthContext>
   );
 }
 

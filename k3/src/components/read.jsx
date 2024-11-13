@@ -116,6 +116,7 @@ const FetchData = ({ triggerAlert }) => {
             Lisää lasku
           </Button>
         </div>
+        <br />
       </Stack>
     </Container>
   );

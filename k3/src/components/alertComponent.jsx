@@ -17,7 +17,7 @@ const AlertComponent = ({ alertMessage, showAlert, onClose }) => {
   return (
     showAlert && (
       <Alert
-        className="alert alert-secondary"
+        className="alert alert-warning"
         onClose={() => setShow(false)}
         dismissible
       >
