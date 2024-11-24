@@ -27,7 +27,6 @@ const FetchData = ({ triggerAlert }) => {
         };
       });
       setTableArray(tempArray);
-      console.log(tempArray);
     });
     // Clean up the subscription on component unmount
     return () => unsubscribe();
@@ -99,7 +98,7 @@ const FetchData = ({ triggerAlert }) => {
   };
 
   return (
-    <Container>
+    <Container className="p-5">
       <Stack gap={3}>
         <div>
           <h3>Maksetut laskut</h3>

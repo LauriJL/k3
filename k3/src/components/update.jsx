@@ -1,38 +1,68 @@
-// React
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-// Components
-import { writeInvoiceData } from "./writeComponent";
+import React, { useState, useEffect } from "react";
+import { ref, onValue, update } from "firebase/database";
+import { useParams, useNavigate } from "react-router-dom";
+import { mydatabase } from "../firebase/firebase_config"; // Firebase database
 // Bootstrap
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-const AddData = () => {
+const UpdateData = () => {
+  const { invoiceId } = useParams();
   const navigate = useNavigate();
-
+  // State variables for data
   const [saaja, setSaaja] = useState("");
   const [summa, setSumma] = useState("");
   const [erapvm, setErapvm] = useState("");
   const [maksupvm, setMaksupvm] = useState("");
   const [maksuluokka, setMaksuluokka] = useState("");
 
-  function handleSubmit(e) {
+  useEffect(() => {
+    // Reference to invoice data in the database
+    const invoiceRef = ref(mydatabase, "menot/" + invoiceId);
+
+    // Fetch the existing data when the component mounts
+    onValue(invoiceRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        setSaaja(data.saaja || "");
+        setSumma(data.summa || "");
+        setErapvm(data.erapvm || "");
+        setMaksupvm(data.maksupvm || "");
+        setMaksuluokka(data.maksuluokka || "");
+      }
+    });
+  }, [invoiceId]); // The effect runs when the component mounts or the invoiceId changes
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!saaja || !summa || !erapvm || !maksupvm || !erapvm || !maksuluokka) {
-      alert("Anna kaikki tarvittavat tiedot.");
-      return;
-    }
+    // Create an object with the updated fields
+    const updatedData = {
+      saaja: saaja,
+      summa: summa,
+      erapvm: erapvm,
+      maksupvm: maksupvm,
+      maksuluokka: maksuluokka,
+    };
 
-    const invoiceId = "invoice"; // You can generate or retrieve a user ID based on your logic
-    writeInvoiceData(invoiceId, saaja, summa, erapvm, maksupvm, maksuluokka); // Call the function to write data
-    navigate("/maksetut");
-  }
+    // Reference to the specific invoice in the database
+    const invoiceRef = ref(mydatabase, "menot/" + invoiceId);
+
+    // Update method to update the fields in the database
+    update(invoiceRef, updatedData)
+      .then(() => {
+        console.log("Laskun tiedot päivitetty!");
+        navigate("/maksetut");
+      })
+      .catch((error) => {
+        console.error("Tietojen päivitys epäonnistui:", error);
+      });
+  };
 
   return (
     <Container className="p-5">
-      <h3>Lisää lasku</h3>
+      <h3>Päivitä laskun tietoja</h3>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="">
           <Form.Label>Saaja</Form.Label>
@@ -82,8 +112,8 @@ const AddData = () => {
             required
           />
         </Form.Group>
-        <Button variant="primary" type="submit" onSubmit={handleSubmit}>
-          Lisää
+        <Button variant="outline-primary" type="submit" onSubmit={handleSubmit}>
+          Päivitä tiedot
         </Button>
         &nbsp;
         <Button
@@ -97,4 +127,4 @@ const AddData = () => {
   );
 };
 
-export default AddData;
+export default UpdateData;

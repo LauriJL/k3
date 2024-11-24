@@ -7,10 +7,14 @@ import Home from "./components/home";
 import Login from "./components/login";
 import FetchData from "./components/read";
 import AddData from "./components/create";
+import UpdateData from "./components/update";
 import AlertComponent from "./components/alertComponent";
 // Context
 import { AuthContext } from "./context/authContext";
 import { ProtectedRoute } from "./context/protectedRoute";
+// Idle timer
+import { IdleTimerProvider } from "react-idle-timer";
+import CountDown from "./components/countdown";
 
 function App() {
   // Alert
@@ -40,6 +44,7 @@ function App() {
       path: "/maksetut",
       element: (
         <ProtectedRoute>
+          <CountDown></CountDown>
           <FetchData triggerAlert={triggerAlert} />
         </ProtectedRoute>
       ),
@@ -48,7 +53,17 @@ function App() {
       path: "/lisaa",
       element: (
         <ProtectedRoute>
+          <CountDown></CountDown>
           <AddData />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/update/:invoiceId",
+      element: (
+        <ProtectedRoute>
+          <CountDown></CountDown>
+          <UpdateData></UpdateData>
         </ProtectedRoute>
       ),
     },

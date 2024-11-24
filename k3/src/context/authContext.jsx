@@ -7,6 +7,7 @@ import NavBar from "../components/navbar";
 
 export const Context = createContext();
 
+// Access authentication state throughout app. Used with protectedRoute component.
 export function AuthContext({ children }) {
   const auth = getAuth();
   const [user, setUser] = useState();

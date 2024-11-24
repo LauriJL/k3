@@ -14,7 +14,6 @@ const Home = () => {
       <br />
       <Row>
         <Stack gap={3} className="col-md-5 mx-auto">
-          <h3>K3</h3>
           <Button variant="outline-success" onClick={() => navigate("/login")}>
             Kirjaudu sisään
           </Button>

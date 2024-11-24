@@ -45,3 +45,10 @@
   align-items: center;
   justify-content: center;  
 }
+
+.modal-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Ensures it's vertically centered */
+}

@@ -23,7 +23,7 @@ const NavBar = ({ userName }) => {
   return (
     <Navbar bg="dark" data-bs-theme="dark">
       <Container>
-        <Navbar.Brand href="#home">M2</Navbar.Brand>
+        <Navbar.Brand href="#home">K3</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         {userName && (
           <Navbar.Collapse id="basic-navbar-nav">
