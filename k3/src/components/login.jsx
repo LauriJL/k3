@@ -47,7 +47,6 @@ const Login = () => {
             required
           />
         </Form.Group>
-
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Control
             type="password"
@@ -61,6 +60,7 @@ const Login = () => {
         <Button variant="primary" type="submit">
           Kirjaudu
         </Button>
+        &nbsp;
         <Button variant="secondary" onClick={() => navigate("/")}>
           Takaisin
         </Button>

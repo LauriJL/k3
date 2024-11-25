@@ -9,11 +9,17 @@ import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
+// Components
+import DeleteModal from "./deleteModal";
 
 const FetchData = ({ triggerAlert }) => {
   const navigate = useNavigate();
   const [tableArray, setTableArray] = useState([]);
   //   const [data, setData] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // console.log("modal: ", isModalOpen);
 
   useEffect(() => {
     const dataRef = ref(mydatabase, "menot"); // Define the reference to the data
@@ -31,6 +37,16 @@ const FetchData = ({ triggerAlert }) => {
     // Clean up the subscription on component unmount
     return () => unsubscribe();
   }, []); // Empty dependency array ensures this only runs once when the component mounts
+
+  // DeleteModal actions
+  const handleShowModal = (id) => {
+    setSelectedId(id);
+    setShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedId(null); // Clear the selected ID
+  };
 
   // Table
   const TableComponent = ({ data }) => {
@@ -68,7 +84,7 @@ const FetchData = ({ triggerAlert }) => {
                   {" "}
                   <Button
                     variant="outline-danger"
-                    onClick={() => navigate(`/delete/${item.invoiceId}`)}
+                    onClick={() => handleShowModal(item.invoiceId)}
                   >
                     Poista
                   </Button>
@@ -103,6 +119,11 @@ const FetchData = ({ triggerAlert }) => {
         </div>
         <br />
       </Stack>
+      <DeleteModal
+        id={selectedId}
+        show={showModal}
+        onClose={handleCloseModal}
+      />
     </Container>
   );
 };

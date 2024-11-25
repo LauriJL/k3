@@ -8,13 +8,11 @@ import Login from "./components/login";
 import FetchData from "./components/read";
 import AddData from "./components/create";
 import UpdateData from "./components/update";
-import DeleteData from "./components/delete";
 import AlertComponent from "./components/alertComponent";
 // Context
 import { AuthContext } from "./context/authContext";
 import { ProtectedRoute } from "./context/protectedRoute";
-// Idle timer
-import { IdleTimerProvider } from "react-idle-timer";
+// Idle timer countdown
 import CountDown from "./components/countdown";
 
 function App() {
@@ -65,15 +63,6 @@ function App() {
         <ProtectedRoute>
           <CountDown></CountDown>
           <UpdateData></UpdateData>
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: "/delete/:invoiceId",
-      element: (
-        <ProtectedRoute>
-          <CountDown></CountDown>
-          <DeleteData triggerAlert={triggerAlert}></DeleteData>
         </ProtectedRoute>
       ),
     },
