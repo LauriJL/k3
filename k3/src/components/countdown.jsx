@@ -26,7 +26,6 @@ function CountDown() {
   };
 
   const handleOnIdle = () => {
-    console.log("Modal should be open");
     setIsModalOpen(true);
     setCountdown(15);
     idleTimerRef.current?.pause(); // Pause the idle timer
@@ -69,7 +68,7 @@ function CountDown() {
   return (
     <IdleTimerProvider
       ref={idleTimerRef}
-      timeout={1000 * 60}
+      timeout={5 * 60 * 1000} // 5 minutes
       onIdle={handleOnIdle}
       onActive={handleOnActive}
       debounce={250}

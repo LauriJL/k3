@@ -8,6 +8,7 @@ import Login from "./components/login";
 import FetchData from "./components/read";
 import AddData from "./components/create";
 import UpdateData from "./components/update";
+import DeleteData from "./components/delete";
 import AlertComponent from "./components/alertComponent";
 // Context
 import { AuthContext } from "./context/authContext";
@@ -64,6 +65,15 @@ function App() {
         <ProtectedRoute>
           <CountDown></CountDown>
           <UpdateData></UpdateData>
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/delete/:invoiceId",
+      element: (
+        <ProtectedRoute>
+          <CountDown></CountDown>
+          <DeleteData triggerAlert={triggerAlert}></DeleteData>
         </ProtectedRoute>
       ),
     },

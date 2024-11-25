@@ -32,18 +32,6 @@ const FetchData = ({ triggerAlert }) => {
     return () => unsubscribe();
   }, []); // Empty dependency array ensures this only runs once when the component mounts
 
-  // Delete
-  const deleteItem = (invoiceId) => {
-    const itemRef = ref(mydatabase, "menot/" + invoiceId);
-    remove(itemRef)
-      .then(() => {
-        triggerAlert("Lasku poistettu");
-      })
-      .catch((error) => {
-        triggerAlert("Laskun poisto epäonnistui: ", error);
-      });
-  };
-
   // Table
   const TableComponent = ({ data }) => {
     if (data) {
@@ -80,9 +68,7 @@ const FetchData = ({ triggerAlert }) => {
                   {" "}
                   <Button
                     variant="outline-danger"
-                    onClick={() => {
-                      deleteItem(item.invoiceId);
-                    }}
+                    onClick={() => navigate(`/delete/${item.invoiceId}`)}
                   >
                     Poista
                   </Button>
