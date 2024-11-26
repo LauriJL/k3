@@ -71,7 +71,6 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
     remove(itemRef)
       .then(() => {
         console.log("Lasku poistettu");
-        onClose();
         emptyValues();
       })
       .catch((error) => {
@@ -99,7 +98,6 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
     update(invoiceRef, updatedData)
       .then(() => {
         console.log("Laskun tiedot päivitetty!");
-        onClose();
         emptyValues();
       })
       .catch((error) => {

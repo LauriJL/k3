@@ -12,8 +12,7 @@ import Button from "react-bootstrap/Button";
 // Components
 import CrudModal from "./crudModal";
 
-const FetchData = ({ triggerAlert }) => {
-  const navigate = useNavigate();
+const FetchData = () => {
   const [tableArray, setTableArray] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
