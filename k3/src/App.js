@@ -6,8 +6,6 @@ import React, { useState } from "react";
 import Home from "./components/home";
 import Login from "./components/login";
 import FetchData from "./components/read";
-import AddData from "./components/create";
-import UpdateData from "./components/update";
 import AlertComponent from "./components/alertComponent";
 // Context
 import { AuthContext } from "./context/authContext";
@@ -45,24 +43,6 @@ function App() {
         <ProtectedRoute>
           <CountDown></CountDown>
           <FetchData triggerAlert={triggerAlert} />
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: "/lisaa",
-      element: (
-        <ProtectedRoute>
-          <CountDown></CountDown>
-          <AddData />
-        </ProtectedRoute>
-      ),
-    },
-    {
-      path: "/update/:invoiceId",
-      element: (
-        <ProtectedRoute>
-          <CountDown></CountDown>
-          <UpdateData></UpdateData>
         </ProtectedRoute>
       ),
     },

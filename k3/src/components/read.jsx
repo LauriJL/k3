@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // Firebase
-import { ref, onValue, remove } from "firebase/database"; // Realtime Database functions
+import { ref, onValue } from "firebase/database"; // Realtime Database functions
 import { mydatabase } from "../firebase/firebase_config"; // Firebase database
 // Bootstrap
 import Container from "react-bootstrap/Container";
@@ -10,16 +10,14 @@ import Stack from "react-bootstrap/Stack";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 // Components
-import DeleteModal from "./deleteModal";
+import CrudModal from "./crudModal";
 
 const FetchData = ({ triggerAlert }) => {
   const navigate = useNavigate();
   const [tableArray, setTableArray] = useState([]);
-  //   const [data, setData] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  // console.log("modal: ", isModalOpen);
+  const [modalName, setModalName] = useState("");
 
   useEffect(() => {
     const dataRef = ref(mydatabase, "menot"); // Define the reference to the data
@@ -38,8 +36,9 @@ const FetchData = ({ triggerAlert }) => {
     return () => unsubscribe();
   }, []); // Empty dependency array ensures this only runs once when the component mounts
 
-  // DeleteModal actions
-  const handleShowModal = (id) => {
+  // Modal actions
+  const handleShowModal = (id, modalName) => {
+    setModalName(modalName);
     setSelectedId(id);
     setShowModal(true);
   };
@@ -75,7 +74,7 @@ const FetchData = ({ triggerAlert }) => {
                 <td key={item.invoiceId}>
                   <Button
                     variant="outline-primary"
-                    onClick={() => navigate(`/update/${item.invoiceId}`)}
+                    onClick={() => handleShowModal(item.invoiceId, "update")}
                   >
                     Muokkaa
                   </Button>
@@ -84,7 +83,7 @@ const FetchData = ({ triggerAlert }) => {
                   {" "}
                   <Button
                     variant="outline-danger"
-                    onClick={() => handleShowModal(item.invoiceId)}
+                    onClick={() => handleShowModal(item.invoiceId, "delete")}
                   >
                     Poista
                   </Button>
@@ -113,13 +112,17 @@ const FetchData = ({ triggerAlert }) => {
           )}
         </div>
         <div>
-          <Button variant="outline-primary" onClick={() => navigate("/lisaa")}>
+          <Button
+            variant="outline-success"
+            onClick={() => handleShowModal(0, "create")}
+          >
             Lisää lasku
           </Button>
         </div>
         <br />
       </Stack>
-      <DeleteModal
+      <CrudModal
+        modalName={modalName}
         id={selectedId}
         show={showModal}
         onClose={handleCloseModal}
