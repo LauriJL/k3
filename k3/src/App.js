@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import Home from "./components/home";
 import Login from "./components/login";
 import FetchData from "./components/read";
+import MaksetutLaskut from "./components/laskut";
 import AlertComponent from "./components/alertComponent";
 // Context
 import { AuthContext } from "./context/authContext";
@@ -36,6 +37,15 @@ function App() {
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/laskut",
+      element: (
+        <ProtectedRoute>
+          <CountDown></CountDown>
+          <MaksetutLaskut triggerAlert={triggerAlert} />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/maksetut",
