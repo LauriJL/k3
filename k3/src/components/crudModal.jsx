@@ -20,7 +20,7 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
   const [maksupvm, setMaksupvm] = useState("");
   const [maksuluokka, setMaksuluokka] = useState("");
 
-  console.log("ID: ", invoiceId);
+  // console.log("ID: ", invoiceId);
 
   // Create
   function handleCreate(e) {
