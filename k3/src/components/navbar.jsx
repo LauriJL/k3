@@ -28,7 +28,7 @@ const NavBar = ({ userName }) => {
         {userName && (
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/maksetut">Maksetut laskut</Nav.Link>
+              <Nav.Link href="/laskut">Maksetut laskut</Nav.Link>
               <NavDropdown title={userName} id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={() => handleLogout()}>
                   Kirjaudu ulos

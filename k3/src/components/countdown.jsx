@@ -1,6 +1,6 @@
 // React
-import React, { useState, useEffect, useRef } from "react";
-import { IdleTimerProvider, useIdleTimerContext } from "react-idle-timer";
+import React, { useState, useRef } from "react";
+import { IdleTimerProvider } from "react-idle-timer";
 // Firebase
 import { getAuth, signOut } from "firebase/auth";
 // Bootstrap
@@ -68,7 +68,7 @@ function CountDown() {
   return (
     <IdleTimerProvider
       ref={idleTimerRef}
-      timeout={5 * 60 * 1000} // 5 minutes
+      timeout={1 * 60 * 1000} // 5 minutes
       onIdle={handleOnIdle}
       onActive={handleOnActive}
       debounce={250}
