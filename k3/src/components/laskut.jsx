@@ -147,14 +147,14 @@ const MaksetutLaskut = () => {
             </Table>
           </div>
         </div>
-        <div>
+        {/* <div>
           <Button
             variant="outline-success"
             onClick={() => handleShowModal(0, "create")}
           >
             Lisää lasku
           </Button>
-        </div>
+        </div> */}
         <div>{renderPagination()}</div>
       </Stack>
       <CrudModal
