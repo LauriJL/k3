@@ -6,6 +6,7 @@ import Pagination from "react-bootstrap/Pagination";
 import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 // Components
 import FetchData from "./fetchData";
 import CrudModal from "./crudModal";
@@ -14,7 +15,7 @@ const MaksetutLaskut = () => {
   const [items, setItems] = useState([]);
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const [itemsPerPage, setItemsPerPage] = useState(6);
   // Modals
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -84,12 +85,50 @@ const MaksetutLaskut = () => {
     setSelectedId(null); // Clear the selected ID
   };
 
+  // Number of items displayed
+  const handleItemsPerPage = (event) => {
+    setItemsPerPage(event.target.value);
+  };
+
   return (
     <Container className="p-5">
       <Stack gap={3}>
         <div>
           <h3>Maksetut laskut</h3>
         </div>
+        <Form onChange={handleItemsPerPage}>
+          <div>
+            {["radio"].map((type) => (
+              <div key={`inline-${type}`} className="mb-3">
+                {"Näytä "}
+                <Form.Check
+                  inline
+                  label="5"
+                  name="group1"
+                  type={type}
+                  id={`inline-${type}-1`}
+                  value="5"
+                />
+                <Form.Check
+                  inline
+                  label="10"
+                  name="group1"
+                  type={type}
+                  id={`inline-${type}-2`}
+                  value="10"
+                />
+                <Form.Check
+                  inline
+                  label="kaikki"
+                  name="group1"
+                  type={type}
+                  id={`inline-${type}-3`}
+                  value="10000"
+                />
+              </div>
+            ))}
+          </div>
+        </Form>
         <div>
           <div>
             <Table striped bordered hover>
