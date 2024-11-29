@@ -7,10 +7,12 @@ const FetchData = (setItems) => {
   onValue(dbRef, (snapshot) => {
     const data = snapshot.val();
     if (data) {
-      const formattedData = Object.keys(data).map((key) => ({
-        id: key,
-        ...data[key],
-      }));
+      const formattedData = Object.keys(data)
+        .reverse()
+        .map((key) => ({
+          id: key,
+          ...data[key],
+        }));
       setItems(formattedData);
     }
   });
