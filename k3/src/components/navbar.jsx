@@ -9,6 +9,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import Button from "react-bootstrap/Button";
 
 const NavBar = ({ userName }) => {
   // Modals
@@ -42,16 +43,25 @@ const NavBar = ({ userName }) => {
 
   return (
     <Navbar bg="dark" data-bs-theme="dark">
-      <Container>
+      <Container fluid>
         <Navbar.Brand href="#home">K3</Navbar.Brand>
+        {/* Toggler for small screens */}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         {userName && (
           <Navbar.Collapse id="basic-navbar-nav">
+            {/* Left-aligned items */}
             <Nav className="me-auto">
               <Nav.Link href="/laskut">Maksetut laskut</Nav.Link>
-              <Nav.Link onClick={() => handleShowModal(0, "create")}>
+              <Button
+                variant="success"
+                size="sm"
+                onClick={() => handleShowModal(0, "create")}
+              >
                 Lisää lasku
-              </Nav.Link>
+              </Button>
+            </Nav>
+            {/* Right-aligned items */}
+            <Nav className="ms-auto">
               <NavDropdown title={userName} id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={() => handleLogout()}>
                   Kirjaudu ulos
