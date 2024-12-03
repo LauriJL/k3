@@ -49,7 +49,6 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
       const invoiceRef = ref(mydatabase, "menot/" + invoiceId);
 
       // Fetch the existing data when the component mounts
-
       onValue(invoiceRef, (snapshot) => {
         const data = snapshot.val();
         if (data) {
