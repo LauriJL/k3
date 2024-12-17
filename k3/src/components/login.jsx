@@ -31,7 +31,7 @@ const Login = () => {
   };
 
   if (loggedIn) {
-    navigate("/laskut");
+    navigate("/totals");
   }
 
   return (

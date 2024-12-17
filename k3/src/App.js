@@ -7,6 +7,7 @@ import Home from "./components/home";
 import Login from "./components/login";
 import MaksetutLaskut from "./components/laskut";
 import AlertComponent from "./components/alertComponent";
+import Totals from "./components/totals";
 // Context
 import { AuthContext } from "./context/authContext";
 import { ProtectedRoute } from "./context/protectedRoute";
@@ -36,6 +37,15 @@ function App() {
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/totals",
+      element: (
+        <ProtectedRoute>
+          <CountDown></CountDown>
+          <Totals triggerAlert={triggerAlert} />
+        </ProtectedRoute>
+      ),
     },
     {
       path: "/laskut",

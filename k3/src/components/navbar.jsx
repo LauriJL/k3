@@ -44,7 +44,12 @@ const NavBar = ({ userName }) => {
   return (
     <Navbar bg="dark" data-bs-theme="dark">
       <Container fluid>
-        <Navbar.Brand href="#home">K3</Navbar.Brand>
+        {userName ? (
+          <Navbar.Brand href="/totals">K3</Navbar.Brand>
+        ) : (
+          <Navbar.Brand href="#home">K3</Navbar.Brand>
+        )}
+
         {/* Toggler for small screens */}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         {userName && (

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { mydatabase } from "../firebase/firebase_config"; // Firebase database
 import { ref, onValue, remove, update } from "firebase/database";
 // Components
-import { writeInvoiceData } from "./writeComponent";
+import { writeInvoiceData } from "../functions/writeComponent";
 // Bootstrap
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";

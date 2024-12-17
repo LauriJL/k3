@@ -8,7 +8,7 @@ import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 // Components
-import FetchData from "./fetchData";
+import FetchData from "../functions/fetchData";
 import CrudModal from "./crudModal";
 
 const MaksetutLaskut = () => {
