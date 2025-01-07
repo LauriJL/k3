@@ -1,4 +1,4 @@
-const calculateCatergorySums = (array) => {
+const calculateCategorySums = (array) => {
   const categorySums = array.reduce((accumulator, item) => {
     const category = item.maksuluokka;
     const sum = parseFloat(item.summa); // Convert sum to a number
@@ -18,4 +18,4 @@ const calculateCatergorySums = (array) => {
   }));
 };
 
-export default calculateCatergorySums;
+export default calculateCategorySums;
