@@ -1,23 +1,33 @@
 // React
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 // Realtime database
 import { mydatabase } from "../firebase/firebase_config";
 // Bootstrap
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
+import Button from "react-bootstrap/Button";
 // Components
 import FetchData from "../functions/fetchData";
 import calculateCategorySums from "../functions/categorySums";
+import LaskutLuokittain from "./invoiceCategory";
 
 const Totals = () => {
   const [items, setItems] = useState([]);
+  const navigate = useNavigate();
+  const [category, setCategory] = useState("");
 
   useEffect(() => {
     FetchData(setItems);
     console.log(items);
     // return () => mydatabase.ref("menot").off(); // Cleanup subscription
   }, []);
+
+  const handleSetCategory = (category) => {
+    setCategory(category);
+    console.log(category);
+  };
 
   const TableComponent = ({ data }) => {
     const reducedData = Object.values(calculateCategorySums(data)); // Apply reducer function
@@ -40,6 +50,16 @@ const Totals = () => {
                 <tr key={index}>
                   <td>{item.luokka}</td>
                   <td>{item.summa}</td>
+                  <td key={item.id}>
+                    <Button
+                      variant="outline-primary"
+                      onClick={() =>
+                        navigate(`/laskutluokittain/${item.luokka}`)
+                      }
+                    >
+                      Näytä kaikki
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>

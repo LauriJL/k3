@@ -8,6 +8,7 @@ import Login from "./components/login";
 import MaksetutLaskut from "./components/laskut";
 import AlertComponent from "./components/alertComponent";
 import Totals from "./components/totals";
+import LaskutLuokittain from "./components/invoiceCategory";
 // Context
 import { AuthContext } from "./context/authContext";
 import { ProtectedRoute } from "./context/protectedRoute";
@@ -53,6 +54,15 @@ function App() {
         <ProtectedRoute>
           <CountDown></CountDown>
           <MaksetutLaskut triggerAlert={triggerAlert} />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/laskutluokittain/:category",
+      element: (
+        <ProtectedRoute>
+          <CountDown></CountDown>
+          <LaskutLuokittain triggerAlert={triggerAlert} />
         </ProtectedRoute>
       ),
     },
