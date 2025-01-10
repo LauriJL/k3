@@ -16,18 +16,11 @@ import LaskutLuokittain from "./invoiceCategory";
 const Totals = () => {
   const [items, setItems] = useState([]);
   const navigate = useNavigate();
-  const [category, setCategory] = useState("");
 
   useEffect(() => {
     FetchData(setItems);
-    console.log(items);
     // return () => mydatabase.ref("menot").off(); // Cleanup subscription
   }, []);
-
-  const handleSetCategory = (category) => {
-    setCategory(category);
-    console.log(category);
-  };
 
   const TableComponent = ({ data }) => {
     const reducedData = Object.values(calculateCategorySums(data)); // Apply reducer function

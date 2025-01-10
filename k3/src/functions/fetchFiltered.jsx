@@ -1,4 +1,4 @@
-//FIrebase
+//Firebase
 import {
   getDatabase,
   ref,
@@ -8,9 +8,10 @@ import {
   onValue,
 } from "firebase/database";
 
-const FetchFiltered = (cat) => {
+const FetchFiltered = (cat, setItems) => {
   const db = getDatabase();
   const itemsRef = ref(db, "menot");
+  let itemsArray = [];
   const filteredQuery = query(
     itemsRef,
     orderByChild("maksuluokka"),
@@ -18,9 +19,9 @@ const FetchFiltered = (cat) => {
   );
   onValue(filteredQuery, (snapshot) => {
     if (snapshot.exists()) {
-      console.log(snapshot);
       const filteredData = snapshot.val();
-      console.log(filteredData);
+      itemsArray = Object.values(filteredData);
+      setItems(itemsArray);
     } else {
       console.log("No matching records found");
     }
