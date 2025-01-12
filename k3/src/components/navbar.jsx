@@ -56,7 +56,8 @@ const NavBar = ({ userName }) => {
           <Navbar.Collapse id="basic-navbar-nav">
             {/* Left-aligned items */}
             <Nav className="me-auto">
-              <Nav.Link href="/laskut">Maksetut laskut</Nav.Link>
+              <Nav.Link href="/laskut">Kaikki menot</Nav.Link>
+              <Nav.Link href="/laskut">Kaikki tulot</Nav.Link>
               <Button
                 variant="success"
                 size="sm"

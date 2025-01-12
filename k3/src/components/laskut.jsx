@@ -94,7 +94,7 @@ const MaksetutLaskut = () => {
     <Container className="p-5">
       <Stack gap={3}>
         <div>
-          <h3>Maksetut laskut</h3>
+          <h3>Menot</h3>
         </div>
         <Form onChange={handleItemsPerPage}>
           <div>

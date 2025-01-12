@@ -5,6 +5,7 @@ import { mydatabase } from "../firebase/firebase_config"; // Firebase database
 import { ref, onValue, remove, update } from "firebase/database";
 // Components
 import { writeInvoiceData } from "../functions/writeComponent";
+import CategoryDropDown from "./categoryDropDown";
 // Bootstrap
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -19,6 +20,12 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
   const [erapvm, setErapvm] = useState("");
   const [maksupvm, setMaksupvm] = useState("");
   const [maksuluokka, setMaksuluokka] = useState("");
+  // const [selectedDropdownValue, setSelectedDropdownValue] = useState('');
+
+  // Handle dropdown value change
+  const handleDropdownChange = (value) => {
+    setMaksuluokka(value);
+  };
 
   // Create
   function handleCreate(e) {
@@ -156,13 +163,7 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Maksuluokka</Form.Label>
-                <Form.Control
-                  type="text"
-                  // value={maksuluokka}
-                  onChange={(e) => setMaksuluokka(e.target.value)}
-                  placeholder="Maksuluokka"
-                  required
-                />
+                <CategoryDropDown handleChange={handleDropdownChange} />
               </Form.Group>
             </Form>
           </Modal.Body>
@@ -226,13 +227,7 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Maksuluokka</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={maksuluokka}
-                  onChange={(e) => setMaksuluokka(e.target.value)}
-                  placeholder="Maksuluokka"
-                  required
-                />
+                <CategoryDropDown handleChange={handleDropdownChange} />
               </Form.Group>
               &nbsp;
             </Form>
