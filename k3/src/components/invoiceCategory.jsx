@@ -8,6 +8,8 @@ import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
 import Pagination from "react-bootstrap/Pagination";
 import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 // Components
 import FetchFiltered from "../functions/fetchFiltered";
 import CrudModal from "./crudModal";
@@ -93,17 +95,6 @@ const LaskutLuokittain = () => {
     return <Pagination>{itemsArray}</Pagination>;
   };
 
-  // Table rows
-  // const renderTableRows = () =>
-  //   items.map((item) => (
-  //     <tr key={item.id}>
-  //       <td>{item.saaja}</td>
-  //       <td>{item.summa}</td>
-  //       <td>{item.erapvm}</td>
-  //       <td>{item.maksupvm}</td>
-  //       <td>{item.maksuluokka}</td>
-  //     </tr>
-  //   ));
   return (
     <Container className="p-5">
       <Stack gap={3}>
@@ -161,14 +152,27 @@ const LaskutLuokittain = () => {
             </Table>
           </div>
         </div>
-        <div>{renderPagination()} </div>
-        <div>
+        {/* <div>{renderPagination()} </div> */}
+        {/* <div>
           {" "}
           <Button variant="secondary" onClick={() => navigate("/totals")}>
             Takaisin
           </Button>
-        </div>
+        </div> */}
       </Stack>
+      <Container className="p-1">
+        <Row className="justify-content-md-center">
+          <Col xs lg="4">
+            <Button variant="secondary" onClick={() => navigate("/totals")}>
+              Takaisin
+            </Button>
+          </Col>
+          <Col xs lg="4">
+            {renderPagination()}{" "}
+          </Col>
+          <Col xs lg="4"></Col>
+        </Row>
+      </Container>
       <CrudModal
         modalName={modalName}
         id={selectedId}

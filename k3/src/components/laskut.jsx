@@ -7,6 +7,8 @@ import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 // Components
 import FetchData from "../functions/fetchData";
 import CrudModal from "./crudModal";
@@ -147,7 +149,15 @@ const MaksetutLaskut = () => {
             </Table>
           </div>
         </div>
-        <div>{renderPagination()}</div>
+      </Stack>
+      <Stack>
+        <Row className="justify-content-md-center">
+          <Col xs lg="2"></Col>
+          <Col xs lg="2">
+            {renderPagination()}
+          </Col>
+          <Col xs lg="2"></Col>
+        </Row>
       </Stack>
       <CrudModal
         modalName={modalName}
