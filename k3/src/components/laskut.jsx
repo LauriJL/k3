@@ -39,6 +39,7 @@ const MaksetutLaskut = () => {
         <td>{item.erapvm}</td>
         <td>{item.maksupvm}</td>
         <td>{item.maksuluokka}</td>
+        <td>{item.huom}</td>
         <td key={item.id}>
           <Button
             variant="outline-primary"
@@ -141,6 +142,7 @@ const MaksetutLaskut = () => {
                   <th>Eräpäivä</th>
                   <th>Maksupäivä</th>
                   <th>Maksuluokka</th>
+                  <th>Huom</th>
                   <th></th>
                   <th></th>
                 </tr>

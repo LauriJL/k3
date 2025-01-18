@@ -42,6 +42,7 @@ const LaskutLuokittain = () => {
         <td>{item.erapvm}</td>
         <td>{item.maksupvm}</td>
         <td>{item.maksuluokka}</td>
+        <td>{item.huom}</td>
         <td key={item.id}>
           <Button
             variant="outline-primary"
@@ -144,6 +145,7 @@ const LaskutLuokittain = () => {
                   <th>Eräpäivä</th>
                   <th>Maksupäivä</th>
                   <th>Maksuluokka</th>
+                  <th>Huom</th>
                   <th></th>
                   <th></th>
                 </tr>
@@ -152,13 +154,6 @@ const LaskutLuokittain = () => {
             </Table>
           </div>
         </div>
-        {/* <div>{renderPagination()} </div> */}
-        {/* <div>
-          {" "}
-          <Button variant="secondary" onClick={() => navigate("/totals")}>
-            Takaisin
-          </Button>
-        </div> */}
       </Stack>
       <Container className="p-1">
         <Row className="justify-content-md-center">

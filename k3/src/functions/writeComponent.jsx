@@ -9,7 +9,8 @@ export const writeInvoiceData = (
   summa,
   erapvm,
   maksupvm,
-  maksuluokka
+  maksuluokka,
+  huom
 ) => {
   // Create a reference to the path where data is saved
   const invoiceRef = ref(mydatabase, "menot");
@@ -24,6 +25,7 @@ export const writeInvoiceData = (
     erapvm: erapvm,
     maksupvm: maksupvm,
     maksuluokka: maksuluokka,
+    huom: huom,
   })
     .then(() => {
       console.log("Lasku lisätty!");

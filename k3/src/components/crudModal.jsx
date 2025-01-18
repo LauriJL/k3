@@ -20,7 +20,7 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
   const [erapvm, setErapvm] = useState("");
   const [maksupvm, setMaksupvm] = useState("");
   const [maksuluokka, setMaksuluokka] = useState("");
-  // const [selectedDropdownValue, setSelectedDropdownValue] = useState('');
+  const [huom, setHuom] = useState("");
 
   // Handle dropdown value change
   const handleDropdownChange = (value) => {
@@ -37,7 +37,15 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
     }
 
     const invoiceId = "invoice"; // You can generate or retrieve a user ID based on your logic
-    writeInvoiceData(invoiceId, saaja, summa, erapvm, maksupvm, maksuluokka); // Call the function to write data
+    writeInvoiceData(
+      invoiceId,
+      saaja,
+      summa,
+      erapvm,
+      maksupvm,
+      maksuluokka,
+      huom
+    ); // Call the function to write data
     onClose();
   }
 
@@ -64,6 +72,7 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
           setErapvm(data.erapvm || "");
           setMaksupvm(data.maksupvm || "");
           setMaksuluokka(data.maksuluokka || "");
+          setHuom(data.huom || "");
         }
       });
     }
@@ -93,15 +102,17 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
       erapvm: erapvm,
       maksupvm: maksupvm,
       maksuluokka: maksuluokka,
+      huom: huom,
     };
 
     // Reference to the specific invoice in the database
     const invoiceRef = ref(mydatabase, "menot/" + invoiceId);
-
+    console.log(invoiceId, invoiceRef);
     // Update method to update the fields in the database
     update(invoiceRef, updatedData)
       .then(() => {
         console.log("Laskun tiedot päivitetty!");
+        console.log(updatedData);
         emptyValues();
       })
       .catch((error) => {
@@ -127,7 +138,6 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
                 <Form.Label>Saaja</Form.Label>
                 <Form.Control
                   type="text"
-                  // value={saaja}
                   onChange={(e) => setSaaja(e.target.value)}
                   placeholder="Saaja"
                   required
@@ -137,7 +147,6 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
                 <Form.Label>Summa</Form.Label>
                 <Form.Control
                   type="number"
-                  // value={summa}
                   onChange={(e) => setSumma(e.target.value)}
                   placeholder="Summa"
                   required
@@ -147,7 +156,6 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
                 <Form.Label>Eräpäivämäärä</Form.Label>
                 <Form.Control
                   type="date"
-                  // value={erapvm}
                   onChange={(e) => setErapvm(e.target.value)}
                   required
                 />
@@ -156,7 +164,6 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
                 <Form.Label>Maksupäivämäärä</Form.Label>
                 <Form.Control
                   type="date"
-                  // value={maksupvm}
                   onChange={(e) => setMaksupvm(e.target.value)}
                   required
                 />
@@ -164,6 +171,14 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
               <Form.Group className="mb-3">
                 <Form.Label>Maksuluokka</Form.Label>
                 <CategoryDropDown handleChange={handleDropdownChange} />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="">
+                <Form.Label>Huom</Form.Label>
+                <Form.Control
+                  type="text"
+                  onChange={(e) => setHuom(e.target.value)}
+                  placeholder="Huom"
+                />
               </Form.Group>
             </Form>
           </Modal.Body>
@@ -181,6 +196,10 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
             <p>
               <b>Maksettu: </b>
               {maksupvm}
+            </p>
+            <p>
+              <b>Huom: </b>
+              {huom}
             </p>
           </Modal.Body>
         )}
@@ -227,7 +246,19 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Maksuluokka</Form.Label>
-                <CategoryDropDown handleChange={handleDropdownChange} />
+                <CategoryDropDown
+                  value={maksuluokka}
+                  handleChange={handleDropdownChange}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="">
+                <Form.Label>Huom</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={huom}
+                  onChange={(e) => setHuom(e.target.value)}
+                  placeholder="Huom"
+                />
               </Form.Group>
               &nbsp;
             </Form>
