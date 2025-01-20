@@ -21,6 +21,7 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
   const [maksupvm, setMaksupvm] = useState("");
   const [maksuluokka, setMaksuluokka] = useState("");
   const [huom, setHuom] = useState("");
+  const [year, setYear] = useState("2025");
 
   // Handle dropdown value change
   const handleDropdownChange = (value) => {
@@ -36,8 +37,9 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
       return;
     }
 
-    const invoiceId = "invoice"; // You can generate or retrieve a user ID based on your logic
+    const invoiceId = "invoice";
     writeInvoiceData(
+      year,
       invoiceId,
       saaja,
       summa,
@@ -61,7 +63,7 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
   useEffect(() => {
     if (invoiceId !== 0) {
       // Reference to invoice data in the database
-      const invoiceRef = ref(mydatabase, "menot/" + invoiceId);
+      const invoiceRef = ref(mydatabase, "menot/" + year + "/" + invoiceId);
 
       // Fetch the existing data when the component mounts
       onValue(invoiceRef, (snapshot) => {
@@ -80,7 +82,7 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
 
   // Delete
   const deleteItem = (invoiceId) => {
-    const itemRef = ref(mydatabase, "menot/" + invoiceId);
+    const itemRef = ref(mydatabase, "menot/" + year + "/" + invoiceId);
     remove(itemRef)
       .then(() => {
         console.log("Lasku poistettu");

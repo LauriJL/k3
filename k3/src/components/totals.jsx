@@ -16,9 +16,10 @@ import LaskutLuokittain from "./invoiceCategory";
 const Totals = () => {
   const [items, setItems] = useState([]);
   const navigate = useNavigate();
+  const [year, setYear] = useState("2025");
 
   useEffect(() => {
-    FetchData(setItems);
+    FetchData(setItems, year);
     // return () => mydatabase.ref("menot").off(); // Cleanup subscription
   }, []);
 

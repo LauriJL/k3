@@ -22,9 +22,10 @@ const MaksetutLaskut = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalName, setModalName] = useState("");
+  const [year, setYear] = useState("2025");
 
   useEffect(() => {
-    FetchData(setItems);
+    FetchData(setItems, year);
   }, []);
 
   // Pagination items

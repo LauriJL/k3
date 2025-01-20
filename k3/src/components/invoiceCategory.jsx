@@ -25,9 +25,10 @@ const LaskutLuokittain = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalName, setModalName] = useState("");
+  const [year, setYear] = useState("2025");
 
   useEffect(() => {
-    FetchFiltered(category, setItems);
+    FetchFiltered(category, setItems, year);
   }, []);
 
   // Pagination items

@@ -4,6 +4,7 @@ import { ref, set, push } from "firebase/database"; // Import database functions
 import { mydatabase } from "../firebase/firebase_config"; // Firebase database
 
 export const writeInvoiceData = (
+  year,
   invoiceId,
   saaja,
   summa,
@@ -13,7 +14,7 @@ export const writeInvoiceData = (
   huom
 ) => {
   // Create a reference to the path where data is saved
-  const invoiceRef = ref(mydatabase, "menot");
+  const invoiceRef = ref(mydatabase, "menot/" + year);
 
   // Use 'push()' to generate a unique ID and create a reference for invoice
   const newinvoiceRef = push(invoiceRef);

@@ -8,9 +8,9 @@ import {
   onValue,
 } from "firebase/database";
 
-const FetchFiltered = (cat, setItems) => {
+const FetchFiltered = (cat, setItems, year) => {
   const db = getDatabase();
-  const itemsRef = ref(db, "menot");
+  const itemsRef = ref(db, "menot/" + year);
   let itemsArray = [];
   const filteredQuery = query(
     itemsRef,
