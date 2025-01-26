@@ -9,8 +9,9 @@ import MaksetutLaskut from "./components/laskut";
 import AlertComponent from "./components/alertComponent";
 import Totals from "./components/totals";
 import LaskutLuokittain from "./components/invoiceCategory";
+import DropdownContext from "react-bootstrap/esm/DropdownContext";
 // Context
-import { AuthContext } from "./context/authContext";
+import { AuthContext, Context } from "./context/authContext";
 import { ProtectedRoute } from "./context/protectedRoute";
 // Idle timer countdown
 import CountDown from "./components/countdown";

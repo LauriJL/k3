@@ -24,7 +24,15 @@ const Totals = () => {
   }, []);
 
   const TableComponent = ({ data }) => {
-    const reducedData = Object.values(calculateCategorySums(data)); // Apply reducer function
+    // Include only invoices that have been paid
+    const paidInvoices = [];
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].maksupvm.length > 0) {
+        paidInvoices.push(data[i]);
+      }
+    }
+
+    const reducedData = Object.values(calculateCategorySums(paidInvoices)); // Apply reducer function
 
     return (
       <Container className="p-5">

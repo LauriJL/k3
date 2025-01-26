@@ -32,7 +32,7 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
   function handleCreate(e) {
     e.preventDefault();
 
-    if (!saaja || !summa || !erapvm || !maksupvm || !erapvm || !maksuluokka) {
+    if (!saaja || !summa || !erapvm || !erapvm || !maksuluokka) {
       alert("Anna kaikki tarvittavat tiedot.");
       return;
     }
@@ -108,7 +108,7 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
     };
 
     // Reference to the specific invoice in the database
-    const invoiceRef = ref(mydatabase, "menot/" + invoiceId);
+    const invoiceRef = ref(mydatabase, "menot/2025/" + invoiceId);
     console.log(invoiceId, invoiceRef);
     // Update method to update the fields in the database
     update(invoiceRef, updatedData)
@@ -243,7 +243,6 @@ const CrudModal = ({ id, show, onClose, modalName }) => {
                   type="date"
                   value={maksupvm}
                   onChange={(e) => setMaksupvm(e.target.value)}
-                  required
                 />
               </Form.Group>
               <Form.Group className="mb-3">
