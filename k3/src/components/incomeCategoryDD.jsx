@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 // Bootstrap
 import { Dropdown, DropdownButton } from "react-bootstrap";
 
-const CategoryDropDown = ({ handleChange }) => {
+const IncomeCategoryDropDown = ({ handleChange }) => {
   const [options, setOptions] = useState([]);
   const [selectedLabel, setSelectedLabel] = useState("Valitse");
 
@@ -14,7 +14,7 @@ const CategoryDropDown = ({ handleChange }) => {
   useEffect(() => {
     const fetchData = async () => {
       const db = mydatabase;
-      const dbRef = ref(db, "menoluokat");
+      const dbRef = ref(db, "tuloluokat");
       const snapshot = await get(dbRef);
       try {
         const data = snapshot.val();
@@ -53,4 +53,4 @@ const CategoryDropDown = ({ handleChange }) => {
   );
 };
 
-export default CategoryDropDown;
+export default IncomeCategoryDropDown;

@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 // Firebase
 import { getAuth, signOut } from "firebase/auth";
-// Comonents
+// Components
 import CrudModal from "./crudModal";
 // Bootstrap
 import Container from "react-bootstrap/Container";
@@ -56,14 +56,21 @@ const NavBar = ({ userName }) => {
           <Navbar.Collapse id="basic-navbar-nav">
             {/* Left-aligned items */}
             <Nav className="me-auto">
-              <Nav.Link href="/laskut">Kaikki laskut</Nav.Link>
-              <Nav.Link href="/laskut">Kaikki tulot</Nav.Link>
+              <Nav.Link href="/laskut">Menot</Nav.Link>
               <Button
                 variant="success"
                 size="sm"
-                onClick={() => handleShowModal(0, "create")}
+                onClick={() => handleShowModal(0, "createInvoice")}
               >
-                Lisää lasku
+                Lisää meno
+              </Button>
+              <Nav.Link href="/tulot">Tulot</Nav.Link>
+              <Button
+                variant="success"
+                size="sm"
+                onClick={() => handleShowModal(0, "createIncome")}
+              >
+                Lisää tulo
               </Button>
             </Nav>
             {/* Right-aligned items */}

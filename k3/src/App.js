@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import Home from "./components/home";
 import Login from "./components/login";
 import MaksetutLaskut from "./components/laskut";
+import Tulot from "./components/tulot";
 import AlertComponent from "./components/alertComponent";
 import Totals from "./components/totals";
 import LaskutLuokittain from "./components/invoiceCategory";
@@ -55,6 +56,15 @@ function App() {
         <ProtectedRoute>
           <CountDown></CountDown>
           <MaksetutLaskut triggerAlert={triggerAlert} />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/tulot",
+      element: (
+        <ProtectedRoute>
+          <CountDown></CountDown>
+          <Tulot triggerAlert={triggerAlert} />
         </ProtectedRoute>
       ),
     },
