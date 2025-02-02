@@ -11,15 +11,15 @@ import Button from "react-bootstrap/Button";
 // Components
 import FetchData from "../functions/fetchData";
 import calculateCategorySums from "../functions/categorySums";
-import LaskutLuokittain from "./invoiceCategory";
 
 const Totals = () => {
   const [items, setItems] = useState([]);
   const navigate = useNavigate();
+  const [cat, setCat] = useState("menot");
   const [year, setYear] = useState("2025");
 
   useEffect(() => {
-    FetchData(setItems, year);
+    FetchData(setItems, cat, year);
     // return () => mydatabase.ref("menot").off(); // Cleanup subscription
   }, []);
 

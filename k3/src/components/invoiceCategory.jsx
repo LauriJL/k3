@@ -12,7 +12,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 // Components
 import FetchFiltered from "../functions/fetchFiltered";
-import CrudModal from "./crudModal";
+import InvoiceCrudModal from "./invoiceCrudModal";
 
 const LaskutLuokittain = () => {
   const { category } = useParams();
@@ -169,7 +169,7 @@ const LaskutLuokittain = () => {
           <Col xs lg="4"></Col>
         </Row>
       </Container>
-      <CrudModal
+      <InvoiceCrudModal
         modalName={modalName}
         id={selectedId}
         show={showModal}

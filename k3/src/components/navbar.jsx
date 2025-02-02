@@ -3,7 +3,8 @@ import React, { useState } from "react";
 // Firebase
 import { getAuth, signOut } from "firebase/auth";
 // Components
-import CrudModal from "./crudModal";
+import InvoiceCrudModal from "./invoiceCrudModal";
+import IncomeCrudModal from "./incomeCrudModal";
 // Bootstrap
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -83,12 +84,22 @@ const NavBar = ({ userName }) => {
             </Nav>
           </Navbar.Collapse>
         )}
-        <CrudModal
-          modalName={modalName}
-          id={selectedId}
-          show={showModal}
-          onClose={handleCloseModal}
-        />
+        {modalName === "createInvoice" && (
+          <InvoiceCrudModal
+            modalName={modalName}
+            id={selectedId}
+            show={showModal}
+            onClose={handleCloseModal}
+          />
+        )}
+        {modalName === "createIncome" && (
+          <IncomeCrudModal
+            modalName={modalName}
+            id={selectedId}
+            show={showModal}
+            onClose={handleCloseModal}
+          />
+        )}
       </Container>
     </Navbar>
   );

@@ -11,7 +11,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 // Components
 import FetchData from "../functions/fetchData";
-import CrudModal from "./crudModal";
+import CrudModal from "./invoiceCrudModal";
 
 const MaksetutLaskut = () => {
   const [items, setItems] = useState([]);
@@ -22,10 +22,11 @@ const MaksetutLaskut = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalName, setModalName] = useState("");
+  const [cat, setCat] = useState("menot");
   const [year, setYear] = useState("2025");
 
   useEffect(() => {
-    FetchData(setItems, year);
+    FetchData(setItems, cat, year);
   }, []);
 
   // Pagination items
@@ -44,7 +45,7 @@ const MaksetutLaskut = () => {
         <td key={item.id}>
           <Button
             variant="outline-primary"
-            onClick={() => handleShowModal(item.id, "update")}
+            onClick={() => handleShowModal(item.id, "updateInvoice")}
           >
             Muokkaa
           </Button>
@@ -53,7 +54,7 @@ const MaksetutLaskut = () => {
           {" "}
           <Button
             variant="outline-danger"
-            onClick={() => handleShowModal(item.id, "delete")}
+            onClick={() => handleShowModal(item.id, "deleteInvoice")}
           >
             Poista
           </Button>
