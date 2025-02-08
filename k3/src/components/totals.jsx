@@ -13,7 +13,7 @@ import Col from "react-bootstrap/Col";
 // Components
 import FetchData from "../functions/fetchData";
 import calculateCategorySums from "../functions/categorySums";
-import { LineChart } from "./lineChart";
+// Chart components
 import { BarChart } from "./barChart";
 import { PieChart } from "./pieChart";
 
@@ -40,10 +40,16 @@ const Totals = () => {
     const reducedData = Object.values(calculateCategorySums(paidInvoices)); // Apply reducer function
 
     return (
-      <Container className="p-5">
-        <Stack gap={9}>
+      <Container
+        className="p-5"
+        style={{
+          display: "flex",
+          height: "50%",
+        }}
+      >
+        <Stack gap={3}>
           <div>
-            <h3>Menot maksuluokittain</h3>
+            <h3>Menot maksuluokittain {year}</h3>
           </div>
           <Row>
             <Col>
@@ -76,11 +82,9 @@ const Totals = () => {
               </Table>
             </Col>
             <Col>
-              <PieChart data={data} />
+              <PieChart arr={reducedData} />
             </Col>
           </Row>
-        </Stack>
-        <Stack gap={3}>
           <Row>
             <BarChart data={data} />
           </Row>

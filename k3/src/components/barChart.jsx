@@ -26,22 +26,23 @@ export const BarChart = ({ data }) => {
       text: "Menot ja tulot",
     },
   };
-  const fakeData = {
-    labels: ["Budjetti", "Menot", "Tulot", "Erotus"],
+  const returnedData = {
+    labels: ["Menoarvio", "Tuloarvio", "Menot", "Tulot", "Erotus"],
     datasets: [
       {
         label: "Yhteensä",
-        data: [6050, 1071.25, 981, -90.25],
+        data: [6050.0, 6231.0, 1071.25, 981, -90.25],
         backgroundColor: [
           "rgba(228, 8, 34, 0.2)",
           "rgba(80, 36, 212, 0.2)",
           "rgba(99, 255, 109, 0.2)",
           "rgba(54, 162, 235, 0.2)",
+          "rgba(242, 38, 19, 0.2);",
         ],
         borderColor: ["rgb(5, 6, 7)"],
         borderWidth: 1,
       },
     ],
   };
-  return <Bar data={fakeData} options={options} />;
+  return <Bar data={returnedData} options={options} />;
 };

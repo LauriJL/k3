@@ -3,23 +3,31 @@ import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
 
 ChartJS.register(Tooltip, Legend, ArcElement);
 
-export const PieChart = ({ data }) => {
-  const fakeData = {
-    labels: ["Jätehuolto", "Vesi", "Palvelumaksut", "Vakuutus"],
+export const PieChart = (arr) => {
+  let labels = [];
+  let data = [];
+  data = arr.arr.map((element) => parseFloat(element.summa));
+  labels = arr.arr.map((element) => element.luokka);
+
+  const returnedData = {
+    labels: labels,
     datasets: [
       {
         label: "Yhteensä",
-        data: [99.56, 273.88, 9.74, 688.07],
+        data: data,
         backgroundColor: [
-          "rgba(22, 80, 53, 0.2)",
-          "rgba(16, 68, 224, 0.2)",
-          "rgba(198, 28, 93, 0.2)",
-          "rgba(216, 231, 12, 0.2)",
+          "rgba(20, 205, 200, 0.8)",
+          "rgba(255, 0, 0, 0.8)",
+          "rgba(0, 0, 255, 0.8)",
+          "rgba(0, 255, 0, 0.8)",
+          "rgba(90, 34, 139, 0.8)",
+          "rgba(255, 240, 0, 0.8)",
+          "rgba(4, 59, 92, 0.8);",
         ],
         hoverOffset: 4,
       },
     ],
   };
   const options = {};
-  return <Pie data={fakeData} />;
+  return <Pie data={returnedData} />;
 };
