@@ -1,3 +1,8 @@
+// React
+import React, { useEffect, useState } from "react";
+// Functions
+import FetchBudgetData from "../functions/fetchBudgetData";
+// Chart components
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -18,12 +23,23 @@ ChartJS.register(
   Legend
 );
 
-export const BarChart = ({ data }) => {
+export const BarChart = ({ expenditureTotal, incomeTotal, diff }) => {
+  const [incomeYr, setIncomeYr] = useState(0);
+  const [expenditureYr, setExpenditureYr] = useState(0);
+
+  //Fetch data
+  useEffect(() => {
+    FetchBudgetData(setIncomeYr, "budjetti/2025/tulot/");
+    FetchBudgetData(setExpenditureYr, "budjetti/2025/menot/");
+    // return () => mydatabase.ref("menot").off(); // Cleanup subscription
+  }, []);
+
   const options = {
     responsive: true,
-    tile: {
-      display: true,
-      text: "Menot ja tulot",
+    plugins: {
+      legend: {
+        display: false,
+      },
     },
   };
   const returnedData = {
@@ -31,7 +47,7 @@ export const BarChart = ({ data }) => {
     datasets: [
       {
         label: "Yhteensä",
-        data: [6050.0, 6231.0, 1071.25, 981, -90.25],
+        data: [expenditureYr, incomeYr, expenditureTotal, incomeTotal, diff],
         backgroundColor: [
           "rgba(228, 8, 34, 0.2)",
           "rgba(80, 36, 212, 0.2)",

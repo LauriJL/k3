@@ -19,25 +19,39 @@ import { PieChart } from "./pieChart";
 
 const Totals = () => {
   const [items, setItems] = useState([]);
+  const [incomeTotalRaw, setIncomeTotalRaw] = useState([]);
+  const [incomeTotal, setIncomeTotal] = useState(0);
   const navigate = useNavigate();
-  const [cat, setCat] = useState("menot");
-  const [year, setYear] = useState("2025");
+  const catExp = "menot";
+  const catInc = "tulot";
+  const year = "2025";
+  const [expenditureTotal, setExpenditureTotal] = useState(0);
 
   useEffect(() => {
-    FetchData(setItems, cat, year);
+    FetchData(setItems, catExp, year);
+    FetchData(setIncomeTotalRaw, catInc, year);
     // return () => mydatabase.ref("menot").off(); // Cleanup subscription
-  }, []);
+  }, [catExp, catInc, year]);
+
+  useEffect(() => {
+    if (incomeTotalRaw.length > 0) {
+      const total = incomeTotalRaw.reduce((accumulator, obj) => {
+        return accumulator + parseFloat(obj.summa);
+      }, 0);
+      setIncomeTotal(total);
+    }
+  }, [incomeTotalRaw]);
 
   const TableComponent = ({ data }) => {
     // Include only invoices that have been paid
-    const paidInvoices = [];
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].maksupvm.length > 0) {
-        paidInvoices.push(data[i]);
-      }
-    }
-
+    const paidInvoices = data.filter((item) => item.maksupvm.length > 0);
     const reducedData = Object.values(calculateCategorySums(paidInvoices)); // Apply reducer function
+
+    setExpenditureTotal(
+      reducedData.reduce(function (accumulator, obj) {
+        return accumulator + parseFloat(obj.summa);
+      }, 0)
+    );
 
     return (
       <Container
@@ -86,7 +100,11 @@ const Totals = () => {
             </Col>
           </Row>
           <Row>
-            <BarChart data={data} />
+            <BarChart
+              expenditureTotal={expenditureTotal}
+              incomeTotal={incomeTotal}
+              diff={incomeTotal - expenditureTotal}
+            />
           </Row>
         </Stack>
       </Container>
