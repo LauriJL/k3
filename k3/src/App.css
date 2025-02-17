@@ -52,3 +52,37 @@
   justify-content: center;
   min-height: 100vh; /* Ensures it's vertically centered */
 }
+
+/* Totals */
+.container-fluid-totals {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.row-bar {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.col-md-6, .col-md-12{
+  height: 75%;
+  overflow: hidden;
+}
+
+.chart-container {
+  max-height: 45vh;
+  overflow: hidden;
+}
+
+
+

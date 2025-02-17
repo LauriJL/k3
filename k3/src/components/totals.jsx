@@ -54,59 +54,61 @@ const Totals = () => {
     );
 
     return (
-      <Container
-        className="p-5"
-        style={{
-          display: "flex",
-          height: "50%",
-        }}
-      >
-        <Stack gap={3}>
+      <Container className="p-5">
+        <div className="container-fluid-totals">
           <div>
             <h3>Menot maksuluokittain {year}</h3>
           </div>
-          <Row>
-            <Col>
+          <div className="row">
+            <div className="col-md-6">
               {" "}
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Maksuluokka</th>
-                    <th>Summa</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {reducedData.map((item, index) => (
-                    <tr key={index}>
-                      <td>{item.luokka}</td>
-                      <td>{item.summa}</td>
-                      <td key={item.id}>
-                        <Button
-                          variant="outline-primary"
-                          onClick={() =>
-                            navigate(`/laskutluokittain/${item.luokka}`)
-                          }
-                        >
-                          Näytä kaikki
-                        </Button>
-                      </td>
+              <Col>
+                {" "}
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Maksuluokka</th>
+                      <th>Summa</th>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Col>
-            <Col>
-              <PieChart arr={reducedData} />
-            </Col>
-          </Row>
-          <Row>
-            <BarChart
-              expenditureTotal={expenditureTotal}
-              incomeTotal={incomeTotal}
-              diff={incomeTotal - expenditureTotal}
-            />
-          </Row>
-        </Stack>
+                  </thead>
+                  <tbody>
+                    {reducedData.map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.luokka}</td>
+                        <td>{item.summa}</td>
+                        <td key={item.id}>
+                          <Button
+                            variant="outline-primary"
+                            onClick={() =>
+                              navigate(`/laskutluokittain/${item.luokka}`)
+                            }
+                          >
+                            Näytä kaikki
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </Col>
+            </div>
+            <div className="col-md-6 d-flex flex-column align-items-center">
+              <Col>
+                <PieChart arr={reducedData} />
+              </Col>
+            </div>
+          </div>
+          <div className="row-bar">
+            <div className="col-md-12 d-flex">
+              <BarChart
+                expenditureTotal={expenditureTotal}
+                incomeTotal={incomeTotal}
+                diff={incomeTotal - expenditureTotal}
+                options={{ responsive: true, maintainAspectRatio: false }}
+              />
+            </div>
+          </div>
+        </div>
       </Container>
     );
   };
