@@ -8,7 +8,7 @@ import {
   onValue,
 } from "firebase/database";
 
-const FetchFiltered = (cat, setItems, year) => {
+const FetchFiltered = async (cat, setItems, year) => {
   const db = getDatabase();
   const itemsRef = ref(db, "menot/" + year);
   const filteredQuery = query(
@@ -16,20 +16,24 @@ const FetchFiltered = (cat, setItems, year) => {
     orderByChild("maksuluokka"),
     equalTo(cat)
   );
-  onValue(filteredQuery, (snapshot) => {
-    const data = snapshot.val();
-    if (data) {
-      const filteredData = Object.keys(data)
-        .reverse()
-        .map((key) => ({
-          id: key,
-          ...data[key],
-        }));
-      setItems(filteredData);
-    } else {
-      console.log("No matching records found");
-    }
-  });
+  try {
+    await onValue(filteredQuery, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const filteredData = Object.keys(data)
+          .reverse()
+          .map((key) => ({
+            id: key,
+            ...data[key],
+          }));
+        setItems(filteredData);
+      } else {
+        console.log("No matching records found");
+      }
+    });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 };
 
 export default FetchFiltered;
