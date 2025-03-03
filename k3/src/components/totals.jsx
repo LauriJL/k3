@@ -75,7 +75,7 @@ const Totals = () => {
                     {reducedData.map((item, index) => (
                       <tr key={index}>
                         <td>{item.luokka}</td>
-                        <td>{item.summa}</td>
+                        <td>{item.summa.toFixed(2)}</td>
                         <td key={item.id}>
                           <Button
                             variant="outline-primary"
