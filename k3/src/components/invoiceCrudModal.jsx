@@ -42,7 +42,7 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
   function handleCreateInvoice(e) {
     e.preventDefault();
 
-    if (!saaja || !summa || !maksupvm || !erapvm || !maksuluokka) {
+    if (!saaja || !summa || !erapvm || !maksuluokka) {
       alert("Anna kaikki tarvittavat tiedot.");
       return;
     }
