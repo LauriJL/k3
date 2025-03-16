@@ -3,12 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // Realtime database
 import { mydatabase } from "../firebase/firebase_config";
+import { ref, onValue, update } from "firebase/database";
 // Bootstrap
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
-import Stack from "react-bootstrap/Stack";
 import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 // Components
 import FetchData from "../functions/fetchData";
@@ -26,12 +25,27 @@ const Totals = () => {
   const catInc = "tulot";
   const year = "2025";
   const [expenditureTotal, setExpenditureTotal] = useState(0);
+  const [balance, setBalance] = useState(0);
+  const [pvm, setPvm] = useState("");
 
   useEffect(() => {
     FetchData(setItems, catExp, year);
     FetchData(setIncomeTotalRaw, catInc, year);
     // return () => mydatabase.ref("menot").off(); // Cleanup subscription
   }, [catExp, catInc, year]);
+
+  // Balance
+  useEffect(() => {
+    // Reference to income data in the database
+    const balanceRef = ref(mydatabase, "saldo/");
+    // Fetch the existing data when the component mounts
+    onValue(balanceRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log("data: ", data);
+      setBalance(data.saldo);
+      setPvm(data.pvm);
+    });
+  }, []);
 
   useEffect(() => {
     if (incomeTotalRaw.length > 0) {
@@ -60,7 +74,7 @@ const Totals = () => {
             <h3>Menot maksuluokittain {year}</h3>
           </div>
           <div className="row">
-            <div className="col-md-6">
+            <div className="col-md-8">
               {" "}
               <Col>
                 {" "}
@@ -92,20 +106,26 @@ const Totals = () => {
                 </Table>
               </Col>
             </div>
-            <div className="col-md-6 d-flex flex-column align-items-center">
-              <Col>
-                <PieChart arr={reducedData} />
-              </Col>
+            <div className="col-md-4 d-flex flex-column align-items-top">
+              <h4>Saldo: {balance}</h4>
+              <h6>Tulot: {incomeTotal.toFixed(2)}</h6>
+              <h6>Menot: {expenditureTotal.toFixed(2)}</h6>
+              <p>Tiedot päivitetty {pvm}</p>
             </div>
           </div>
           <div className="row-bar">
-            <div className="col-md-12 d-flex">
+            <div className="col-md-8 d-flex">
               <BarChart
                 expenditureTotal={expenditureTotal}
                 incomeTotal={incomeTotal}
                 diff={incomeTotal - expenditureTotal}
                 options={{ responsive: true, maintainAspectRatio: false }}
               />
+            </div>
+            <div className="col-md-4 d-flex flex-column align-items-center">
+              <Col>
+                <PieChart arr={reducedData} />
+              </Col>
             </div>
           </div>
         </div>

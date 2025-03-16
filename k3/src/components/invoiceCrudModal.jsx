@@ -126,9 +126,9 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
         <Modal.Header closeButton>
           {" "}
           <Modal.Title>
-            {modalName === "deleteInvoice" && <p>Poistetaanko lasku?</p>}
-            {modalName === "updateInvoice" && <p>Muokkaa laskun tietoja</p>}
-            {modalName === "createInvoice" && <p>Lisää lasku</p>}
+            {modalName === "deleteInvoice" && <p>Poistetaanko meno?</p>}
+            {modalName === "updateInvoice" && <p>Muokkaa menon tietoja</p>}
+            {modalName === "createInvoice" && <p>Lisää meno</p>}
           </Modal.Title>
         </Modal.Header>
         {modalName === "createInvoice" && (

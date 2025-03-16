@@ -5,6 +5,7 @@ import { getAuth, signOut } from "firebase/auth";
 // Components
 import InvoiceCrudModal from "./invoiceCrudModal";
 import IncomeCrudModal from "./incomeCrudModal";
+import BalanceCrudModal from "./balanceCrudModal";
 // Context
 import { AuthContext, Context } from "../context/authContext";
 // Bootstrap
@@ -62,21 +63,39 @@ const NavBar = () => {
             {/* Left-aligned items */}
             <Nav className="me-auto">
               <Nav.Link href="/laskut">Menot</Nav.Link>
-              <Button
-                variant="success"
-                size="sm"
-                onClick={() => handleShowModal(0, "createInvoice")}
-              >
-                Lisää meno
-              </Button>
+              <Nav.Link href="#">
+                {" "}
+                <Button
+                  variant="success"
+                  size="sm"
+                  onClick={() => handleShowModal(0, "createInvoice")}
+                >
+                  Lisää meno
+                </Button>
+              </Nav.Link>
+
               <Nav.Link href="/tulot">Tulot</Nav.Link>
-              <Button
-                variant="success"
-                size="sm"
-                onClick={() => handleShowModal(0, "createIncome")}
-              >
-                Lisää tulo
-              </Button>
+              <Nav.Link href="#">
+                {" "}
+                <Button
+                  variant="success"
+                  size="sm"
+                  onClick={() => handleShowModal(0, "createIncome")}
+                >
+                  Lisää tulo
+                </Button>
+              </Nav.Link>
+              <Nav.Link href="#">
+                {" "}
+                <Button
+                  float="left"
+                  variant="success"
+                  size="sm"
+                  onClick={() => handleShowModal(0, "updateBalance")}
+                >
+                  Päivitä saldo
+                </Button>
+              </Nav.Link>
             </Nav>
             {/* Right-aligned items */}
             <Nav className="ms-auto">
@@ -98,6 +117,14 @@ const NavBar = () => {
         )}
         {modalName === "createIncome" && (
           <IncomeCrudModal
+            modalName={modalName}
+            id={selectedId}
+            show={showModal}
+            onClose={handleCloseModal}
+          />
+        )}
+        {modalName === "updateBalance" && (
+          <BalanceCrudModal
             modalName={modalName}
             id={selectedId}
             show={showModal}
