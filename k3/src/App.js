@@ -13,6 +13,7 @@ import Tulot from "./components/tulot";
 import AlertComponent from "./components/alertComponent";
 import Totals from "./components/totals";
 import LaskutLuokittain from "./components/invoiceCategory";
+import TulevatLaskut from "./components/tulevatLaskut";
 import DropdownContext from "react-bootstrap/esm/DropdownContext";
 // Context
 import { AuthProvider } from "./context/authContext";
@@ -60,6 +61,15 @@ function App() {
         <ProtectedRoute>
           <CountDown></CountDown>
           <MaksetutLaskut triggerAlert={triggerAlert} />
+        </ProtectedRoute>
+      ),
+    },
+    {
+      path: "/tulevatlaskut",
+      element: (
+        <ProtectedRoute>
+          <CountDown></CountDown>
+          <TulevatLaskut triggerAlert={triggerAlert} />
         </ProtectedRoute>
       ),
     },

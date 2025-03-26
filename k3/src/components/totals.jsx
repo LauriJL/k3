@@ -15,6 +15,7 @@ import calculateCategorySums from "../functions/categorySums";
 // Chart components
 import { BarChart } from "./barChart";
 import { PieChart } from "./pieChart";
+import TulevatLaskut from "./tulevatLaskut";
 
 const Totals = () => {
   const [items, setItems] = useState([]);
@@ -25,6 +26,7 @@ const Totals = () => {
   const catInc = "tulot";
   const year = "2025";
   const [expenditureTotal, setExpenditureTotal] = useState(0);
+  const [upcomingTotal, setUpcomingTotal] = useState(0);
   const [balance, setBalance] = useState(0);
   const [pvm, setPvm] = useState("");
 
@@ -59,10 +61,21 @@ const Totals = () => {
   const TableComponent = ({ data }) => {
     // Include only invoices that have been paid
     const paidInvoices = data.filter((item) => item.maksupvm.length > 0);
-    const reducedData = Object.values(calculateCategorySums(paidInvoices)); // Apply reducer function
+    const upcomingInvoices = data.filter((item) => item.maksupvm.length === 0);
+    const reducedDataPaid = Object.values(calculateCategorySums(paidInvoices)); // Apply reducer function
+    const reducedDataUpcoming = Object.values(
+      calculateCategorySums(upcomingInvoices)
+    ); // Apply reducer function
+    console.log("upcomingInvoices: ", upcomingInvoices);
 
     setExpenditureTotal(
-      reducedData.reduce(function (accumulator, obj) {
+      reducedDataPaid.reduce(function (accumulator, obj) {
+        return accumulator + parseFloat(obj.summa);
+      }, 0)
+    );
+
+    setUpcomingTotal(
+      reducedDataUpcoming.reduce(function (accumulator, obj) {
         return accumulator + parseFloat(obj.summa);
       }, 0)
     );
@@ -86,7 +99,7 @@ const Totals = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {reducedData.map((item, index) => (
+                    {reducedDataPaid.map((item, index) => (
                       <tr key={index}>
                         <td>{item.luokka}</td>
                         <td>{item.summa.toFixed(2)}</td>
@@ -110,6 +123,22 @@ const Totals = () => {
               <h4>Saldo: {balance}</h4>
               <h6>Tulot: {incomeTotal.toFixed(2)}</h6>
               <h6>Menot: {expenditureTotal.toFixed(2)}</h6>
+              <h6>
+                Tulevat menot: {upcomingTotal.toFixed(2)}&nbsp;&nbsp;&nbsp;
+                <Button
+                  variant="outline-primary"
+                  size="sm"
+                  onClick={() =>
+                    navigate("/tulevatlaskut", {
+                      state: { data: upcomingInvoices },
+                    })
+                  }
+                >
+                  Näytä
+                </Button>
+              </h6>
+
+              <h6>Ylijäämä: {(incomeTotal - expenditureTotal).toFixed(2)}</h6>
               <p>Tiedot päivitetty {pvm}</p>
             </div>
           </div>
@@ -124,7 +153,7 @@ const Totals = () => {
             </div>
             <div className="col-md-4 d-flex flex-column align-items-center">
               <Col>
-                <PieChart arr={reducedData} />
+                <PieChart arr={reducedDataPaid} />
               </Col>
             </div>
           </div>
