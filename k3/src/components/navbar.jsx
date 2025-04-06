@@ -6,6 +6,7 @@ import { getAuth, signOut } from "firebase/auth";
 import InvoiceCrudModal from "./invoiceCrudModal";
 import IncomeCrudModal from "./incomeCrudModal";
 import BalanceCrudModal from "./balanceCrudModal";
+import HandleLogout from "../functions/logOut";
 // Context
 import { AuthContext, Context } from "../context/authContext";
 // Bootstrap
@@ -32,19 +33,6 @@ const NavBar = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedId(null); // Clear the selected ID
-  };
-
-  // Logout
-  const handleLogout = () => {
-    const auth = getAuth();
-    signOut(auth)
-      .then(() => {
-        // Redirect to login or homepage after logout
-        window.location.href = "/";
-      })
-      .catch((error) => {
-        console.error("Error during logout:", error);
-      });
   };
 
   return (
@@ -100,7 +88,7 @@ const NavBar = () => {
             {/* Right-aligned items */}
             <Nav className="ms-auto">
               <NavDropdown title={userName} id="basic-nav-dropdown">
-                <NavDropdown.Item onClick={() => handleLogout()}>
+                <NavDropdown.Item onClick={() => HandleLogout()}>
                   Kirjaudu ulos
                 </NavDropdown.Item>
               </NavDropdown>

@@ -43,7 +43,6 @@ const Totals = () => {
     // Fetch the existing data when the component mounts
     onValue(balanceRef, (snapshot) => {
       const data = snapshot.val();
-      console.log("data: ", data);
       setBalance(data.saldo);
       setPvm(data.pvm);
     });
@@ -66,7 +65,6 @@ const Totals = () => {
     const reducedDataUpcoming = Object.values(
       calculateCategorySums(upcomingInvoices)
     ); // Apply reducer function
-    console.log("upcomingInvoices: ", upcomingInvoices);
 
     setExpenditureTotal(
       reducedDataPaid.reduce(function (accumulator, obj) {
