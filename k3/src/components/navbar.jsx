@@ -1,14 +1,13 @@
 // React
 import React, { useState, useContext } from "react";
-// Firebase
-import { getAuth, signOut } from "firebase/auth";
+
 // Components
 import InvoiceCrudModal from "./invoiceCrudModal";
 import IncomeCrudModal from "./incomeCrudModal";
 import BalanceCrudModal from "./balanceCrudModal";
 import HandleLogout from "../functions/logOut";
 // Context
-import { AuthContext, Context } from "../context/authContext";
+import { Context } from "../context/authContext";
 // Bootstrap
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";

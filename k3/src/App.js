@@ -1,12 +1,9 @@
 import "./App.css";
 
-// Firebase
-import { getAuth, signOut } from "firebase/auth";
 // React
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 // Components
-import NavBar from "./components/navbar";
 import Home from "./components/home";
 import Login from "./components/login";
 import MaksetutLaskut from "./components/laskut";
@@ -26,6 +23,7 @@ function App() {
   // Alert
   const [alertMessage, setAlertMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+
   // Show alert
   const triggerAlert = (message) => {
     setAlertMessage(message);
@@ -94,7 +92,6 @@ function App() {
   ]);
   return (
     <AuthProvider>
-      <NavBar />
       <RouterProvider router={router} />
       <AlertComponent
         alertMessage={alertMessage}
