@@ -248,7 +248,7 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
               <Form.Group className="mb-3">
                 <Form.Label>Maksuluokka</Form.Label>
                 <InvoiceCategoryDropDown
-                  value={maksuluokka}
+                  selectedLabel={maksuluokka}
                   handleChange={handleInvoiceDropdownChange}
                 />
               </Form.Group>

@@ -61,7 +61,7 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
           setMaksaja(data.maksaja || "");
           setSumma(data.summa || "");
           setMaksupvm(data.maksupvm || "");
-          setTuloluokka(data.maksuluokka || "");
+          setTuloluokka(data.tuloluokka || "");
           setHuom(data.huom || "");
         }
       });
@@ -218,7 +218,7 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
               <Form.Group className="mb-3">
                 <Form.Label>Maksuluokka</Form.Label>
                 <IncomeCategoryDropDown
-                  value={tuloluokka}
+                  selectedLabel={tuloluokka}
                   handleChange={handleIncomeDropdownChange}
                 />
               </Form.Group>

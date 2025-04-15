@@ -6,9 +6,8 @@ import React, { useState, useEffect } from "react";
 // Bootstrap
 import { Dropdown, DropdownButton } from "react-bootstrap";
 
-const InvoiceCategoryDropDown = ({ handleChange }) => {
+const InvoiceCategoryDropDown = ({ handleChange, selectedLabel }) => {
   const [options, setOptions] = useState([]);
-  const [selectedLabel, setSelectedLabel] = useState("Valitse");
 
   // Fetch data from Firebase when the component mounts
   useEffect(() => {
@@ -35,7 +34,6 @@ const InvoiceCategoryDropDown = ({ handleChange }) => {
 
   // Handle dropdown item click
   const handleSelect = (value, label) => {
-    setSelectedLabel(value); // Update the selected label in the UI
     handleChange(value); // Notify parent component about the selected value
   };
 

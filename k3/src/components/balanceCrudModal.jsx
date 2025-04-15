@@ -20,7 +20,6 @@ const BalanceCrudModal = ({ id, show, onClose, modalName }) => {
     // Fetch the existing data when the component mounts
     onValue(balanceRef, (snapshot) => {
       const data = snapshot.val();
-      console.log("data: ", data);
       if (data) {
         setSaldo(data.saldo);
       }

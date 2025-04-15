@@ -6,6 +6,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 // Components
+import NavBar from "./components/navbar";
 import Home from "./components/home";
 import Login from "./components/login";
 import MaksetutLaskut from "./components/laskut";
@@ -14,13 +15,12 @@ import AlertComponent from "./components/alertComponent";
 import Totals from "./components/totals";
 import LaskutLuokittain from "./components/invoiceCategory";
 import TulevatLaskut from "./components/tulevatLaskut";
-import DropdownContext from "react-bootstrap/esm/DropdownContext";
+
 // Context
 import { AuthProvider } from "./context/authContext";
 import { ProtectedRoute } from "./context/protectedRoute";
 // Idle timer countdown
 import CountDown from "./components/countdown";
-import NavBar from "./components/navbar";
 
 function App() {
   // Alert
@@ -94,6 +94,7 @@ function App() {
   ]);
   return (
     <AuthProvider>
+      <NavBar />
       <RouterProvider router={router} />
       <AlertComponent
         alertMessage={alertMessage}
