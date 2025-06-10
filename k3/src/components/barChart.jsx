@@ -43,11 +43,11 @@ export const BarChart = ({ expenditureTotal, incomeTotal, diff }) => {
     },
   };
   const returnedData = {
-    labels: ["Menoarvio", "Tuloarvio", "Menot", "Tulot", "Erotus"],
+    labels: ["Menoarvio", "Menot", "Tuloarvio", "Tulot", "Erotus"],
     datasets: [
       {
-        label: "Yhteensä",
-        data: [expenditureYr, incomeYr, expenditureTotal, incomeTotal, diff],
+        // label: "Yhteensä",
+        data: [expenditureYr, expenditureTotal, incomeYr, incomeTotal, diff],
         backgroundColor: [
           "rgba(228, 8, 34, 0.2)",
           "rgba(80, 36, 212, 0.2)",
