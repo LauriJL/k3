@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import React, { useState } from "react";
 // Components
 import Home from "./components/home";
+import Navbar from "./components/navbar";
 import Login from "./components/login";
 import MaksetutLaskut from "./components/laskut";
 import Tulot from "./components/tulot";
@@ -48,6 +49,7 @@ function App() {
       path: "/totals",
       element: (
         <ProtectedRoute>
+          <Navbar />
           <CountDown></CountDown>
           <Totals triggerAlert={triggerAlert} />
         </ProtectedRoute>
@@ -57,6 +59,7 @@ function App() {
       path: "/laskut",
       element: (
         <ProtectedRoute>
+          <Navbar />
           <CountDown></CountDown>
           <MaksetutLaskut triggerAlert={triggerAlert} />
         </ProtectedRoute>
@@ -66,6 +69,7 @@ function App() {
       path: "/tulevatlaskut",
       element: (
         <ProtectedRoute>
+          <Navbar />
           <CountDown></CountDown>
           <TulevatLaskut triggerAlert={triggerAlert} />
         </ProtectedRoute>
@@ -75,6 +79,7 @@ function App() {
       path: "/tulot",
       element: (
         <ProtectedRoute>
+          <Navbar />
           <CountDown></CountDown>
           <Tulot triggerAlert={triggerAlert} />
         </ProtectedRoute>
@@ -84,6 +89,7 @@ function App() {
       path: "/laskutluokittain/:category",
       element: (
         <ProtectedRoute>
+          <Navbar />
           <CountDown></CountDown>
           <LaskutLuokittain triggerAlert={triggerAlert} />
         </ProtectedRoute>
@@ -92,6 +98,7 @@ function App() {
   ]);
   return (
     <AuthProvider>
+      {/* Main content */}
       <RouterProvider router={router} />
       <AlertComponent
         alertMessage={alertMessage}

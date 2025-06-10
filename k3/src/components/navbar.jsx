@@ -37,63 +37,57 @@ const NavBar = () => {
   return (
     <Navbar bg="dark" data-bs-theme="dark">
       <Container fluid>
-        {userName ? (
-          <Navbar.Brand href="/totals">K3</Navbar.Brand>
-        ) : (
-          <Navbar.Brand href="#home">K3</Navbar.Brand>
-        )}
-
+        <Navbar.Brand href="/totals">K3</Navbar.Brand>
         {/* Toggler for small screens */}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        {userName && (
-          <Navbar.Collapse id="basic-navbar-nav">
-            {/* Left-aligned items */}
-            <Nav className="me-auto">
-              <Nav.Link href="/laskut">Menot</Nav.Link>
-              <Nav.Link href="#">
-                {" "}
-                <Button
-                  variant="success"
-                  size="sm"
-                  onClick={() => handleShowModal(0, "createInvoice")}
-                >
-                  Lisää meno
-                </Button>
-              </Nav.Link>
+        <Navbar.Collapse id="basic-navbar-nav">
+          {/* Left-aligned items */}
+          <Nav className="me-auto">
+            <Nav.Link href="/laskut">Menot</Nav.Link>
+            <Nav.Link href="#">
+              {" "}
+              <Button
+                variant="success"
+                size="sm"
+                onClick={() => handleShowModal(0, "createInvoice")}
+              >
+                Lisää meno
+              </Button>
+            </Nav.Link>
 
-              <Nav.Link href="/tulot">Tulot</Nav.Link>
-              <Nav.Link href="#">
-                {" "}
-                <Button
-                  variant="success"
-                  size="sm"
-                  onClick={() => handleShowModal(0, "createIncome")}
-                >
-                  Lisää tulo
-                </Button>
-              </Nav.Link>
-              <Nav.Link href="#">
-                {" "}
-                <Button
-                  float="left"
-                  variant="success"
-                  size="sm"
-                  onClick={() => handleShowModal(0, "updateBalance")}
-                >
-                  Päivitä saldo
-                </Button>
-              </Nav.Link>
-            </Nav>
-            {/* Right-aligned items */}
-            <Nav className="ms-auto">
-              <NavDropdown title={userName} id="basic-nav-dropdown">
-                <NavDropdown.Item onClick={() => HandleLogout()}>
-                  Kirjaudu ulos
-                </NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-          </Navbar.Collapse>
-        )}
+            <Nav.Link href="/tulot">Tulot</Nav.Link>
+            <Nav.Link href="#">
+              {" "}
+              <Button
+                variant="success"
+                size="sm"
+                onClick={() => handleShowModal(0, "createIncome")}
+              >
+                Lisää tulo
+              </Button>
+            </Nav.Link>
+            <Nav.Link href="#">
+              {" "}
+              <Button
+                float="left"
+                variant="success"
+                size="sm"
+                onClick={() => handleShowModal(0, "updateBalance")}
+              >
+                Päivitä saldo
+              </Button>
+            </Nav.Link>
+          </Nav>
+          {/* Right-aligned items */}
+          <Nav className="ms-auto">
+            <NavDropdown title={userName} id="basic-nav-dropdown">
+              <NavDropdown.Item onClick={() => HandleLogout()}>
+                Kirjaudu ulos
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+
         {modalName === "createInvoice" && (
           <InvoiceCrudModal
             modalName={modalName}

@@ -41,7 +41,7 @@ export function AuthProvider({ children }) {
       <Context.Provider value={values}>
         {!loading && (
           <>
-            <NavBar />
+            {/* <NavBar /> */}
             {children}
           </>
         )}
