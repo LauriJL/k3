@@ -136,7 +136,7 @@ const Totals = () => {
                 </Button>
               </h6>
 
-              <h6>Ylijäämä: {(incomeTotal - expenditureTotal).toFixed(2)}</h6>
+              <h6>Erotus: {(incomeTotal - expenditureTotal).toFixed(2)}</h6>
               <p>Tiedot päivitetty {pvm}</p>
             </div>
           </div>
