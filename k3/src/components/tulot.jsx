@@ -1,5 +1,7 @@
 // React
 import React, { useEffect, useState } from "react";
+// Redux
+import { useSelector } from "react-redux";
 // Bootstrap
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
@@ -14,6 +16,9 @@ import FetchData from "../functions/fetchData";
 import IncomeCrudModal from "./incomeCrudModal";
 
 const Tulot = () => {
+  // Redux
+  const logged = useSelector((state) => state.auth.logged);
+  // Items
   const [items, setItems] = useState([]);
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -100,66 +105,77 @@ const Tulot = () => {
         <div>
           <h3>Tulot</h3>
         </div>
-        <Form onChange={handleItemsPerPage}>
-          <div>
-            {["radio"].map((type) => (
-              <div key={`inline-${type}`} className="mb-3">
-                {"Näytä "}
-                <Form.Check
-                  inline
-                  label="5"
-                  name="group1"
-                  type={type}
-                  id={`inline-${type}-1`}
-                  value="5"
-                />
-                <Form.Check
-                  inline
-                  label="10"
-                  name="group1"
-                  type={type}
-                  id={`inline-${type}-2`}
-                  value="10"
-                />
-                <Form.Check
-                  inline
-                  label="kaikki"
-                  name="group1"
-                  type={type}
-                  id={`inline-${type}-3`}
-                  value="10000"
-                />
-              </div>
-            ))}
-          </div>
-        </Form>
+        {logged ? (
+          <Form onChange={handleItemsPerPage}>
+            <div>
+              {["radio"].map((type) => (
+                <div key={`inline-${type}`} className="mb-3">
+                  {"Näytä "}
+                  <Form.Check
+                    inline
+                    label="5"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-1`}
+                    value="5"
+                  />
+                  <Form.Check
+                    inline
+                    label="10"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-2`}
+                    value="10"
+                  />
+                  <Form.Check
+                    inline
+                    label="kaikki"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-3`}
+                    value="10000"
+                  />
+                </div>
+              ))}
+            </div>
+          </Form>
+        ) : null}
         <div>
-          <div>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Maksaja</th>
-                  <th>Summa €</th>
-                  <th>Maksupäivä</th>
-                  <th>Tuloluokka</th>
-                  <th>Huom</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>{renderTableRows()}</tbody>
-            </Table>
-          </div>
+          {logged ? (
+            <div>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Maksaja</th>
+                    <th>Summa €</th>
+                    <th>Maksupäivä</th>
+                    <th>Tuloluokka</th>
+                    <th>Huom</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>{renderTableRows()}</tbody>
+              </Table>
+            </div>
+          ) : (
+            <div>
+              <h4>Ei tietoja näytettävänä.</h4>
+              <p>Ole hyvä ja kirjaudu sisään.</p>
+            </div>
+          )}
         </div>
       </Stack>
       <Stack>
-        <Row className="justify-content-md-center">
-          <Col xs lg="2"></Col>
-          <Col xs lg="2">
-            {renderPagination()}
-          </Col>
-          <Col xs lg="2"></Col>
-        </Row>
+        {logged ? (
+          <Row className="justify-content-md-center">
+            <Col xs lg="2"></Col>
+            <Col xs lg="2">
+              {renderPagination()}
+            </Col>
+            <Col xs lg="2"></Col>
+          </Row>
+        ) : null}
       </Stack>
       <IncomeCrudModal
         modalName={modalName}

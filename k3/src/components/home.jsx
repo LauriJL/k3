@@ -1,5 +1,7 @@
 // React
 import { useNavigate } from "react-router-dom";
+// Redux
+import { useSelector } from "react-redux";
 // Bootstrap
 import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
@@ -7,6 +9,8 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 
 const Home = () => {
+  const logged = useSelector((state) => state.auth.logged);
+  const email = useSelector((state) => state.email.eMail);
   const navigate = useNavigate();
   return (
     <Container>
@@ -19,13 +23,14 @@ const Home = () => {
       </p>
       <br />
       <br />
-      <Row>
+
+      {/* <Row>
         <Stack gap={3} className="col-md-5 mx-auto">
           <Button variant="outline-success" onClick={() => navigate("/login")}>
             Kirjaudu sisään
           </Button>
         </Stack>
-      </Row>
+      </Row> */}
     </Container>
   );
 };

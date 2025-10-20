@@ -1,13 +1,14 @@
 // React
-import React, { useState, useContext } from "react";
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { logOut } from "../store/authSlice";
 // Components
+import LoginModal from "./loginModal";
 import InvoiceCrudModal from "./invoiceCrudModal";
 import IncomeCrudModal from "./incomeCrudModal";
 import BalanceCrudModal from "./balanceCrudModal";
-import HandleLogout from "../functions/logOut";
-// Context
-import { Context } from "../context/authContext";
 // Bootstrap
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
@@ -16,8 +17,10 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Button from "react-bootstrap/Button";
 
 const NavBar = () => {
-  // Cntext
-  const { userName } = useContext(Context);
+  const logged = useSelector((state) => state.auth.logged);
+  const email = useSelector((state) => state.email.eMail);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   // Modals
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -29,9 +32,19 @@ const NavBar = () => {
     setSelectedId(id);
     setShowModal(true);
   };
+  const handleShowLoginModal = (modalName) => {
+    setModalName(modalName);
+    setShowModal(true);
+  };
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedId(null); // Clear the selected ID
+  };
+
+  // Logout
+  const handleLogOut = () => {
+    dispatch(logOut());
+    navigate("/");
   };
 
   return (
@@ -40,54 +53,75 @@ const NavBar = () => {
         <Navbar.Brand href="/totals">K3</Navbar.Brand>
         {/* Toggler for small screens */}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
         <Navbar.Collapse id="basic-navbar-nav">
           {/* Left-aligned items */}
-          <Nav className="me-auto">
-            <Nav.Link href="/laskut">Menot</Nav.Link>
-            <Nav.Link href="#">
-              {" "}
-              <Button
-                variant="success"
-                size="sm"
-                onClick={() => handleShowModal(0, "createInvoice")}
-              >
-                Lisää meno
-              </Button>
-            </Nav.Link>
+          {logged ? (
+            <Nav className="me-auto">
+              <Nav.Link href="/laskut">Menot</Nav.Link>
+              <Nav.Link href="#">
+                {" "}
+                <Button
+                  variant="success"
+                  size="sm"
+                  onClick={() => handleShowModal(0, "createInvoice")}
+                >
+                  Lisää meno
+                </Button>
+              </Nav.Link>
 
-            <Nav.Link href="/tulot">Tulot</Nav.Link>
-            <Nav.Link href="#">
-              {" "}
-              <Button
-                variant="success"
-                size="sm"
-                onClick={() => handleShowModal(0, "createIncome")}
-              >
-                Lisää tulo
-              </Button>
-            </Nav.Link>
-            <Nav.Link href="#">
-              {" "}
-              <Button
-                float="left"
-                variant="success"
-                size="sm"
-                onClick={() => handleShowModal(0, "updateBalance")}
-              >
-                Päivitä saldo
-              </Button>
-            </Nav.Link>
-          </Nav>
+              <Nav.Link href="/tulot">Tulot</Nav.Link>
+              <Nav.Link href="#">
+                {" "}
+                <Button
+                  variant="success"
+                  size="sm"
+                  onClick={() => handleShowModal(0, "createIncome")}
+                >
+                  Lisää tulo
+                </Button>
+              </Nav.Link>
+              <Nav.Link href="#">
+                {" "}
+                <Button
+                  float="left"
+                  variant="success"
+                  size="sm"
+                  onClick={() => handleShowModal(0, "updateBalance")}
+                >
+                  Päivitä saldo
+                </Button>
+              </Nav.Link>
+            </Nav>
+          ) : null}
           {/* Right-aligned items */}
           <Nav className="ms-auto">
-            <NavDropdown title={userName} id="basic-nav-dropdown">
-              <NavDropdown.Item onClick={() => HandleLogout()}>
-                Kirjaudu ulos
-              </NavDropdown.Item>
-            </NavDropdown>
+            {!logged ? (
+              <Button
+                variant="success"
+                size="sm"
+                onClick={() => handleShowLoginModal("login")}
+              >
+                Kirjaudu sisään
+              </Button>
+            ) : (
+              <NavDropdown title={email} id="basic-nav-dropdown">
+                <NavDropdown.Item onClick={() => handleLogOut()}>
+                  Kirjaudu ulos
+                </NavDropdown.Item>
+              </NavDropdown>
+            )}
           </Nav>
         </Navbar.Collapse>
 
+        {modalName === "login" && (
+          <LoginModal
+            modalName={modalName}
+            id={1}
+            show={showModal}
+            onClose={handleCloseModal}
+          />
+        )}
         {modalName === "createInvoice" && (
           <InvoiceCrudModal
             modalName={modalName}

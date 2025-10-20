@@ -1,6 +1,8 @@
 // React
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+// Redux
+import { useSelector } from "react-redux";
 // Bootstrap
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
@@ -15,6 +17,9 @@ import FetchFiltered from "../functions/fetchFiltered";
 import InvoiceCrudModal from "./invoiceCrudModal";
 
 const LaskutLuokittain = () => {
+  // Redux
+  const logged = useSelector((state) => state.auth.logged);
+  // Params
   const { category } = useParams();
   const navigate = useNavigate();
   const [items, setItems] = useState([]);
@@ -103,71 +108,82 @@ const LaskutLuokittain = () => {
         <div>
           <h3>Maksetut laskut - {category} </h3>
         </div>
-        <Form onChange={handleItemsPerPage}>
+        {logged ? (
+          <Form onChange={handleItemsPerPage}>
+            <div>
+              {["radio"].map((type) => (
+                <div key={`inline-${type}`} className="mb-3">
+                  {"Näytä "}
+                  <Form.Check
+                    inline
+                    label="5"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-1`}
+                    value="5"
+                  />
+                  <Form.Check
+                    inline
+                    label="10"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-2`}
+                    value="10"
+                  />
+                  <Form.Check
+                    inline
+                    label="kaikki"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-3`}
+                    value="10000"
+                  />
+                </div>
+              ))}
+            </div>
+          </Form>
+        ) : null}
+        {logged ? (
           <div>
-            {["radio"].map((type) => (
-              <div key={`inline-${type}`} className="mb-3">
-                {"Näytä "}
-                <Form.Check
-                  inline
-                  label="5"
-                  name="group1"
-                  type={type}
-                  id={`inline-${type}-1`}
-                  value="5"
-                />
-                <Form.Check
-                  inline
-                  label="10"
-                  name="group1"
-                  type={type}
-                  id={`inline-${type}-2`}
-                  value="10"
-                />
-                <Form.Check
-                  inline
-                  label="kaikki"
-                  name="group1"
-                  type={type}
-                  id={`inline-${type}-3`}
-                  value="10000"
-                />
-              </div>
-            ))}
+            <div>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Saaja</th>
+                    <th>Summa €</th>
+                    <th>Eräpäivä</th>
+                    <th>Maksupäivä</th>
+                    <th>Maksuluokka</th>
+                    <th>Huom</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>{renderTableRows()}</tbody>
+              </Table>
+            </div>
           </div>
-        </Form>
-        <div>
+        ) : (
           <div>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Saaja</th>
-                  <th>Summa €</th>
-                  <th>Eräpäivä</th>
-                  <th>Maksupäivä</th>
-                  <th>Maksuluokka</th>
-                  <th>Huom</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>{renderTableRows()}</tbody>
-            </Table>
+            <h4>Ei tietoja näytettävänä.</h4>
+            <p>Ole hyvä ja kirjaudu sisään.</p>
           </div>
-        </div>
+        )}
       </Stack>
       <Container className="p-1">
-        <Row className="justify-content-md-center">
-          <Col xs lg="4">
-            <Button variant="secondary" onClick={() => navigate("/totals")}>
-              Takaisin
-            </Button>
-          </Col>
-          <Col xs lg="4">
-            {renderPagination()}{" "}
-          </Col>
-          <Col xs lg="4"></Col>
-        </Row>
+        {logged ? (
+          <Row className="justify-content-md-center">
+            <Col xs lg="4">
+              <Button variant="secondary" onClick={() => navigate("/totals")}>
+                Takaisin
+              </Button>
+            </Col>
+            <Col xs lg="4">
+              {renderPagination()}{" "}
+            </Col>
+            <Col xs lg="4"></Col>
+          </Row>
+        ) : null}
       </Container>
       <InvoiceCrudModal
         modalName={modalName}

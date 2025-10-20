@@ -1,6 +1,10 @@
 // React
 import React, { useState, useRef } from "react";
 import { IdleTimerProvider } from "react-idle-timer";
+import { useNavigate } from "react-router-dom";
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import { logOut } from "../store/authSlice";
 // Firebase
 import { getAuth, signOut } from "firebase/auth";
 // Bootstrap
@@ -8,21 +12,19 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 function CountDown() {
+  // Redux
+  const logged = useSelector((state) => state.auth.logged);
+  const email = useSelector((state) => state.email.eMail);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [countdown, setCountdown] = useState(15);
   const idleTimerRef = useRef(null);
   const countdownIntervalRef = useRef(null);
 
   const logoutUser = () => {
-    const auth = getAuth();
-    signOut(auth)
-      .then(() => {
-        // Redirect to login or homepage after logout
-        window.location.href = "/";
-      })
-      .catch((error) => {
-        console.error("Ulos kirjautuminen epäonnistui:", error);
-      });
+    dispatch(logOut());
+    navigate("/");
   };
 
   const handleOnIdle = () => {
@@ -36,7 +38,7 @@ function CountDown() {
       setCountdown((prevCount) => {
         if (prevCount <= 1) {
           clearInterval(countdownIntervalRef.current);
-          handleLogout(); // Auto-logout if countdown reaches zero
+          logoutUser(); // Auto-logout if countdown reaches zero
         }
         return prevCount - 1;
       });

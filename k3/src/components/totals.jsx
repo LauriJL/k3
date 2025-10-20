@@ -1,6 +1,8 @@
 // React
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+// Redux
+import { useSelector } from "react-redux";
 // Realtime database
 import { mydatabase } from "../firebase/firebase_config";
 import { ref, onValue, update } from "firebase/database";
@@ -18,6 +20,10 @@ import { PieChart } from "./pieChart";
 import TulevatLaskut from "./tulevatLaskut";
 
 const Totals = () => {
+  // Redux
+  const logged = useSelector((state) => state.auth.logged);
+  const email = useSelector((state) => state.email.eMail);
+
   const [items, setItems] = useState([]);
   const [incomeTotalRaw, setIncomeTotalRaw] = useState([]);
   const [incomeTotal, setIncomeTotal] = useState(0);
@@ -80,82 +86,90 @@ const Totals = () => {
 
     return (
       <Container className="p-5">
-        <div className="container-fluid-totals">
+        {logged ? (
+          <div className="container-fluid-totals">
+            <div>
+              <h3>Menot maksuluokittain {year}</h3>
+            </div>
+            <div className="row">
+              <div className="col-md-8">
+                {" "}
+                <Col>
+                  {" "}
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>Maksuluokka</th>
+                        <th>Summa</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reducedDataPaid.map((item, index) => (
+                        <tr key={index}>
+                          <td>{item.luokka}</td>
+                          <td>{item.summa.toFixed(2)}</td>
+                          <td key={item.id}>
+                            <Button
+                              variant="outline-primary"
+                              onClick={() =>
+                                navigate(`/laskutluokittain/${item.luokka}`)
+                              }
+                            >
+                              Näytä kaikki
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </Col>
+              </div>
+              <div className="col-md-4 d-flex flex-column align-items-top">
+                <h4>Saldo: {balance}</h4>
+                <h6>Tulot: {incomeTotal.toFixed(2)}</h6>
+                <h6>Menot: {expenditureTotal.toFixed(2)}</h6>
+                <h6>
+                  Tulevat menot: {upcomingTotal.toFixed(2)}&nbsp;&nbsp;&nbsp;
+                  <Button
+                    variant="outline-primary"
+                    size="sm"
+                    onClick={() =>
+                      navigate("/tulevatlaskut", {
+                        state: { data: upcomingInvoices },
+                      })
+                    }
+                  >
+                    Näytä
+                  </Button>
+                </h6>
+
+                <h6>Erotus: {(incomeTotal - expenditureTotal).toFixed(2)}</h6>
+                <p>Tiedot päivitetty {pvm}</p>
+              </div>
+            </div>
+            <div className="row-bar">
+              <div className="col-md-8 d-flex">
+                <BarChart
+                  expenditureTotal={expenditureTotal}
+                  incomeTotal={incomeTotal}
+                  diff={incomeTotal - expenditureTotal}
+                  options={{ responsive: true, maintainAspectRatio: false }}
+                />
+              </div>
+              <div className="col-md-4 d-flex flex-column align-items-center">
+                <Col>
+                  <PieChart arr={reducedDataPaid} />
+                </Col>
+              </div>
+            </div>
+          </div>
+        ) : (
           <div>
             <h3>Menot maksuluokittain {year}</h3>
+            <p>Ei tietoja näytettävänä.</p>
+            <p>Ole hyvä ja kirjaudu sisään.</p>
           </div>
-          <div className="row">
-            <div className="col-md-8">
-              {" "}
-              <Col>
-                {" "}
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Maksuluokka</th>
-                      <th>Summa</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {reducedDataPaid.map((item, index) => (
-                      <tr key={index}>
-                        <td>{item.luokka}</td>
-                        <td>{item.summa.toFixed(2)}</td>
-                        <td key={item.id}>
-                          <Button
-                            variant="outline-primary"
-                            onClick={() =>
-                              navigate(`/laskutluokittain/${item.luokka}`)
-                            }
-                          >
-                            Näytä kaikki
-                          </Button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </Col>
-            </div>
-            <div className="col-md-4 d-flex flex-column align-items-top">
-              <h4>Saldo: {balance}</h4>
-              <h6>Tulot: {incomeTotal.toFixed(2)}</h6>
-              <h6>Menot: {expenditureTotal.toFixed(2)}</h6>
-              <h6>
-                Tulevat menot: {upcomingTotal.toFixed(2)}&nbsp;&nbsp;&nbsp;
-                <Button
-                  variant="outline-primary"
-                  size="sm"
-                  onClick={() =>
-                    navigate("/tulevatlaskut", {
-                      state: { data: upcomingInvoices },
-                    })
-                  }
-                >
-                  Näytä
-                </Button>
-              </h6>
-
-              <h6>Erotus: {(incomeTotal - expenditureTotal).toFixed(2)}</h6>
-              <p>Tiedot päivitetty {pvm}</p>
-            </div>
-          </div>
-          <div className="row-bar">
-            <div className="col-md-8 d-flex">
-              <BarChart
-                expenditureTotal={expenditureTotal}
-                incomeTotal={incomeTotal}
-                diff={incomeTotal - expenditureTotal}
-                options={{ responsive: true, maintainAspectRatio: false }}
-              />
-            </div>
-            <div className="col-md-4 d-flex flex-column align-items-center">
-              <Col>
-                <PieChart arr={reducedDataPaid} />
-              </Col>
-            </div>
-          </div>
-        </div>
+        )}
       </Container>
     );
   };

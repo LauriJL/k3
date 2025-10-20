@@ -6,7 +6,6 @@ import React, { useState } from "react";
 // Components
 import Home from "./components/home";
 import Navbar from "./components/navbar";
-import Login from "./components/login";
 import MaksetutLaskut from "./components/laskut";
 import Tulot from "./components/tulot";
 import AlertComponent from "./components/alertComponent";
@@ -14,9 +13,6 @@ import Totals from "./components/totals";
 import LaskutLuokittain from "./components/invoiceCategory";
 import TulevatLaskut from "./components/tulevatLaskut";
 
-// Context
-import { AuthProvider } from "./context/authContext";
-import { ProtectedRoute } from "./context/protectedRoute";
 // Idle timer countdown
 import CountDown from "./components/countdown";
 
@@ -39,65 +35,66 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Home />,
-    },
-    {
-      path: "/login",
-      element: <Login />,
+      element: (
+        <>
+          <Navbar />
+          <Home />
+        </>
+      ),
     },
     {
       path: "/totals",
       element: (
-        <ProtectedRoute>
+        <>
           <Navbar />
           <CountDown></CountDown>
           <Totals triggerAlert={triggerAlert} />
-        </ProtectedRoute>
+        </>
       ),
     },
     {
       path: "/laskut",
       element: (
-        <ProtectedRoute>
+        <>
           <Navbar />
           <CountDown></CountDown>
           <MaksetutLaskut triggerAlert={triggerAlert} />
-        </ProtectedRoute>
+        </>
       ),
     },
     {
       path: "/tulevatlaskut",
       element: (
-        <ProtectedRoute>
+        <>
           <Navbar />
           <CountDown></CountDown>
           <TulevatLaskut triggerAlert={triggerAlert} />
-        </ProtectedRoute>
+        </>
       ),
     },
     {
       path: "/tulot",
       element: (
-        <ProtectedRoute>
+        <>
           <Navbar />
           <CountDown></CountDown>
           <Tulot triggerAlert={triggerAlert} />
-        </ProtectedRoute>
+        </>
       ),
     },
     {
       path: "/laskutluokittain/:category",
       element: (
-        <ProtectedRoute>
+        <>
           <Navbar />
           <CountDown></CountDown>
           <LaskutLuokittain triggerAlert={triggerAlert} />
-        </ProtectedRoute>
+        </>
       ),
     },
   ]);
   return (
-    <AuthProvider>
+    <>
       {/* Main content */}
       <RouterProvider router={router} />
       <AlertComponent
@@ -105,7 +102,7 @@ function App() {
         showAlert={showAlert}
         onClose={closeAlert}
       />
-    </AuthProvider>
+    </>
   );
 }
 

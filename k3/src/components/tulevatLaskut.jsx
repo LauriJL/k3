@@ -1,6 +1,8 @@
 // React
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+// Redux
+import { useSelector } from "react-redux";
 // Bootstrap
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
@@ -15,11 +17,13 @@ import FetchData from "../functions/fetchData";
 import CrudModal from "./invoiceCrudModal";
 
 const TulevatLaskut = () => {
+  // Redux
+  const logged = useSelector((state) => state.auth.logged);
   // Array of upcoming invoices
   const location = useLocation();
   const upcomingInvoices = location.state?.data || [];
   const [items, setItems] = useState([]);
-  // NAvigation
+  // Navigation
   const navigate = useNavigate();
 
   // Pagination
@@ -102,72 +106,83 @@ const TulevatLaskut = () => {
         <div>
           <h3>Tulevat laskut</h3>
         </div>
-        <Form onChange={handleItemsPerPage}>
+        {logged ? (
+          <Form onChange={handleItemsPerPage}>
+            <div>
+              {["radio"].map((type) => (
+                <div key={`inline-${type}`} className="mb-3">
+                  {"Näytä "}
+                  <Form.Check
+                    inline
+                    label="5"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-1`}
+                    value="5"
+                  />
+                  <Form.Check
+                    inline
+                    label="10"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-2`}
+                    value="10"
+                  />
+                  <Form.Check
+                    inline
+                    label="kaikki"
+                    name="group1"
+                    type={type}
+                    id={`inline-${type}-3`}
+                    value="10000"
+                  />
+                </div>
+              ))}
+            </div>
+          </Form>
+        ) : null}
+        {logged ? (
           <div>
-            {["radio"].map((type) => (
-              <div key={`inline-${type}`} className="mb-3">
-                {"Näytä "}
-                <Form.Check
-                  inline
-                  label="5"
-                  name="group1"
-                  type={type}
-                  id={`inline-${type}-1`}
-                  value="5"
-                />
-                <Form.Check
-                  inline
-                  label="10"
-                  name="group1"
-                  type={type}
-                  id={`inline-${type}-2`}
-                  value="10"
-                />
-                <Form.Check
-                  inline
-                  label="kaikki"
-                  name="group1"
-                  type={type}
-                  id={`inline-${type}-3`}
-                  value="10000"
-                />
-              </div>
-            ))}
+            <div>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Saaja</th>
+                    <th>Summa €</th>
+                    <th>Eräpäivä</th>
+                    <th>Maksupäivä</th>
+                    <th>Maksuluokka</th>
+                    <th>Huom</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>{renderTableRows()}</tbody>
+              </Table>
+            </div>
+            &nbsp;
+            <Button variant="secondary" onClick={() => navigate("/totals")}>
+              Takaisin
+            </Button>
           </div>
-        </Form>
-        <div>
+        ) : (
           <div>
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Saaja</th>
-                  <th>Summa €</th>
-                  <th>Eräpäivä</th>
-                  <th>Maksupäivä</th>
-                  <th>Maksuluokka</th>
-                  <th>Huom</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>{renderTableRows()}</tbody>
-            </Table>
+            <h4>Ei tietoja näytettävänä.</h4>
+            <p>Ole hyvä ja kirjaudu sisään.</p>
           </div>
-          &nbsp;
-          <Button variant="secondary" onClick={() => navigate("/totals")}>
-            Takaisin
-          </Button>
-        </div>
+        )}
       </Stack>
-      <Stack>
-        <Row className="justify-content-md-center">
-          <Col xs lg="2"></Col>
-          <Col xs lg="2">
-            {renderPagination()}
-          </Col>
-          <Col xs lg="2"></Col>
-        </Row>
-      </Stack>
+      {logged ? (
+        <Stack>
+          <Row className="justify-content-md-center">
+            <Col xs lg="2"></Col>
+            <Col xs lg="2">
+              {renderPagination()}
+            </Col>
+            <Col xs lg="2"></Col>
+          </Row>
+        </Stack>
+      ) : null}
       <CrudModal
         modalName={modalName}
         id={selectedId}
