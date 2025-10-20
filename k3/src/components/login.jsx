@@ -28,6 +28,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password); // Use Firebase's signInWithEmailAndPassword method
       setLoggedIn(true);
+      console.log("Kirjautuminen onnistui: ", email);
     } catch (error) {
       setError("Tarkista käyttäjätunnus ja salasana.");
     }

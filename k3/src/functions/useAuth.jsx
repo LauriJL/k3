@@ -8,7 +8,6 @@ const useAuth = () => {
     const auth = getAuth();
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser); // Updates UI when user logs in/out
-      console.log("User state changed:", currentUser);
     });
 
     return () => unsubscribe(); // Cleanup on unmount
