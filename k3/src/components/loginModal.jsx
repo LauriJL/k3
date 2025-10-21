@@ -47,7 +47,7 @@ const LoginModal = ({ show, onClose, modalName }) => {
 
   if (logged) {
     dispatch(setEmailStore(email));
-    // navigate("/");
+    navigate("/totals");
   }
   return (
     <div>

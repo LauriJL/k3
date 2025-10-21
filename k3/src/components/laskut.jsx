@@ -103,11 +103,11 @@ const MaksetutLaskut = () => {
 
   return (
     <Container className="p-5">
-      {logged ? (
-        <Stack gap={3}>
-          <div>
-            <h3>Menot</h3>
-          </div>
+      <Stack gap={3}>
+        <div>
+          <h3>Menot</h3>
+        </div>
+        {logged ? (
           <Form onChange={handleItemsPerPage}>
             <div>
               {["radio"].map((type) => (
@@ -141,35 +141,35 @@ const MaksetutLaskut = () => {
               ))}
             </div>
           </Form>
-          ) : null}
-          {logged ? (
+        ) : null}
+        {logged ? (
+          <div>
             <div>
-              <div>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Saaja</th>
-                      <th>Summa €</th>
-                      <th>Eräpäivä</th>
-                      <th>Maksupäivä</th>
-                      <th>Maksuluokka</th>
-                      <th>Huom</th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>{renderTableRows()}</tbody>
-                </Table>
-              </div>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Saaja</th>
+                    <th>Summa €</th>
+                    <th>Eräpäivä</th>
+                    <th>Maksupäivä</th>
+                    <th>Maksuluokka</th>
+                    <th>Huom</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>{renderTableRows()}</tbody>
+              </Table>
             </div>
-          ) : (
-            <div>
-              <h4>Ei tietoja näytettävänä.</h4>
-              <p>Ole hyvä ja kirjaudu sisään.</p>
-            </div>
-          )}
-        </Stack>
-      ) : null}
+          </div>
+        ) : (
+          <div>
+            <h4>Ei tietoja näytettävänä.</h4>
+            <p>Ole hyvä ja kirjaudu sisään.</p>
+          </div>
+        )}
+      </Stack>
+
       {logged ? (
         <Stack>
           <Row className="justify-content-md-center">
@@ -180,9 +180,7 @@ const MaksetutLaskut = () => {
             <Col xs lg="2"></Col>
           </Row>
         </Stack>
-      ) : (
-        <p>Ei tietoja näytettävänä.</p>
-      )}
+      ) : null}
       <CrudModal
         modalName={modalName}
         id={selectedId}

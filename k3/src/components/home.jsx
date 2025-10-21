@@ -22,15 +22,32 @@ const Home = () => {
         ja menoja.
       </p>
       <br />
+      {!logged ? (
+        <Row>
+          <Stack gap={3} className="col-md-5 mx-auto">
+            <p className="text-center">
+              Kirjaudu sisään nähdäksesi taloyhtiön tiedot.
+            </p>
+          </Stack>
+        </Row>
+      ) : (
+        <Row>
+          <Stack gap={3} className="col-md-5 mx-auto">
+            <h4 className="text-center">
+              Olet kirjautunut sisään käyttäjätunnuksella:
+            </h4>
+            <p className="text-center">{email}</p>
+            <Button
+              variant="primary"
+              onClick={() => navigate("/totals")}
+              className="text-center"
+            >
+              Siirry tarkastelemaan tuloja ja menoja
+            </Button>
+          </Stack>
+        </Row>
+      )}
       <br />
-
-      {/* <Row>
-        <Stack gap={3} className="col-md-5 mx-auto">
-          <Button variant="outline-success" onClick={() => navigate("/login")}>
-            Kirjaudu sisään
-          </Button>
-        </Stack>
-      </Row> */}
     </Container>
   );
 };

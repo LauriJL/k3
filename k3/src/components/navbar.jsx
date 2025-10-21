@@ -47,10 +47,21 @@ const NavBar = () => {
     navigate("/");
   };
 
+  // NavBar links
+  const handleNavLink = (path) => {
+    navigate(path);
+  };
+
   return (
     <Navbar bg="dark" data-bs-theme="dark">
       <Container fluid>
-        <Navbar.Brand href="/totals">K3</Navbar.Brand>
+        {!logged ? (
+          <Navbar.Brand href="/">K3</Navbar.Brand>
+        ) : (
+          <Navbar.Brand onClick={() => handleNavLink("/totals")}>
+            K3
+          </Navbar.Brand>
+        )}
         {/* Toggler for small screens */}
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
@@ -58,7 +69,17 @@ const NavBar = () => {
           {/* Left-aligned items */}
           {logged ? (
             <Nav className="me-auto">
-              <Nav.Link href="/laskut">Menot</Nav.Link>
+              <Nav.Link>
+                {" "}
+                <Button
+                  float="left"
+                  variant="success-outline"
+                  size="sm"
+                  onClick={() => handleNavLink("/laskut")}
+                >
+                  Menot
+                </Button>
+              </Nav.Link>
               <Nav.Link href="#">
                 {" "}
                 <Button
@@ -70,7 +91,17 @@ const NavBar = () => {
                 </Button>
               </Nav.Link>
 
-              <Nav.Link href="/tulot">Tulot</Nav.Link>
+              <Nav.Link>
+                {" "}
+                <Button
+                  float="left"
+                  variant="success-outline"
+                  size="sm"
+                  onClick={() => handleNavLink("/tulot")}
+                >
+                  Tulot
+                </Button>
+              </Nav.Link>
               <Nav.Link href="#">
                 {" "}
                 <Button
