@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "../store/authSlice";
 // Firebase
 import { getAuth, signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase_config";
 // Bootstrap
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -24,6 +25,9 @@ function CountDown() {
 
   const logoutUser = () => {
     dispatch(logOut());
+    signOut(auth).catch(() => {
+      /* ignore errors during unload */
+    });
     navigate("/");
   };
 

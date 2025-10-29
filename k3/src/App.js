@@ -2,7 +2,7 @@ import "./App.css";
 
 // React
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // Components
 import Home from "./components/home";
 import Navbar from "./components/navbar";
@@ -12,9 +12,11 @@ import AlertComponent from "./components/alertComponent";
 import Totals from "./components/totals";
 import LaskutLuokittain from "./components/invoiceCategory";
 import TulevatLaskut from "./components/tulevatLaskut";
-
 // Idle timer countdown
 import CountDown from "./components/countdown";
+// Store and logout-on-close helper
+import { store } from "./store/store";
+import setupLogOutOnClose from "./functions/logOutOnClose";
 
 function App() {
   // Alert
@@ -93,6 +95,12 @@ function App() {
       ),
     },
   ]);
+
+  // Setup logout-on-close behavior once (uses redux store dispatch + Firebase signOut)
+  useEffect(() => {
+    const cleanup = setupLogOutOnClose(store);
+    return () => cleanup();
+  }, []);
   return (
     <>
       {/* Main content */}

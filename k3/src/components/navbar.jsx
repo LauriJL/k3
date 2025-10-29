@@ -1,9 +1,13 @@
 // React
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+// Firebase
+import { auth } from "../firebase/firebase_config";
+import { signOut } from "firebase/auth";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "../store/authSlice";
+import { markInternalNavigation } from "../functions/logOutOnClose";
 // Components
 import LoginModal from "./loginModal";
 import InvoiceCrudModal from "./invoiceCrudModal";
@@ -44,11 +48,18 @@ const NavBar = () => {
   // Logout
   const handleLogOut = () => {
     dispatch(logOut());
+    signOut(auth).catch(() => {
+      /* ignore errors during unload */
+    });
     navigate("/");
   };
 
   // NavBar links
   const handleNavLink = (path) => {
+    // Mark internal navigation so the unload handler doesn't treat this as a tab close
+    try {
+      markInternalNavigation();
+    } catch (e) {}
     navigate(path);
   };
 
