@@ -7,6 +7,7 @@ import { signOut } from "firebase/auth";
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "../store/authSlice";
+import { setSelectedYear } from "../store/yearSlice";
 import { markInternalNavigation } from "../functions/logOutOnClose";
 // Components
 import LoginModal from "./loginModal";
@@ -23,6 +24,8 @@ import Button from "react-bootstrap/Button";
 const NavBar = () => {
   const logged = useSelector((state) => state.auth.logged);
   const email = useSelector((state) => state.email.eMail);
+  const selectedYear = useSelector((state) => state.year.selectedYear);
+  // const [year, setYear] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // Modals
@@ -48,12 +51,23 @@ const NavBar = () => {
   // Logout
   const handleLogOut = () => {
     dispatch(logOut());
+    dispatch(setSelectedYear(currentYear));
     signOut(auth).catch(() => {
       /* ignore errors during unload */
     });
     navigate("/");
   };
 
+  // Selected year change handler
+  const handleYearChange = (event) => {
+    const newYear = parseInt(event.target.value, 10);
+    // Dispatch action to update selected year in the store
+    dispatch(setSelectedYear(newYear));
+  };
+
+  // Current year selection
+  const d = new Date();
+  let currentYear = d.getFullYear();
   // NavBar links
   const handleNavLink = (path) => {
     // Mark internal navigation so the unload handler doesn't treat this as a tab close
@@ -139,19 +153,32 @@ const NavBar = () => {
           {/* Right-aligned items */}
           <Nav className="ms-auto">
             {!logged ? (
-              <Button
-                variant="success"
-                size="sm"
-                onClick={() => handleShowLoginModal("login")}
-              >
-                Kirjaudu sisään
-              </Button>
+              <>
+                <Button
+                  variant="success"
+                  size="sm"
+                  onClick={() => handleShowLoginModal("login")}
+                >
+                  Kirjaudu sisään
+                </Button>
+              </>
             ) : (
-              <NavDropdown title={email} id="basic-nav-dropdown">
-                <NavDropdown.Item onClick={() => handleLogOut()}>
-                  Kirjaudu ulos
-                </NavDropdown.Item>
-              </NavDropdown>
+              <>
+                <Nav.Link>
+                  <li class="nav-item">
+                    <select class="custom-select" onChange={handleYearChange}>
+                      <option selected>{currentYear}</option>
+                      <option value={currentYear - 1}>{currentYear - 1}</option>
+                      <option value={currentYear + 1}>{currentYear + 1}</option>
+                    </select>
+                  </li>
+                </Nav.Link>
+                <NavDropdown title={email} id="logOut-dropdown">
+                  <NavDropdown.Item onClick={() => handleLogOut()}>
+                    Kirjaudu ulos
+                  </NavDropdown.Item>
+                </NavDropdown>
+              </>
             )}
           </Nav>
         </Navbar.Collapse>

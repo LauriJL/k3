@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // Redux
 import { useSelector } from "react-redux";
+import { setSelectedYear } from "../store/yearSlice";
 // Realtime database
 import { mydatabase } from "../firebase/firebase_config";
 import { ref, onValue, update } from "firebase/database";
@@ -17,30 +18,32 @@ import calculateCategorySums from "../functions/categorySums";
 // Chart components
 import { BarChart } from "./barChart";
 import { PieChart } from "./pieChart";
-import TulevatLaskut from "./tulevatLaskut";
+// import TulevatLaskut from "./tulevatLaskut";
 
 const Totals = () => {
   // Redux
   const logged = useSelector((state) => state.auth.logged);
-  const email = useSelector((state) => state.email.eMail);
-
+  const selectedYear = useSelector((state) => state.year.selectedYear);
   const [items, setItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
   const [incomeTotalRaw, setIncomeTotalRaw] = useState([]);
   const [incomeTotal, setIncomeTotal] = useState(0);
   const navigate = useNavigate();
   const catExp = "menot";
   const catInc = "tulot";
-  const year = "2025";
   const [expenditureTotal, setExpenditureTotal] = useState(0);
   const [upcomingTotal, setUpcomingTotal] = useState(0);
   const [balance, setBalance] = useState(0);
   const [pvm, setPvm] = useState("");
 
   useEffect(() => {
-    FetchData(setItems, catExp, year);
-    FetchData(setIncomeTotalRaw, catInc, year);
+    FetchData(setItems, catExp, selectedYear);
+    setFilteredItems(
+      items.filter((item) => item.maksupvm.includes(selectedYear.toString()))
+    );
+    FetchData(setIncomeTotalRaw, catInc, selectedYear);
     // return () => mydatabase.ref("menot").off(); // Cleanup subscription
-  }, [catExp, catInc, year]);
+  }, [items, filteredItems, catExp, catInc, selectedYear]);
 
   // Balance
   useEffect(() => {
@@ -89,7 +92,7 @@ const Totals = () => {
         {logged ? (
           <div className="container-fluid-totals">
             <div>
-              <h3>Menot maksuluokittain {year}</h3>
+              <h3>Menot maksuluokittain {selectedYear}</h3>
             </div>
             <div className="row">
               <div className="col-md-8">
@@ -165,7 +168,7 @@ const Totals = () => {
           </div>
         ) : (
           <div>
-            <h3>Menot maksuluokittain {year}</h3>
+            <h3>Menot maksuluokittain {selectedYear}</h3>
             <p>Ei tietoja näytettävänä.</p>
             <p>Ole hyvä ja kirjaudu sisään.</p>
           </div>

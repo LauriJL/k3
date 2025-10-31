@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 // Redux
 import { useSelector } from "react-redux";
+import { setSelectedYear } from "../store/yearSlice";
 // Bootstrap
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
@@ -18,9 +19,10 @@ import CrudModal from "./invoiceCrudModal";
 const MaksetutLaskut = () => {
   // Redux
   const logged = useSelector((state) => state.auth.logged);
-  console.log("Logged in status in Laskut:", logged);
+  const selectedYear = useSelector((state) => state.year.selectedYear);
   // Items
   const [items, setItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
@@ -33,12 +35,15 @@ const MaksetutLaskut = () => {
 
   useEffect(() => {
     FetchData(setItems, cat, year);
-  }, []);
+    setFilteredItems(
+      items.filter((item) => item.maksupvm.includes(selectedYear.toString()))
+    );
+  }, [filteredItems, selectedYear]);
 
   // Pagination items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
   const renderTableRows = () =>
     currentItems.map((item) => (
       <tr key={item.id}>
@@ -105,7 +110,7 @@ const MaksetutLaskut = () => {
     <Container className="p-5">
       <Stack gap={3}>
         <div>
-          <h3>Menot</h3>
+          <h3>Menot {selectedYear}</h3>
         </div>
         {logged ? (
           <Form onChange={handleItemsPerPage}>

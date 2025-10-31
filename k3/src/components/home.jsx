@@ -11,6 +11,7 @@ import Row from "react-bootstrap/Row";
 const Home = () => {
   const logged = useSelector((state) => state.auth.logged);
   const email = useSelector((state) => state.email.eMail);
+  const selectedYear = useSelector((state) => state.year.selectedYear);
   const navigate = useNavigate();
   return (
     <Container>
@@ -42,7 +43,7 @@ const Home = () => {
               onClick={() => navigate("/totals")}
               className="text-center"
             >
-              Siirry tarkastelemaan tuloja ja menoja
+              Siirry tarkastelemaan tuloja ja menoja {selectedYear}
             </Button>
           </Stack>
         </Row>
