@@ -1,5 +1,7 @@
 // React
 import React, { useState, useEffect } from "react";
+// Redux
+import { useSelector } from "react-redux";
 // Firebase
 import { mydatabase } from "../firebase/firebase_config"; // Firebase database
 import { ref, onValue, remove, update } from "firebase/database";
@@ -13,6 +15,9 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
 const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
+  // Redux
+  const selectedYear = useSelector((state) => state.year.selectedYear);
+
   const invoiceId = id;
 
   // State variables for data
@@ -22,7 +27,6 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
   const [maksupvm, setMaksupvm] = useState("");
   const [maksuluokka, setMaksuluokka] = useState("");
   const [huom, setHuom] = useState("");
-  const [year, setYear] = useState("2025");
 
   // Handle dropdown value change
   const handleInvoiceDropdownChange = (value) => {
@@ -49,7 +53,7 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
 
     const invoiceId = "invoice";
     writeInvoiceData(
-      year,
+      selectedYear,
       invoiceId,
       saaja,
       summa,
@@ -64,7 +68,7 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
   useEffect(() => {
     if (invoiceId !== 0) {
       // Reference to invoice data in the database
-      const invoiceRef = ref(mydatabase, "menot/" + year + "/" + invoiceId);
+      const invoiceRef = ref(mydatabase, `menot/${selectedYear}/${invoiceId}`);
       // Fetch the existing data when the component mounts
       onValue(invoiceRef, (snapshot) => {
         const data = snapshot.val();
@@ -78,11 +82,11 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
         }
       });
     }
-  }, [invoiceId, year]);
+  }, [invoiceId, selectedYear]);
 
   // Delete invoice entry
   const deleteInvoiceItem = (invoiceId) => {
-    const itemRef = ref(mydatabase, "menot/" + year + "/" + invoiceId);
+    const itemRef = ref(mydatabase, `menot/${selectedYear}/${invoiceId}`);
     remove(itemRef)
       .then(() => {
         console.log("Lasku poistettu");
@@ -108,7 +112,7 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
     };
 
     // Reference to the specific invoice in the database
-    const invoiceRef = ref(mydatabase, "menot/2025/" + invoiceId);
+    const invoiceRef = ref(mydatabase, `menot/${selectedYear}/${invoiceId}`);
     // Update method to update the fields in the database
     update(invoiceRef, updatedData)
       .then(() => {

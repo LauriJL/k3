@@ -24,8 +24,7 @@ import Button from "react-bootstrap/Button";
 const NavBar = () => {
   const logged = useSelector((state) => state.auth.logged);
   const email = useSelector((state) => state.email.eMail);
-  const selectedYear = useSelector((state) => state.year.selectedYear);
-  // const [year, setYear] = useState("");
+  // const selectedYear = useSelector((state) => state.year.selectedYear);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // Modals

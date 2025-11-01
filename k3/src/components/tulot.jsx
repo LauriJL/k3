@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 // Redux
 import { useSelector } from "react-redux";
-import { setSelectedYear } from "../store/yearSlice";
 // Bootstrap
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
@@ -22,7 +21,6 @@ const Tulot = () => {
   const selectedYear = useSelector((state) => state.year.selectedYear);
   // Items
   const [items, setItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
@@ -30,19 +28,16 @@ const Tulot = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalName, setModalName] = useState("");
-  const [cat, setCat] = useState("tulot");
-
+  const cat = "tulot";
+  // Fetch items when category or selected year changes
   useEffect(() => {
     FetchData(setItems, cat, selectedYear);
-    setFilteredItems(
-      items.filter((item) => item.maksupvm.includes(selectedYear.toString()))
-    );
-  }, [items, filteredItems, cat, selectedYear]);
+  }, [cat, selectedYear]);
 
   // Pagination items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
   const renderTableRows = () =>
     currentItems.map((item) => (
       <tr key={item.id}>

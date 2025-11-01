@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from "react";
 // Redux
 import { useSelector } from "react-redux";
-import { setSelectedYear } from "../store/yearSlice";
+// Components
+import FetchData from "../functions/fetchData";
+import CrudModal from "./invoiceCrudModal";
 // Bootstrap
 import Table from "react-bootstrap/Table";
 import Pagination from "react-bootstrap/Pagination";
@@ -12,9 +14,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-// Components
-import FetchData from "../functions/fetchData";
-import CrudModal from "./invoiceCrudModal";
 
 const MaksetutLaskut = () => {
   // Redux
@@ -22,7 +21,7 @@ const MaksetutLaskut = () => {
   const selectedYear = useSelector((state) => state.year.selectedYear);
   // Items
   const [items, setItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
+  const cat = "menot";
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
@@ -30,20 +29,15 @@ const MaksetutLaskut = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalName, setModalName] = useState("");
-  const [cat, setCat] = useState("menot");
-  const [year, setYear] = useState("2025");
 
   useEffect(() => {
-    FetchData(setItems, cat, year);
-    setFilteredItems(
-      items.filter((item) => item.maksupvm.includes(selectedYear.toString()))
-    );
-  }, [filteredItems, selectedYear]);
+    FetchData(setItems, cat, selectedYear);
+  }, [cat, selectedYear]);
 
   // Pagination items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
   const renderTableRows = () =>
     currentItems.map((item) => (
       <tr key={item.id}>

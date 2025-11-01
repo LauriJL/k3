@@ -1,5 +1,7 @@
 // React
 import React, { useState, useEffect } from "react";
+// Redux
+import { useSelector } from "react-redux";
 // Firebase
 import { mydatabase } from "../firebase/firebase_config"; // Firebase database
 import { ref, onValue, update } from "firebase/database";
@@ -10,13 +12,16 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
 const BalanceCrudModal = ({ id, show, onClose, modalName }) => {
+  // Redux
+  const selectedYear = useSelector((state) => state.year.selectedYear);
+
   // State variables for data
   const [saldo, setSaldo] = useState("");
   const [huom, setHuom] = useState("");
 
   useEffect(() => {
     // Reference to income data in the database
-    const balanceRef = ref(mydatabase, "saldo/");
+    const balanceRef = ref(mydatabase, `saldo/${selectedYear}`);
     // Fetch the existing data when the component mounts
     onValue(balanceRef, (snapshot) => {
       const data = snapshot.val();
@@ -48,7 +53,7 @@ const BalanceCrudModal = ({ id, show, onClose, modalName }) => {
     };
 
     // Reference to the specific income in the database
-    const balanceRef = ref(mydatabase, "saldo/");
+    const balanceRef = ref(mydatabase, `saldo/${selectedYear}`);
     // Update method to update the fields in the database
     update(balanceRef, updatedData)
       .then(() => {

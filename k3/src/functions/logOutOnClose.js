@@ -1,11 +1,8 @@
 // Handles logging out the user when the tab/window is actually closed.
-// We provide a small API:
-// - setupLogOutOnClose(store) -> installs listeners and returns a cleanup function
-// - markInternalNavigation() -> call this from in-app navigation handlers to avoid
-//   treating an internal navigation as a tab close.
-
+// Firebase
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase_config";
+// Redux
 import { logOut } from "../store/authSlice";
 
 let _ignoreNextUnload = false;

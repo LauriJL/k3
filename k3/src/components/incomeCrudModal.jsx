@@ -1,18 +1,22 @@
 // React
 import React, { useState, useEffect } from "react";
+// Redux
+import { useSelector } from "react-redux";
 // Firebase
 import { mydatabase } from "../firebase/firebase_config"; // Firebase database
 import { ref, onValue, remove, update } from "firebase/database";
 // Components
 import { writeIncomeData } from "../functions/writeIncome";
 import IncomeCategoryDropDown from "./incomeCategoryDD";
-
 // Bootstrap
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
 const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
+  // Redux
+  const selectedYear = useSelector((state) => state.year.selectedYear);
+
   const incomeId = id;
 
   // State variables for data
@@ -21,7 +25,7 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
   const [maksupvm, setMaksupvm] = useState("");
   const [tuloluokka, setTuloluokka] = useState("");
   const [huom, setHuom] = useState("");
-  const [year, setYear] = useState("2025");
+  // const [year, setYear] = useState("2025");
 
   // Handle dropdown value change
   const handleIncomeDropdownChange = (value) => {
@@ -46,14 +50,22 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
     }
 
     const incomeId = "income";
-    writeIncomeData(year, incomeId, maksaja, summa, maksupvm, tuloluokka, huom); // Call the function to write data
+    writeIncomeData(
+      selectedYear,
+      incomeId,
+      maksaja,
+      summa,
+      maksupvm,
+      tuloluokka,
+      huom
+    ); // Call the function to write data
     onClose();
   }
 
   useEffect(() => {
     if (incomeId !== 0) {
       // Reference to income data in the database
-      const incomeRef = ref(mydatabase, "tulot/" + year + "/" + incomeId);
+      const incomeRef = ref(mydatabase, `tulot/${selectedYear}/${incomeId}`);
       // Fetch the existing data when the component mounts
       onValue(incomeRef, (snapshot) => {
         const data = snapshot.val();
@@ -66,11 +78,11 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
         }
       });
     }
-  }, [incomeId, year]);
+  }, [incomeId, selectedYear]);
 
   // Delete income entry
   const deleteIncomeItem = (incomeId) => {
-    const itemRef = ref(mydatabase, "tulot/" + year + "/" + incomeId);
+    const itemRef = ref(mydatabase, `tulot/${selectedYear}/${incomeId}`);
     remove(itemRef)
       .then(() => {
         console.log("Tulo poistettu");
@@ -95,7 +107,7 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
     };
 
     // Reference to the specific income in the database
-    const incomeRef = ref(mydatabase, "tulot/2025/" + incomeId);
+    const incomeRef = ref(mydatabase, `tulot/${selectedYear}/${incomeId}`);
     // Update method to update the fields in the database
     update(incomeRef, updatedData)
       .then(() => {

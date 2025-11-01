@@ -33,12 +33,10 @@ const LoginModal = ({ show, onClose, modalName }) => {
   // Handle login form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Attempting to log in with:", email);
 
     try {
       await signInWithEmailAndPassword(auth, email, password); // Use Firebase's signInWithEmailAndPassword method
       dispatch(logIn());
-      console.log("User logged in successfully");
       onClose();
       // eslint-disable-next-line no-unused-vars
     } catch (error) {

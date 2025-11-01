@@ -19,6 +19,7 @@ import CrudModal from "./invoiceCrudModal";
 const TulevatLaskut = () => {
   // Redux
   const logged = useSelector((state) => state.auth.logged);
+  const selectedYear = useSelector((state) => state.year.selectedYear);
   // Array of upcoming invoices
   const location = useLocation();
   const upcomingInvoices = location.state?.data || [];
@@ -104,7 +105,7 @@ const TulevatLaskut = () => {
     <Container className="p-5">
       <Stack gap={3}>
         <div>
-          <h3>Tulevat laskut</h3>
+          <h3>Tulevat laskut {selectedYear}</h3>
         </div>
         {logged ? (
           <Form onChange={handleItemsPerPage}>

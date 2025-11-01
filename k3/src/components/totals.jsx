@@ -3,10 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // Redux
 import { useSelector } from "react-redux";
-import { setSelectedYear } from "../store/yearSlice";
 // Realtime database
 import { mydatabase } from "../firebase/firebase_config";
-import { ref, onValue, update } from "firebase/database";
+import { ref, onValue } from "firebase/database";
 // Bootstrap
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
@@ -24,8 +23,8 @@ const Totals = () => {
   // Redux
   const logged = useSelector((state) => state.auth.logged);
   const selectedYear = useSelector((state) => state.year.selectedYear);
+  // Items
   const [items, setItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
   const [incomeTotalRaw, setIncomeTotalRaw] = useState([]);
   const [incomeTotal, setIncomeTotal] = useState(0);
   const navigate = useNavigate();
@@ -37,18 +36,39 @@ const Totals = () => {
   const [pvm, setPvm] = useState("");
 
   useEffect(() => {
+    // Fetch data when category or selected year changes
     FetchData(setItems, catExp, selectedYear);
-    setFilteredItems(
-      items.filter((item) => item.maksupvm.includes(selectedYear.toString()))
-    );
     FetchData(setIncomeTotalRaw, catInc, selectedYear);
     // return () => mydatabase.ref("menot").off(); // Cleanup subscription
-  }, [items, filteredItems, catExp, catInc, selectedYear]);
+  }, [catExp, catInc, selectedYear]);
+
+  // Recalculate expenditure/upcoming totals when items change (no state updates in render)
+  useEffect(() => {
+    const paidInvoices = items.filter(
+      (item) => item.maksupvm && item.maksupvm.length > 0
+    );
+    const reducedDataPaid = Object.values(calculateCategorySums(paidInvoices));
+    const expenditure = reducedDataPaid.reduce((accumulator, obj) => {
+      return accumulator + parseFloat(obj.summa || 0);
+    }, 0);
+    setExpenditureTotal(expenditure);
+
+    const upcomingInvoices = items.filter(
+      (item) => !item.maksupvm || item.maksupvm.length === 0
+    );
+    const reducedDataUpcoming = Object.values(
+      calculateCategorySums(upcomingInvoices)
+    );
+    const upcoming = reducedDataUpcoming.reduce((accumulator, obj) => {
+      return accumulator + parseFloat(obj.summa || 0);
+    }, 0);
+    setUpcomingTotal(upcoming);
+  }, [items]);
 
   // Balance
+  // Reference to income data in the database
+  const balanceRef = ref(mydatabase, `saldo/${selectedYear}`);
   useEffect(() => {
-    // Reference to income data in the database
-    const balanceRef = ref(mydatabase, "saldo/");
     // Fetch the existing data when the component mounts
     onValue(balanceRef, (snapshot) => {
       const data = snapshot.val();

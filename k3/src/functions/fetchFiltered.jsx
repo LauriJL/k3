@@ -10,7 +10,7 @@ import {
 
 const FetchFiltered = async (cat, setItems, year) => {
   const db = getDatabase();
-  const itemsRef = ref(db, "menot/" + year);
+  const itemsRef = ref(db, `${cat}/${year}`);
   const filteredQuery = query(
     itemsRef,
     orderByChild("maksuluokka"),
