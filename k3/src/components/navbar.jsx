@@ -1,3 +1,4 @@
+import "../App.css";
 // React
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -164,7 +165,7 @@ const NavBar = () => {
             ) : (
               <>
                 <Nav.Link>
-                  <li class="nav-item">
+                  <li className="nav-item year-select">
                     <select class="custom-select" onChange={handleYearChange}>
                       <option selected>{currentYear}</option>
                       <option value={currentYear - 1}>{currentYear - 1}</option>
