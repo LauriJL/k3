@@ -19,6 +19,7 @@ import InvoiceCrudModal from "./invoiceCrudModal";
 const LaskutLuokittain = () => {
   // Redux
   const logged = useSelector((state) => state.auth.logged);
+  const selectedYear = useSelector((state) => state.year.selectedYear);
   // Params
   const { category } = useParams();
   const navigate = useNavigate();
@@ -30,10 +31,10 @@ const LaskutLuokittain = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalName, setModalName] = useState("");
-  const [year, setYear] = useState("2025");
+  // const [year, setYear] = useState("2025");
 
   useEffect(() => {
-    FetchFiltered(category, setItems, year);
+    FetchFiltered(category, setItems, selectedYear);
   }, []);
 
   // Pagination items
@@ -106,7 +107,9 @@ const LaskutLuokittain = () => {
     <Container className="p-5">
       <Stack gap={3}>
         <div>
-          <h3>Maksetut laskut - {category} </h3>
+          <h3>
+            Maksetut laskut {selectedYear} - {category}{" "}
+          </h3>
         </div>
         {logged ? (
           <Form onChange={handleItemsPerPage}>

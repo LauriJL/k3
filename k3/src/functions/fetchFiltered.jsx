@@ -10,7 +10,7 @@ import {
 
 const FetchFiltered = async (cat, setItems, year) => {
   const db = getDatabase();
-  const itemsRef = ref(db, `${cat}/${year}`);
+  const itemsRef = ref(db, `menot/${year}`);
   const filteredQuery = query(
     itemsRef,
     orderByChild("maksuluokka"),
@@ -28,7 +28,7 @@ const FetchFiltered = async (cat, setItems, year) => {
           }));
         setItems(filteredData);
       } else {
-        console.log("No matching records found");
+        console.log("No matching records found.");
       }
     });
   } catch (error) {

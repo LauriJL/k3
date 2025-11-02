@@ -8,6 +8,7 @@ import { ref, onValue, remove, update } from "firebase/database";
 // Components
 import { writeIncomeData } from "../functions/writeIncome";
 import IncomeCategoryDropDown from "./incomeCategoryDD";
+import FetchData from "../functions/fetchData";
 // Bootstrap
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
