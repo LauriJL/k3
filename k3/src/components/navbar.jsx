@@ -81,9 +81,14 @@ const NavBar = () => {
     <Navbar bg="dark" data-bs-theme="dark">
       <Container fluid>
         {!logged ? (
-          <Navbar.Brand href="/">K3</Navbar.Brand>
+          <Navbar.Brand href="/" className="branding">
+            K3
+          </Navbar.Brand>
         ) : (
-          <Navbar.Brand onClick={() => handleNavLink("/totals")}>
+          <Navbar.Brand
+            className="branding"
+            onClick={() => handleNavLink("/totals")}
+          >
             K3
           </Navbar.Brand>
         )}

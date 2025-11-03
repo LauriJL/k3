@@ -42,8 +42,17 @@ const Totals = () => {
     // return () => mydatabase.ref("menot").off(); // Cleanup subscription
   }, [catExp, catInc, selectedYear]);
 
+  // Balance
+  // Reference to income data in the database
+  const balanceRef = ref(mydatabase, `saldo/${selectedYear}`);
   // Recalculate expenditure/upcoming totals when items change (no state updates in render)
   useEffect(() => {
+    // Fetch the existing data when the component mounts
+    onValue(balanceRef, (snapshot) => {
+      const data = snapshot.val();
+      setBalance(data.saldo);
+      setPvm(data.pvm);
+    });
     const paidInvoices = items.filter(
       (item) => item.maksupvm && item.maksupvm.length > 0
     );
@@ -65,9 +74,6 @@ const Totals = () => {
     setUpcomingTotal(upcoming);
   }, [items]);
 
-  // Balance
-  // Reference to income data in the database
-  const balanceRef = ref(mydatabase, `saldo/${selectedYear}`);
   useEffect(() => {
     // Fetch the existing data when the component mounts
     onValue(balanceRef, (snapshot) => {

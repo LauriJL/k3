@@ -87,6 +87,12 @@
   overflow: hidden;
 }
 
+.branding {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .year-select {
   border: none;
   border-radius: 5px;
