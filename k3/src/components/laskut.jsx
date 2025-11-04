@@ -1,7 +1,8 @@
 // React
 import React, { useEffect, useState } from "react";
 // Redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { triggerRefresh, resetRefresh } from "../store/refreshSlice";
 // Components
 import FetchData from "../functions/fetchData";
 import CrudModal from "./invoiceCrudModal";
@@ -19,6 +20,8 @@ const MaksetutLaskut = () => {
   // Redux
   const logged = useSelector((state) => state.auth.logged);
   const selectedYear = useSelector((state) => state.year.selectedYear);
+  const needsRefresh = useSelector((state) => state.refresh.needsRefresh);
+  const dispatch = useDispatch();
   // Items
   const [items, setItems] = useState([]);
   const cat = "menot";
@@ -30,9 +33,10 @@ const MaksetutLaskut = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalName, setModalName] = useState("");
 
+  // Fetch data on mount and when category, year or refresh changes
   useEffect(() => {
     FetchData(setItems, cat, selectedYear);
-  }, [cat, selectedYear]);
+  }, [cat, selectedYear, needsRefresh]);
 
   // Pagination items
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -91,6 +95,7 @@ const MaksetutLaskut = () => {
     setShowModal(true);
   };
   const handleCloseModal = () => {
+    !needsRefresh && dispatch(resetRefresh());
     setShowModal(false);
     setSelectedId(null); // Clear the selected ID
   };
@@ -98,6 +103,10 @@ const MaksetutLaskut = () => {
   // Number of items displayed
   const handleItemsPerPage = (event) => {
     setItemsPerPage(event.target.value);
+  };
+
+  const handleRefresh = () => {
+    !needsRefresh ? dispatch(triggerRefresh()) : dispatch(resetRefresh());
   };
 
   return (
@@ -136,6 +145,14 @@ const MaksetutLaskut = () => {
                     id={`inline-${type}-3`}
                     value="10000"
                   />
+
+                  <Button
+                    variant="outline-primary"
+                    size="sm"
+                    onClick={() => handleRefresh()}
+                  >
+                    Päivitä
+                  </Button>
                 </div>
               ))}
             </div>

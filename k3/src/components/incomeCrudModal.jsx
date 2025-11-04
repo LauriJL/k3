@@ -1,14 +1,14 @@
 // React
 import React, { useState, useEffect } from "react";
 // Redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { triggerRefresh, resetRefresh } from "../store/refreshSlice";
 // Firebase
 import { mydatabase } from "../firebase/firebase_config"; // Firebase database
 import { ref, onValue, remove, update } from "firebase/database";
 // Components
 import { writeIncomeData } from "../functions/writeIncome";
 import IncomeCategoryDropDown from "./incomeCategoryDD";
-import FetchData from "../functions/fetchData";
 // Bootstrap
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -17,6 +17,8 @@ import Form from "react-bootstrap/Form";
 const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
   // Redux
   const selectedYear = useSelector((state) => state.year.selectedYear);
+  const needsRefresh = useSelector((state) => state.refresh.needsRefresh);
+  const dispatch = useDispatch();
 
   const incomeId = id;
 
@@ -31,6 +33,10 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
   // Handle dropdown value change
   const handleIncomeDropdownChange = (value) => {
     setTuloluokka(value);
+  };
+
+  const handleRefresh = () => {
+    !needsRefresh ? dispatch(triggerRefresh()) : dispatch(resetRefresh());
   };
 
   function emptyValues() {
@@ -59,7 +65,9 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
       maksupvm,
       tuloluokka,
       huom
-    ); // Call the function to write data
+    ); // Call the function to write dat
+    handleRefresh();
+    emptyValues();
     onClose();
   }
 
@@ -88,6 +96,7 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
       .then(() => {
         console.log("Tulo poistettu");
         emptyValues();
+        handleRefresh();
       })
       .catch((error) => {
         console.log("Tulon poisto epäonnistui: ", error);
@@ -114,6 +123,7 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
       .then(() => {
         console.log("Tulon tiedot päivitetty!");
         emptyValues();
+        handleRefresh();
       })
       .catch((error) => {
         console.error("Tietojen päivitys epäonnistui:", error);
