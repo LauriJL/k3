@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // Redux
 import { useSelector } from "react-redux";
@@ -20,9 +20,13 @@ const TulevatLaskut = () => {
   // Redux
   const logged = useSelector((state) => state.auth.logged);
   const selectedYear = useSelector((state) => state.year.selectedYear);
+  const needsRefresh = useSelector((state) => state.refresh.needsRefresh);
+  console.log("Refresh state in TulevatLaskut:", needsRefresh);
   // Array of upcoming invoices
   const location = useLocation();
   const upcomingInvoices = location.state?.data || [];
+  console.log(upcomingInvoices);
+
   const [items, setItems] = useState([]);
   // Navigation
   const navigate = useNavigate();
@@ -38,7 +42,7 @@ const TulevatLaskut = () => {
   // Pagination items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+  // const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
   const renderTableRows = () =>
     upcomingInvoices.map((item) => (
       <tr key={item.id}>

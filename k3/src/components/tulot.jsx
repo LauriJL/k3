@@ -19,6 +19,7 @@ const Tulot = () => {
   // Redux
   const logged = useSelector((state) => state.auth.logged);
   const selectedYear = useSelector((state) => state.year.selectedYear);
+  const needsRefresh = useSelector((state) => state.refresh.needsRefresh);
   // Items
   const [items, setItems] = useState([]);
   // Pagination
@@ -29,10 +30,10 @@ const Tulot = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalName, setModalName] = useState("");
   const cat = "tulot";
-  // Fetch items when category or selected year changes
+  // Fetch items when category or selected year changes, or when a refresh is needed
   useEffect(() => {
     FetchData(setItems, cat, selectedYear);
-  }, [cat, selectedYear]);
+  }, [cat, selectedYear, needsRefresh]);
 
   // Pagination items
   const indexOfLastItem = currentPage * itemsPerPage;

@@ -1,7 +1,8 @@
 // React
 import React, { useState, useEffect } from "react";
 // Redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { triggerRefresh, resetRefresh } from "../store/refreshSlice";
 // Firebase
 import { mydatabase } from "../firebase/firebase_config"; // Firebase database
 import { ref, onValue, remove, update } from "firebase/database";
@@ -15,8 +16,9 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
 const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
-  // Redux
   const selectedYear = useSelector((state) => state.year.selectedYear);
+  const needsRefresh = useSelector((state) => state.refresh.needsRefresh);
+  const dispatch = useDispatch();
 
   const invoiceId = id;
 
@@ -31,6 +33,10 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
   // Handle dropdown value change
   const handleInvoiceDropdownChange = (value) => {
     setMaksuluokka(value);
+  };
+
+  const handleRefresh = () => {
+    !needsRefresh ? dispatch(triggerRefresh()) : dispatch(resetRefresh());
   };
 
   function emptyValues() {
@@ -62,6 +68,8 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
       maksuluokka,
       huom
     ); // Call the function to write data
+    handleRefresh();
+    emptyValues();
     onClose();
   }
 
@@ -92,6 +100,9 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
         console.log("Lasku poistettu");
         emptyValues();
       })
+      .then(() => {
+        handleRefresh();
+      })
       .catch((error) => {
         console.log("Laskun poisto epäonnistui: ", error);
       });
@@ -118,6 +129,9 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
       .then(() => {
         console.log("Laskun tiedot päivitetty!");
         emptyValues();
+      })
+      .then(() => {
+        handleRefresh();
       })
       .catch((error) => {
         console.error("Tietojen päivitys epäonnistui:", error);

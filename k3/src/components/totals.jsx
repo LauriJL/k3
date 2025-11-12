@@ -17,12 +17,13 @@ import calculateCategorySums from "../functions/categorySums";
 // Chart components
 import { BarChart } from "./barChart";
 import { PieChart } from "./pieChart";
-// import TulevatLaskut from "./tulevatLaskut";
 
 const Totals = () => {
   // Redux
   const logged = useSelector((state) => state.auth.logged);
   const selectedYear = useSelector((state) => state.year.selectedYear);
+  const needsRefresh = useSelector((state) => state.refresh.needsRefresh);
+  console.log("Refresh state in Totals:", needsRefresh);
   // Items
   const [items, setItems] = useState([]);
   const [incomeTotalRaw, setIncomeTotalRaw] = useState([]);
@@ -36,11 +37,11 @@ const Totals = () => {
   const [pvm, setPvm] = useState("");
 
   useEffect(() => {
-    // Fetch data when category or selected year changes
+    // Fetch data when category or selected year changes, or when a refresh is needed
     FetchData(setItems, catExp, selectedYear);
     FetchData(setIncomeTotalRaw, catInc, selectedYear);
     // return () => mydatabase.ref("menot").off(); // Cleanup subscription
-  }, [catExp, catInc, selectedYear]);
+  }, [catExp, catInc, selectedYear, needsRefresh]);
 
   // Balance
   // Reference to income data in the database

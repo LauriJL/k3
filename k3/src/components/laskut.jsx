@@ -1,8 +1,7 @@
 // React
 import React, { useEffect, useState } from "react";
 // Redux
-import { useSelector, useDispatch } from "react-redux";
-import { triggerRefresh, resetRefresh } from "../store/refreshSlice";
+import { useSelector } from "react-redux";
 // Components
 import FetchData from "../functions/fetchData";
 import CrudModal from "./invoiceCrudModal";
@@ -21,7 +20,6 @@ const MaksetutLaskut = () => {
   const logged = useSelector((state) => state.auth.logged);
   const selectedYear = useSelector((state) => state.year.selectedYear);
   const needsRefresh = useSelector((state) => state.refresh.needsRefresh);
-  const dispatch = useDispatch();
   // Items
   const [items, setItems] = useState([]);
   const cat = "menot";
@@ -95,7 +93,6 @@ const MaksetutLaskut = () => {
     setShowModal(true);
   };
   const handleCloseModal = () => {
-    !needsRefresh && dispatch(resetRefresh());
     setShowModal(false);
     setSelectedId(null); // Clear the selected ID
   };
@@ -103,10 +100,6 @@ const MaksetutLaskut = () => {
   // Number of items displayed
   const handleItemsPerPage = (event) => {
     setItemsPerPage(event.target.value);
-  };
-
-  const handleRefresh = () => {
-    !needsRefresh ? dispatch(triggerRefresh()) : dispatch(resetRefresh());
   };
 
   return (
@@ -145,14 +138,6 @@ const MaksetutLaskut = () => {
                     id={`inline-${type}-3`}
                     value="10000"
                   />
-
-                  <Button
-                    variant="outline-primary"
-                    size="sm"
-                    onClick={() => handleRefresh()}
-                  >
-                    Päivitä
-                  </Button>
                 </div>
               ))}
             </div>

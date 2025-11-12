@@ -96,6 +96,8 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
       .then(() => {
         console.log("Tulo poistettu");
         emptyValues();
+      })
+      .then(() => {
         handleRefresh();
       })
       .catch((error) => {
@@ -123,6 +125,8 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
       .then(() => {
         console.log("Tulon tiedot päivitetty!");
         emptyValues();
+      })
+      .then(() => {
         handleRefresh();
       })
       .catch((error) => {
