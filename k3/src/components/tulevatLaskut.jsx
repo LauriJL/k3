@@ -1,5 +1,5 @@
 // React
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 // Redux
 import { useSelector } from "react-redux";
@@ -13,7 +13,6 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 // Components
-import FetchData from "../functions/fetchData";
 import CrudModal from "./invoiceCrudModal";
 
 const TulevatLaskut = () => {
@@ -21,13 +20,12 @@ const TulevatLaskut = () => {
   const logged = useSelector((state) => state.auth.logged);
   const selectedYear = useSelector((state) => state.year.selectedYear);
   const needsRefresh = useSelector((state) => state.refresh.needsRefresh);
-  console.log("Refresh state in TulevatLaskut:", needsRefresh);
   // Array of upcoming invoices
   const location = useLocation();
   const upcomingInvoices = location.state?.data || [];
-  console.log(upcomingInvoices);
 
-  const [items, setItems] = useState([]);
+  var [items, setItems] = useState([]);
+
   // Navigation
   const navigate = useNavigate();
 
@@ -42,7 +40,7 @@ const TulevatLaskut = () => {
   // Pagination items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
   const renderTableRows = () =>
     upcomingInvoices.map((item) => (
       <tr key={item.id}>
@@ -110,6 +108,10 @@ const TulevatLaskut = () => {
       <Stack gap={3}>
         <div>
           <h3>Tulevat laskut {selectedYear}</h3>
+          <br />
+          {/* <Button variant="success" onClick={() => handleUpdate()}>
+            Päivitä tiedot
+          </Button> */}
         </div>
         {logged ? (
           <Form onChange={handleItemsPerPage}>
