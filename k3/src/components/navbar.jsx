@@ -63,6 +63,7 @@ const NavBar = () => {
     const newYear = parseInt(event.target.value, 10);
     // Dispatch action to update selected year in the store
     dispatch(setSelectedYear(newYear));
+    navigate("/totals");
   };
 
   // Current year selection

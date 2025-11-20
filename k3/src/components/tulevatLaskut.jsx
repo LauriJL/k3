@@ -13,19 +13,17 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 // Components
+import FetchData from "../functions/fetchData";
 import CrudModal from "./invoiceCrudModal";
 
 const TulevatLaskut = () => {
   // Redux
   const logged = useSelector((state) => state.auth.logged);
   const selectedYear = useSelector((state) => state.year.selectedYear);
-  const needsRefresh = useSelector((state) => state.refresh.needsRefresh);
   // Array of upcoming invoices
   const location = useLocation();
   const upcomingInvoices = location.state?.data || [];
-
-  var [items, setItems] = useState([]);
-
+  const [items, setItems] = useState([]);
   // Navigation
   const navigate = useNavigate();
 
@@ -108,10 +106,6 @@ const TulevatLaskut = () => {
       <Stack gap={3}>
         <div>
           <h3>Tulevat laskut {selectedYear}</h3>
-          <br />
-          {/* <Button variant="success" onClick={() => handleUpdate()}>
-            Päivitä tiedot
-          </Button> */}
         </div>
         {logged ? (
           <Form onChange={handleItemsPerPage}>
