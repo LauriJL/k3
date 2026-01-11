@@ -34,14 +34,30 @@ const Totals = () => {
   const [expenditureTotal, setExpenditureTotal] = useState(0);
   const [upcomingTotal, setUpcomingTotal] = useState(0);
   const [balance, setBalance] = useState(0);
+  const [prevYrBalance, setPrevYrBalance] = useState(0);
   const [pvm, setPvm] = useState("");
 
   useEffect(() => {
     // Fetch data when category or selected year changes, or when a refresh is needed
     FetchData(setItems, catExp, selectedYear);
     FetchData(setIncomeTotalRaw, catInc, selectedYear);
+    console.log("Data fetched in Totals useEffect: ", selectedYear);
     // return () => mydatabase.ref("menot").off(); // Cleanup subscription
   }, [catExp, catInc, selectedYear, needsRefresh]);
+
+  // Previous year balance
+  useEffect(() => {
+    const prevYear = selectedYear - 1;
+    const balanceRef = ref(mydatabase, `loppusaldo/${prevYear}/saldo`);
+    onValue(balanceRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        setPrevYrBalance(data);
+      } else {
+        setPrevYrBalance(0);
+      }
+    });
+  }, [selectedYear]);
 
   // Balance
   // Reference to income data in the database
@@ -157,6 +173,9 @@ const Totals = () => {
               <div className="col-md-4 d-flex flex-column align-items-top">
                 <h4>Saldo: {balance}</h4>
                 <h6>Tulot: {incomeTotal.toFixed(2)}</h6>
+                <h6>
+                  {selectedYear - 1} loppusaldo: {prevYrBalance}
+                </h6>
                 <h6>Menot: {expenditureTotal.toFixed(2)}</h6>
                 <h6>
                   Tulevat menot: {upcomingTotal.toFixed(2)}&nbsp;&nbsp;&nbsp;
@@ -173,7 +192,10 @@ const Totals = () => {
                   </Button>
                 </h6>
 
-                <h6>Erotus: {(incomeTotal - expenditureTotal).toFixed(2)}</h6>
+                <h6>
+                  Erotus:{" "}
+                  {(incomeTotal + prevYrBalance - expenditureTotal).toFixed(2)}
+                </h6>
                 <p>Tiedot päivitetty {pvm}</p>
               </div>
             </div>
@@ -181,8 +203,8 @@ const Totals = () => {
               <div className="col-md-8 d-flex">
                 <BarChart
                   expenditureTotal={expenditureTotal}
-                  incomeTotal={incomeTotal}
-                  diff={incomeTotal - expenditureTotal}
+                  incomeTotal={incomeTotal + prevYrBalance}
+                  diff={incomeTotal + prevYrBalance - expenditureTotal}
                   options={{ responsive: true, maintainAspectRatio: false }}
                 />
               </div>
