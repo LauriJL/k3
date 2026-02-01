@@ -175,7 +175,8 @@ const NavBar = () => {
                     <select class="custom-select" onChange={handleYearChange}>
                       <option selected>{currentYear}</option>
                       <option value={currentYear - 1}>{currentYear - 1}</option>
-                      <option value={currentYear + 1}>{currentYear + 1}</option>
+                      <option value={currentYear - 2}>{currentYear - 2}</option>
+                      {/* <option value={currentYear + 1}>{currentYear + 1}</option> */}
                     </select>
                   </li>
                 </Nav.Link>
