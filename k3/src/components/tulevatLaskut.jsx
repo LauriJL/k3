@@ -13,13 +13,13 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 // Components
-import FetchData from "../functions/fetchData";
 import CrudModal from "./invoiceCrudModal";
 
 const TulevatLaskut = () => {
   // Redux
   const logged = useSelector((state) => state.auth.logged);
   const selectedYear = useSelector((state) => state.year.selectedYear);
+
   // Array of upcoming invoices
   const location = useLocation();
   const upcomingInvoices = location.state?.data || [];
@@ -79,7 +79,7 @@ const TulevatLaskut = () => {
           onClick={() => setCurrentPage(number)}
         >
           {number}
-        </Pagination.Item>
+        </Pagination.Item>,
       );
     }
     return <Pagination>{itemsArray}</Pagination>;
