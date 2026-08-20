@@ -17,6 +17,7 @@ import CountDown from "./components/countdown";
 // Store and logout-on-close helper
 import { store } from "./store/store";
 import setupLogOutOnClose from "./functions/logOutOnClose";
+import KirjoBot from "./components/KirjoBot";
 
 function App() {
   // Alert
@@ -110,6 +111,7 @@ function App() {
         showAlert={showAlert}
         onClose={closeAlert}
       />
+      <KirjoBot />
     </>
   );
 }

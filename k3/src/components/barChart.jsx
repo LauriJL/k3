@@ -20,7 +20,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 export const BarChart = ({ expenditureTotal, incomeTotal, diff }) => {
@@ -53,7 +53,7 @@ export const BarChart = ({ expenditureTotal, incomeTotal, diff }) => {
           "rgba(80, 36, 212, 0.2)",
           "rgba(99, 255, 109, 0.2)",
           "rgba(54, 162, 235, 0.2)",
-          "rgba(242, 38, 19, 0.2);",
+          "rgba(0, 255, 0, 0.2);",
         ],
         borderColor: ["rgb(5, 6, 7)"],
         borderWidth: 1,
