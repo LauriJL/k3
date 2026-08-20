@@ -17,6 +17,8 @@
 # docs
 /docs
 
+fin.traineddata
+
 # misc
 .DS_Store
 .env.local
