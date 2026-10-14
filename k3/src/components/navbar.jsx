@@ -48,6 +48,18 @@ const NavBar = () => {
     setSelectedId(null); // Clear the selected ID
   };
 
+  // Current year selection
+  const d = new Date();
+  let currentYear = d.getFullYear();
+  // NavBar links
+  const handleNavLink = (path) => {
+    // Mark internal navigation so the unload handler doesn't treat this as a tab close
+    try {
+      markInternalNavigation();
+    } catch (e) {}
+    navigate(path);
+  };
+
   // Logout
   const handleLogOut = () => {
     dispatch(logOut());
@@ -64,18 +76,6 @@ const NavBar = () => {
     // Dispatch action to update selected year in the store
     dispatch(setSelectedYear(newYear));
     navigate("/totals");
-  };
-
-  // Current year selection
-  const d = new Date();
-  let currentYear = d.getFullYear();
-  // NavBar links
-  const handleNavLink = (path) => {
-    // Mark internal navigation so the unload handler doesn't treat this as a tab close
-    try {
-      markInternalNavigation();
-    } catch (e) {}
-    navigate(path);
   };
 
   return (
