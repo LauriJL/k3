@@ -49,7 +49,7 @@ const Totals = () => {
   useEffect(() => {
     const prevYear = selectedYear - 1;
     const balanceRef = ref(mydatabase, `loppusaldo/${prevYear}/saldo`);
-    onValue(balanceRef, (snapshot) => {
+    return onValue(balanceRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         setPrevYrBalance(data);
@@ -60,18 +60,11 @@ const Totals = () => {
   }, [selectedYear]);
 
   // Balance
-  // Reference to income data in the database
-  const balanceRef = ref(mydatabase, `saldo/${selectedYear}`);
+
   // Recalculate expenditure/upcoming totals when items change (no state updates in render)
   useEffect(() => {
-    // Fetch the existing data when the component mounts
-    onValue(balanceRef, (snapshot) => {
-      const data = snapshot.val();
-      setBalance(data.saldo);
-      setPvm(data.pvm);
-    });
     const paidInvoices = items.filter(
-      (item) => item.maksupvm && item.maksupvm.length > 0
+      (item) => item.maksupvm && item.maksupvm.length > 0,
     );
     const reducedDataPaid = Object.values(calculateCategorySums(paidInvoices));
     const expenditure = reducedDataPaid.reduce((accumulator, obj) => {
@@ -80,10 +73,10 @@ const Totals = () => {
     setExpenditureTotal(expenditure);
 
     const upcomingInvoices = items.filter(
-      (item) => !item.maksupvm || item.maksupvm.length === 0
+      (item) => !item.maksupvm || item.maksupvm.length === 0,
     );
     const reducedDataUpcoming = Object.values(
-      calculateCategorySums(upcomingInvoices)
+      calculateCategorySums(upcomingInvoices),
     );
     const upcoming = reducedDataUpcoming.reduce((accumulator, obj) => {
       return accumulator + parseFloat(obj.summa || 0);
@@ -92,13 +85,13 @@ const Totals = () => {
   }, [items]);
 
   useEffect(() => {
-    // Fetch the existing data when the component mounts
-    onValue(balanceRef, (snapshot) => {
+    const balanceRef = ref(mydatabase, `saldo/${selectedYear}`);
+    return onValue(balanceRef, (snapshot) => {
       const data = snapshot.val();
       setBalance(data.saldo);
       setPvm(data.pvm);
     });
-  }, []);
+  }, [selectedYear]);
 
   useEffect(() => {
     if (incomeTotalRaw.length > 0) {
@@ -115,19 +108,19 @@ const Totals = () => {
     const upcomingInvoices = data.filter((item) => item.maksupvm.length === 0);
     const reducedDataPaid = Object.values(calculateCategorySums(paidInvoices)); // Apply reducer function
     const reducedDataUpcoming = Object.values(
-      calculateCategorySums(upcomingInvoices)
+      calculateCategorySums(upcomingInvoices),
     ); // Apply reducer function
 
     setExpenditureTotal(
       reducedDataPaid.reduce(function (accumulator, obj) {
         return accumulator + parseFloat(obj.summa);
-      }, 0)
+      }, 0),
     );
 
     setUpcomingTotal(
       reducedDataUpcoming.reduce(function (accumulator, obj) {
         return accumulator + parseFloat(obj.summa);
-      }, 0)
+      }, 0),
     );
 
     return (

@@ -64,7 +64,7 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
       summa,
       maksupvm,
       tuloluokka,
-      huom
+      huom,
     ); // Call the function to write dat
     handleRefresh();
     emptyValues();
@@ -76,7 +76,7 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
       // Reference to income data in the database
       const incomeRef = ref(mydatabase, `tulot/${selectedYear}/${incomeId}`);
       // Fetch the existing data when the component mounts
-      onValue(incomeRef, (snapshot) => {
+      return onValue(incomeRef, (snapshot) => {
         const data = snapshot.val();
         if (data) {
           setMaksaja(data.maksaja || "");

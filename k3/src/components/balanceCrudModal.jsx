@@ -23,13 +23,14 @@ const BalanceCrudModal = ({ id, show, onClose, modalName }) => {
     // Reference to income data in the database
     const balanceRef = ref(mydatabase, `saldo/${selectedYear}`);
     // Fetch the existing data when the component mounts
-    onValue(balanceRef, (snapshot) => {
+    // Should `onValue` be replaced with `get()` since only a one-time read is needed?!
+    return onValue(balanceRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
         setSaldo(data.saldo);
       }
     });
-  }, [id]);
+  }, [selectedYear]);
 
   function emptyValues() {
     setSaldo("");

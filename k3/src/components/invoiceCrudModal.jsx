@@ -66,7 +66,7 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
       erapvm,
       maksupvm,
       maksuluokka,
-      huom
+      huom,
     ); // Call the function to write data
     handleRefresh();
     emptyValues();
@@ -78,7 +78,7 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
       // Reference to invoice data in the database
       const invoiceRef = ref(mydatabase, `menot/${selectedYear}/${invoiceId}`);
       // Fetch the existing data when the component mounts
-      onValue(invoiceRef, (snapshot) => {
+      return onValue(invoiceRef, (snapshot) => {
         const data = snapshot.val();
         if (data) {
           setSaaja(data.saaja || "");
