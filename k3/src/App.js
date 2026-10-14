@@ -2,7 +2,7 @@ import "./App.css";
 
 // React
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 // Components
 import Home from "./components/home";
 import Navbar from "./components/navbar";
@@ -35,67 +35,71 @@ function App() {
     setAlertMessage("");
   };
 
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: (
-        <>
-          <Navbar />
-          <Home />
-        </>
-      ),
-    },
-    {
-      path: "/totals",
-      element: (
-        <>
-          <Navbar />
-          <CountDown></CountDown>
-          <Totals triggerAlert={triggerAlert} />
-        </>
-      ),
-    },
-    {
-      path: "/laskut",
-      element: (
-        <>
-          <Navbar />
-          <CountDown></CountDown>
-          <MaksetutLaskut triggerAlert={triggerAlert} />
-        </>
-      ),
-    },
-    {
-      path: "/tulevatlaskut",
-      element: (
-        <>
-          <Navbar />
-          <CountDown></CountDown>
-          <TulevatLaskut triggerAlert={triggerAlert} />
-        </>
-      ),
-    },
-    {
-      path: "/tulot",
-      element: (
-        <>
-          <Navbar />
-          <CountDown></CountDown>
-          <Tulot triggerAlert={triggerAlert} />
-        </>
-      ),
-    },
-    {
-      path: "/laskutluokittain/:category",
-      element: (
-        <>
-          <Navbar />
-          <CountDown></CountDown>
-          <LaskutLuokittain triggerAlert={triggerAlert} />
-        </>
-      ),
-    },
-  ]);
+  const router = useMemo(
+    () =>
+      createBrowserRouter([
+        {
+          path: "/",
+          element: (
+            <>
+              <Navbar />
+              <Home />
+            </>
+          ),
+        },
+        {
+          path: "/totals",
+          element: (
+            <>
+              <Navbar />
+              <CountDown></CountDown>
+              <Totals triggerAlert={triggerAlert} />
+            </>
+          ),
+        },
+        {
+          path: "/laskut",
+          element: (
+            <>
+              <Navbar />
+              <CountDown></CountDown>
+              <MaksetutLaskut triggerAlert={triggerAlert} />
+            </>
+          ),
+        },
+        {
+          path: "/tulevatlaskut",
+          element: (
+            <>
+              <Navbar />
+              <CountDown></CountDown>
+              <TulevatLaskut triggerAlert={triggerAlert} />
+            </>
+          ),
+        },
+        {
+          path: "/tulot",
+          element: (
+            <>
+              <Navbar />
+              <CountDown></CountDown>
+              <Tulot triggerAlert={triggerAlert} />
+            </>
+          ),
+        },
+        {
+          path: "/laskutluokittain/:category",
+          element: (
+            <>
+              <Navbar />
+              <CountDown></CountDown>
+              <LaskutLuokittain triggerAlert={triggerAlert} />
+            </>
+          ),
+        },
+      ]),
+    [],
+  );
 
   // Setup logout-on-close behavior once (uses redux store dispatch + Firebase signOut)
   useEffect(() => {
