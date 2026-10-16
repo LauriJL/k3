@@ -19,8 +19,6 @@ const LoginModal = ({ show, onClose, modalName }) => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-  const logged = useSelector((state) => state.auth.logged);
-  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -38,15 +36,13 @@ const LoginModal = ({ show, onClose, modalName }) => {
       await signInWithEmailAndPassword(auth, email, password); // Use Firebase's signInWithEmailAndPassword method
       dispatch(logIn());
       onClose();
+      dispatch(setEmailStore(email));
       // eslint-disable-next-line no-unused-vars
     } catch (error) {
       setError("Tarkista käyttäjätunnus ja salasana.");
     }
   };
 
-  if (logged) {
-    dispatch(setEmailStore(email));
-  }
   return (
     <div>
       <Modal show={show} onHide={onClose} data-bs-backdrop="static" centered>
