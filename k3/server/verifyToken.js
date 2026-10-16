@@ -1,25 +1,25 @@
+const admin = require("firebase-admin");
+
+// Initialize the Admin SDK
+admin.initializeApp();
+
 async function verifyFirebaseToken(idToken) {
-  const apiKey = process.env.REACT_APP_API_KEY;
-  if (!apiKey) {
-    throw new Error("REACT_APP_API_KEY is not configured");
-  }
+  try {
+    return await admin.auth().verifyIdToken(idToken);
+  } catch (error) {
+    const invalidTokenErrors = new Set([
+      "auth/argument-error",
+      "auth/id-token-expired",
+      "auth/id-token-revoked",
+      "auth/invalid-id-token",
+    ]);
 
-  const response = await fetch(
-    `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${apiKey}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ idToken }),
+    if (invalidTokenErrors.has(error.code)) {
+      console.error("Error verifying ID token:", error.code);
+      return null;
     }
-  );
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    return null;
+    throw error;
   }
-
-  return data.users?.[0] || null;
 }
 
 module.exports = { verifyFirebaseToken };
