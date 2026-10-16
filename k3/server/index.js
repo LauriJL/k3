@@ -8,8 +8,12 @@ const { sendChatCompletion } = require("./openrouter");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const corsOptions = {
+  // Rewrite this once you have also a production domain
+  origin: "http://localhost:3000",
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json({ limit: "1mb" }));
 
 app.post("/api/chat", async (req, res) => {
@@ -48,7 +52,9 @@ app.post("/api/chat", async (req, res) => {
     res.json({ reply });
   } catch (error) {
     console.error("Chat error:", error);
-    res.status(500).json({ error: error.message || "Chat-pyyntö epäonnistui." });
+    res
+      .status(500)
+      .json({ error: error.message || "Chat-pyyntö epäonnistui." });
   }
 });
 
