@@ -31,11 +31,10 @@ const LaskutLuokittain = () => {
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalName, setModalName] = useState("");
-  // const [year, setYear] = useState("2025");
 
   useEffect(() => {
     FetchFiltered(category, setItems, selectedYear);
-  }, []);
+  }, [category, selectedYear]);
 
   // Pagination items
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -97,7 +96,7 @@ const LaskutLuokittain = () => {
           onClick={() => setCurrentPage(number)}
         >
           {number}
-        </Pagination.Item>
+        </Pagination.Item>,
       );
     }
     return <Pagination>{itemsArray}</Pagination>;

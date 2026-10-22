@@ -83,15 +83,12 @@ const KirjoBot = () => {
         chatHistory,
         dbContext,
         idToken,
-        controller.signal
+        controller.signal,
       );
 
       if (controller.signal.aborted) return;
 
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: reply },
-      ]);
+      setMessages((prev) => [...prev, { role: "assistant", content: reply }]);
     } catch (err) {
       if (err.name === "AbortError") return;
       setError(err.message || "Viestin lähetys epäonnistui.");
@@ -134,10 +131,7 @@ const KirjoBot = () => {
 
           <div className="kirjobot-messages">
             {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`kirjobot-message ${msg.role}`}
-              >
+              <div key={index} className={`kirjobot-message ${msg.role}`}>
                 {msg.content}
               </div>
             ))}
@@ -159,7 +153,11 @@ const KirjoBot = () => {
               onChange={(e) => setInput(e.target.value)}
               disabled={loading}
             />
-            <Button type="submit" variant="primary" disabled={loading || !input.trim()}>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={loading || !input.trim()}
+            >
               Lähetä
             </Button>
           </form>

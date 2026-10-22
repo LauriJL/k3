@@ -147,14 +147,25 @@ const Totals = () => {
                 </Col>
               </div>
               <div className="col-md-4 d-flex flex-column align-items-top">
-                <h4>Saldo: {balance}</h4>
-                <h6>Tulot: {incomeTotal.toFixed(2)}</h6>
+                <h4>
+                  <b>Saldo:</b> {balance}
+                </h4>
                 <h6>
-                  {selectedYear - 1} loppusaldo: {prevYrBalance}
+                  <b>Tulot:</b> {incomeTotal.toFixed(2)}
                 </h6>
-                <h6>Menot: {expenditureTotal.toFixed(2)}</h6>
                 <h6>
-                  Tulevat menot: {upcomingTotal.toFixed(2)}&nbsp;&nbsp;&nbsp;
+                  <b>{selectedYear - 1} loppusaldo:</b> {prevYrBalance}
+                </h6>
+                <h6>
+                  <b>Tulot + {selectedYear - 1} loppusaldo:</b>{" "}
+                  {incomeTotal + prevYrBalance}
+                </h6>
+                <h6>
+                  <b>Menot:</b> {expenditureTotal.toFixed(2)}
+                </h6>
+                <h6>
+                  <b>Tulevat menot:</b> {upcomingTotal.toFixed(2)}
+                  &nbsp;&nbsp;&nbsp;
                   <Button
                     variant="outline-primary"
                     size="sm"
@@ -169,17 +180,19 @@ const Totals = () => {
                 </h6>
 
                 <h6>
-                  Erotus:{" "}
+                  <b>Erotus:</b>{" "}
                   {(incomeTotal + prevYrBalance - expenditureTotal).toFixed(2)}
                 </h6>
-                <p>Tiedot päivitetty {pvm}</p>
+                <p>
+                  <b>Tiedot päivitetty</b> {pvm}
+                </p>
               </div>
             </div>
             <div className="row-bar">
               <div className="col-md-8 d-flex">
                 <BarChart
                   expenditureTotal={expenditureTotal}
-                  incomeTotal={incomeTotal + prevYrBalance}
+                  incomeTotal={incomeTotal}
                   diff={incomeTotal + prevYrBalance - expenditureTotal}
                   options={{ responsive: true, maintainAspectRatio: false }}
                 />

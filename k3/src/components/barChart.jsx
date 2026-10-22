@@ -1,5 +1,7 @@
 // React
 import React, { useEffect, useState } from "react";
+// Redux
+import { useSelector } from "react-redux";
 // Functions
 import FetchBudgetData from "../functions/fetchBudgetData";
 // Chart components
@@ -26,13 +28,14 @@ ChartJS.register(
 export const BarChart = ({ expenditureTotal, incomeTotal, diff }) => {
   const [incomeYr, setIncomeYr] = useState(0);
   const [expenditureYr, setExpenditureYr] = useState(0);
+  const selectedYear = useSelector((state) => state.year.selectedYear);
 
   //Fetch data
   useEffect(() => {
-    FetchBudgetData(setIncomeYr, "budjetti/2025/tulot/");
-    FetchBudgetData(setExpenditureYr, "budjetti/2025/menot/");
+    FetchBudgetData(setIncomeYr, `budjetti/${selectedYear}/tulot/`);
+    FetchBudgetData(setExpenditureYr, `budjetti/${selectedYear}/menot/`);
     // return () => mydatabase.ref("menot").off(); // Cleanup subscription
-  }, []);
+  }, [selectedYear]);
 
   const options = {
     responsive: true,
