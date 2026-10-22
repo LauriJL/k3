@@ -105,21 +105,6 @@ const Totals = () => {
     const paidInvoices = data.filter((item) => item.maksupvm.length > 0);
     const upcomingInvoices = data.filter((item) => item.maksupvm.length === 0);
     const reducedDataPaid = Object.values(calculateCategorySums(paidInvoices)); // Apply reducer function
-    const reducedDataUpcoming = Object.values(
-      calculateCategorySums(upcomingInvoices),
-    ); // Apply reducer function
-
-    setExpenditureTotal(
-      reducedDataPaid.reduce(function (accumulator, obj) {
-        return accumulator + parseFloat(obj.summa);
-      }, 0),
-    );
-
-    setUpcomingTotal(
-      reducedDataUpcoming.reduce(function (accumulator, obj) {
-        return accumulator + parseFloat(obj.summa);
-      }, 0),
-    );
 
     return (
       <Container className="p-5">
