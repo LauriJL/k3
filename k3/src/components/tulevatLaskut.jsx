@@ -23,13 +23,13 @@ const TulevatLaskut = () => {
   // Array of upcoming invoices
   const location = useLocation();
   const upcomingInvoices = location.state?.data || [];
-  const [items, setItems] = useState([]);
+
   // Navigation
   const navigate = useNavigate();
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
   // Modals
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -38,9 +38,12 @@ const TulevatLaskut = () => {
   // Pagination items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = upcomingInvoices.slice(
+    indexOfFirstItem,
+    indexOfLastItem,
+  );
   const renderTableRows = () =>
-    upcomingInvoices.map((item) => (
+    currentItems.map((item) => (
       <tr key={item.id}>
         <td>{item.saaja}</td>
         <td>{item.summa}</td>
@@ -69,7 +72,7 @@ const TulevatLaskut = () => {
     ));
 
   const renderPagination = () => {
-    const totalPages = Math.ceil(items.length / itemsPerPage);
+    const totalPages = Math.ceil(upcomingInvoices.length / itemsPerPage);
     let itemsArray = [];
     for (let number = 1; number <= totalPages; number++) {
       itemsArray.push(
