@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import App from "./App";
 import { store } from "./store/store";
 
-test("renders the home page", () => {
+test("renders the home page after Firebase auth initializes", async () => {
   render(
     <Provider store={store}>
       <App />
@@ -11,6 +11,8 @@ test("renders the home page", () => {
   );
 
   expect(
-    screen.getByRole("heading", { name: "Tervetuloa K3-sovellukseen" }),
+    await screen.findByRole("heading", {
+      name: "Tervetuloa K3-sovellukseen",
+    }),
   ).toBeInTheDocument();
 });

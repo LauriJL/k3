@@ -3,6 +3,8 @@ import "./App.css";
 // React
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import React, { useState, useEffect, useMemo } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { useDispatch } from "react-redux";
 // Components
 import Home from "./components/home";
 import Navbar from "./components/navbar";
@@ -14,12 +16,16 @@ import LaskutLuokittain from "./components/invoiceCategory";
 import TulevatLaskut from "./components/tulevatLaskut";
 // Idle timer countdown
 import CountDown from "./components/countdown";
-// Store and logout-on-close helper
-import { store } from "./store/store";
-import setupLogOutOnClose from "./functions/logOutOnClose";
+// Authentication
+import { auth } from "./firebase/firebase_config";
+import { logIn, logOut } from "./store/authSlice";
+import { setEmailStore } from "./store/emailSlice";
 import KirjoBot from "./components/KirjoBot";
 
 function App() {
+  const dispatch = useDispatch();
+  const [authReady, setAuthReady] = useState(false);
+
   // Alert
   const [alertMessage, setAlertMessage] = useState("");
   const [showAlert, setShowAlert] = useState(false);
@@ -101,11 +107,24 @@ function App() {
     [],
   );
 
-  // Setup logout-on-close behavior once (uses redux store dispatch + Firebase signOut)
+  // Keep the Redux authentication state in sync with Firebase's persisted session.
   useEffect(() => {
-    const cleanup = setupLogOutOnClose(store);
-    return () => cleanup();
-  }, []);
+    return onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(logIn());
+        dispatch(setEmailStore(user.email || ""));
+      } else {
+        dispatch(logOut());
+        dispatch(setEmailStore(""));
+      }
+      setAuthReady(true);
+    });
+  }, [dispatch]);
+
+  if (!authReady) {
+    return null;
+  }
+
   return (
     <>
       {/* Main content */}

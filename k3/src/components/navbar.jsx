@@ -9,7 +9,6 @@ import { signOut } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "../store/authSlice";
 import { setSelectedYear } from "../store/yearSlice";
-import { markInternalNavigation } from "../functions/logOutOnClose";
 // Components
 import LoginModal from "./loginModal";
 import InvoiceCrudModal from "./invoiceCrudModal";
@@ -53,10 +52,6 @@ const NavBar = () => {
   let currentYear = d.getFullYear();
   // NavBar links
   const handleNavLink = (path) => {
-    // Mark internal navigation so the unload handler doesn't treat this as a tab close
-    try {
-      markInternalNavigation();
-    } catch (e) {}
     navigate(path);
   };
 
