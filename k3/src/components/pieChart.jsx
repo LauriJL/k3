@@ -3,17 +3,21 @@ import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
 
 ChartJS.register(Tooltip, Legend, ArcElement);
 
-export const PieChart = (arr) => {
-  let labels = [];
-  let data = [];
-  data = arr.arr.map((element) => parseFloat(element.summa));
-  labels = arr.arr.map((element) => element.luokka);
+export const PieChart = ({ arr, expenditureTotal }) => {
+  const labels = arr.map((element) => element.luokka);
+  const data = arr.map((element) =>
+    expenditureTotal > 0
+      ? Number(
+          ((parseFloat(element.summa) / expenditureTotal) * 100).toFixed(2),
+        )
+      : 0,
+  );
 
   const returnedData = {
     labels: labels,
     datasets: [
       {
-        label: "Yhteensä",
+        label: "Osuus kokonaismenoista %",
         data: data,
         backgroundColor: [
           "rgba(20, 205, 200, 0.8)",

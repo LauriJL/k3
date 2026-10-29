@@ -73,14 +73,16 @@ const Totals = () => {
     const upcomingInvoices = items.filter(
       (item) => !item.maksupvm || item.maksupvm.length === 0,
     );
+
     const reducedDataUpcoming = Object.values(
       calculateCategorySums(upcomingInvoices),
     );
+
     const upcoming = reducedDataUpcoming.reduce((accumulator, obj) => {
       return accumulator + parseFloat(obj.summa || 0);
     }, 0);
     setUpcomingTotal(upcoming);
-  }, [items]);
+  }, [items, expenditureTotal]);
 
   useEffect(() => {
     const balanceRef = ref(mydatabase, `saldo/${selectedYear}`);
@@ -201,7 +203,10 @@ const Totals = () => {
               </div>
               <div className="col-md-4 d-flex flex-column align-items-center">
                 <Col>
-                  <PieChart arr={reducedDataPaid} />
+                  <PieChart
+                    arr={reducedDataPaid}
+                    expenditureTotal={expenditureTotal}
+                  />
                 </Col>
               </div>
             </div>
