@@ -166,17 +166,19 @@ const Totals = () => {
                 <h6>
                   <b>Tulevat menot:</b> {upcomingTotal.toFixed(2)}
                   &nbsp;&nbsp;&nbsp;
-                  <Button
-                    variant="outline-primary"
-                    size="sm"
-                    onClick={() =>
-                      navigate("/tulevatlaskut", {
-                        state: { data: upcomingInvoices },
-                      })
-                    }
-                  >
-                    Näytä
-                  </Button>
+                  {upcomingTotal.toFixed(2) > 0.0 ? (
+                    <Button
+                      variant="outline-primary"
+                      size="sm"
+                      onClick={() =>
+                        navigate("/tulevatlaskut", {
+                          state: { data: upcomingInvoices },
+                        })
+                      }
+                    >
+                      Näytä
+                    </Button>
+                  ) : null}
                 </h6>
 
                 <h6>
