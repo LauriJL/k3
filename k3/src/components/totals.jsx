@@ -88,8 +88,13 @@ const Totals = () => {
     const balanceRef = ref(mydatabase, `saldo/${selectedYear}`);
     return onValue(balanceRef, (snapshot) => {
       const data = snapshot.val();
-      setBalance(data.saldo);
-      setPvm(data.pvm);
+      if (data != null) {
+        setBalance(data.saldo);
+        setPvm(data.pvm);
+      } else {
+        setBalance(0);
+        setPvm("");
+      }
     });
   }, [selectedYear]);
 
@@ -99,6 +104,8 @@ const Totals = () => {
         return accumulator + parseFloat(obj.summa);
       }, 0);
       setIncomeTotal(total);
+    } else {
+      setIncomeTotal(0);
     }
   }, [incomeTotalRaw]);
 
