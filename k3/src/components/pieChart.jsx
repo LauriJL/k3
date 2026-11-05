@@ -17,7 +17,7 @@ export const PieChart = ({ arr, expenditureTotal }) => {
     labels: labels,
     datasets: [
       {
-        label: "Osuus kokonaismenoista % ",
+        label: "Osuus kokonaismenoista %",
         data: data,
         backgroundColor: [
           "rgba(20, 205, 200, 0.8)",
@@ -28,7 +28,7 @@ export const PieChart = ({ arr, expenditureTotal }) => {
           "rgba(255, 240, 0, 0.8)",
           "rgba(4, 59, 92, 0.8);",
         ],
-        hoverOffset: 4,
+        hoverOffset: 15,
       },
     ],
   };

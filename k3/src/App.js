@@ -49,7 +49,8 @@ function App() {
           element: (
             <>
               <Navbar />
-              <Home />
+              <CountDown></CountDown>
+              <Home triggerAlert={triggerAlert} />
             </>
           ),
         },

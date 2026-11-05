@@ -1,5 +1,5 @@
 // React
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { IdleTimerProvider } from "react-idle-timer";
 import { useNavigate } from "react-router-dom";
 // Redux
@@ -24,6 +24,9 @@ function CountDown() {
   const countdownIntervalRef = useRef(null);
 
   const logoutUser = () => {
+    clearInterval(countdownIntervalRef.current);
+    countdownIntervalRef.current = null;
+    setIsModalOpen(false);
     dispatch(logOut());
     signOut(auth).catch(() => {
       /* ignore errors during unload */
@@ -31,22 +34,39 @@ function CountDown() {
     navigate("/");
   };
 
-  const handleOnIdle = () => {
-    setIsModalOpen(true);
-    setCountdown(15);
-    idleTimerRef.current?.pause(); // Pause the idle timer
+  useEffect(() => {
+    if (!logged) {
+      clearInterval(countdownIntervalRef.current);
+      countdownIntervalRef.current = null;
+      setIsModalOpen(false);
+    }
+  }, [logged]);
 
-    // Start countdown
-    countdownIntervalRef.current = setInterval(() => {
-      console.log("Countdown started");
-      setCountdown((prevCount) => {
-        if (prevCount <= 1) {
-          clearInterval(countdownIntervalRef.current);
-          logoutUser(); // Auto-logout if countdown reaches zero
-        }
-        return prevCount - 1;
-      });
-    }, 1000);
+  useEffect(
+    () => () => {
+      clearInterval(countdownIntervalRef.current);
+    },
+    [],
+  );
+
+  const handleOnIdle = () => {
+    if (logged) {
+      setIsModalOpen(true);
+      setCountdown(15);
+      idleTimerRef.current?.pause(); // Pause the idle timer
+
+      // Start countdown
+      countdownIntervalRef.current = setInterval(() => {
+        console.log("Countdown started");
+        setCountdown((prevCount) => {
+          if (prevCount <= 1) {
+            clearInterval(countdownIntervalRef.current);
+            logoutUser(); // Auto-logout if countdown reaches zero
+          }
+          return prevCount - 1;
+        });
+      }, 1000);
+    }
   };
 
   const handleOnActive = () => {
@@ -74,7 +94,7 @@ function CountDown() {
   return (
     <IdleTimerProvider
       ref={idleTimerRef}
-      timeout={1 * 60 * 1000} // 5 minutes
+      timeout={5 * 60 * 1000} // 5 minutes
       onIdle={handleOnIdle}
       onActive={handleOnActive}
       debounce={250}
