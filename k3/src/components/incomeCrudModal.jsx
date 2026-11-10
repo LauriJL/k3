@@ -48,7 +48,7 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
   }
 
   // Create income entry
-  function handleCreateIncome(e) {
+  async function handleCreateIncome(e) {
     e.preventDefault();
 
     if (!maksaja || !summa || !maksupvm || !tuloluokka) {
@@ -57,18 +57,23 @@ const IncomeCrudModal = ({ id, show, onClose, modalName }) => {
     }
 
     const incomeId = "income";
-    writeIncomeData(
-      selectedYear,
-      incomeId,
-      maksaja,
-      summa,
-      maksupvm,
-      tuloluokka,
-      huom,
-    ); // Call the function to write dat
-    handleRefresh();
-    emptyValues();
-    onClose();
+    try {
+      await writeIncomeData(
+        selectedYear,
+        incomeId,
+        maksaja,
+        summa,
+        maksupvm,
+        tuloluokka,
+        huom,
+      ); // Call the function to write data
+      handleRefresh();
+      emptyValues();
+      onClose();
+    } catch (error) {
+      console.error("Tulon lisääminen ei onnistunut: ", error);
+      alert("Tulon lisääminen ei onnistunut.");
+    }
   }
 
   useEffect(() => {

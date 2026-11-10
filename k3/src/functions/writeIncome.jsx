@@ -10,7 +10,7 @@ export const writeIncomeData = (
   summa,
   maksupvm,
   tuloluokka,
-  huom
+  huom,
 ) => {
   // Create a reference to the path where data is saved
   const incomeRef = ref(mydatabase, "tulot/" + year);
@@ -19,17 +19,14 @@ export const writeIncomeData = (
   const newincomeRef = push(incomeRef);
 
   // 'set' writes multiple values to this reference
-  set(newincomeRef, {
+  return set(newincomeRef, {
     maksaja: maksaja,
     summa: summa,
     maksupvm: maksupvm,
     tuloluokka: tuloluokka,
     huom: huom,
-  })
-    .then(() => {
-      console.log("Tulo lisätty!");
-    })
-    .catch((error) => {
-      console.error("Tulon lisääminen ei onnistunut:", error);
-    });
+  }).then(() => {
+    console.log("Tulo lisätty!");
+    alert(`Tulo lisätty: ${maksaja} ${summa}€,  maksupäivä: ${maksupvm}`);
+  });
 };

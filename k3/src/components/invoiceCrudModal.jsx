@@ -49,7 +49,7 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
   }
 
   // Create invoice entry
-  function handleCreateInvoice(e) {
+  async function handleCreateInvoice(e) {
     e.preventDefault();
 
     if (!saaja || !summa || !erapvm || !maksuluokka) {
@@ -58,19 +58,23 @@ const InvoiceCrudModal = ({ id, show, onClose, modalName }) => {
     }
 
     const invoiceId = "invoice";
-    writeInvoiceData(
-      selectedYear,
-      invoiceId,
-      saaja,
-      summa,
-      erapvm,
-      maksupvm,
-      maksuluokka,
-      huom,
-    ); // Call the function to write data
-    handleRefresh();
-    emptyValues();
-    onClose();
+    try {
+      await writeInvoiceData(
+        selectedYear,
+        invoiceId,
+        saaja,
+        summa,
+        erapvm,
+        maksupvm,
+        maksuluokka,
+        huom,
+      );
+      handleRefresh();
+      emptyValues();
+    } catch (error) {
+      console.error("Laskun lisääminen ei onnistunut:", error);
+      alert("Laskun lisääminen ei onnistunut.");
+    }
   }
 
   useEffect(() => {

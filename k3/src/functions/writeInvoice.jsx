@@ -11,7 +11,7 @@ export const writeInvoiceData = (
   erapvm,
   maksupvm,
   maksuluokka,
-  huom
+  huom,
 ) => {
   // Create a reference to the path where data is saved
   const invoiceRef = ref(mydatabase, "menot/" + year);
@@ -20,7 +20,7 @@ export const writeInvoiceData = (
   const newinvoiceRef = push(invoiceRef);
 
   // 'set' writes multiple values to this reference
-  set(newinvoiceRef, {
+  return set(newinvoiceRef, {
     saaja: saaja,
     summa: summa,
     erapvm: erapvm,
@@ -30,8 +30,6 @@ export const writeInvoiceData = (
   })
     .then(() => {
       console.log("Lasku lisätty!");
-    })
-    .catch((error) => {
-      console.error("Laskun lisääminen ei onnistunut:", error);
+      alert(`Lasku lisätty: ${saaja} ${summa}€,  eräpäivä: ${erapvm}`);
     });
 };
