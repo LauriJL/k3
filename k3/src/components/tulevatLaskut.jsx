@@ -1,6 +1,6 @@
 // React
-import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 // Redux
 import { useSelector } from "react-redux";
 // Bootstrap
@@ -14,15 +14,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 // Components
 import CrudModal from "./invoiceCrudModal";
+// Functions
+import FetchUnpaid from "../functions/fetchUnpaid";
 
-const TulevatLaskut = () => {
+const TulevatLaskut2 = () => {
   // Redux
   const logged = useSelector((state) => state.auth.logged);
   const selectedYear = useSelector((state) => state.year.selectedYear);
-
-  // Array of upcoming invoices
-  const location = useLocation();
-  const upcomingInvoices = location.state?.data || [];
 
   // Navigation
   const navigate = useNavigate();
@@ -36,12 +34,23 @@ const TulevatLaskut = () => {
   const [modalName, setModalName] = useState("");
 
   // Pagination items
+  // Items
+  const [items, setItems] = useState([]);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = upcomingInvoices.slice(
-    indexOfFirstItem,
-    indexOfLastItem,
-  );
+  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+
+  useEffect(() => {
+    if (logged) {
+      FetchUnpaid(setItems, selectedYear);
+    }
+  }, [logged, selectedYear]);
+
+  /*   const handleTableChange = () => {
+    FetchUnpaid(setItems, selectedYear);
+    renderTableRows();
+  }; */
+
   const renderTableRows = () =>
     currentItems.map((item) => (
       <tr key={item.id}>
@@ -72,7 +81,7 @@ const TulevatLaskut = () => {
     ));
 
   const renderPagination = () => {
-    const totalPages = Math.ceil(upcomingInvoices.length / itemsPerPage);
+    const totalPages = Math.ceil(items.length / itemsPerPage);
     let itemsArray = [];
     for (let number = 1; number <= totalPages; number++) {
       itemsArray.push(
@@ -97,6 +106,7 @@ const TulevatLaskut = () => {
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedId(null); // Clear the selected ID
+    FetchUnpaid(setItems, selectedYear); // Refresh the items after closing the modal
   };
 
   // Number of items displayed
@@ -197,4 +207,4 @@ const TulevatLaskut = () => {
   );
 };
 
-export default TulevatLaskut;
+export default TulevatLaskut2;

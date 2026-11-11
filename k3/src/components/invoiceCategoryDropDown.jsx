@@ -1,6 +1,6 @@
 // Firebase
 import { mydatabase } from "../firebase/firebase_config"; // points to firebase database
-import { getDatabase, ref, get } from "firebase/database"; // methods for Realtime database
+import { ref, get } from "firebase/database"; // methods for Realtime database
 // React
 import React, { useState, useEffect } from "react";
 // Bootstrap

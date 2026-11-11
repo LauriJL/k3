@@ -27,9 +27,7 @@ export const writeInvoiceData = (
     maksupvm: maksupvm,
     maksuluokka: maksuluokka,
     huom: huom,
-  })
-    .then(() => {
-      console.log("Lasku lisätty!");
-      alert(`Lasku lisätty: ${saaja} ${summa}€,  eräpäivä: ${erapvm}`);
-    });
+  }).then(() => {
+    console.log("Lasku lisätty!");
+  });
 };

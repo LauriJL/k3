@@ -112,7 +112,6 @@ const Totals = () => {
   const TableComponent = ({ data }) => {
     // Include only invoices that have been paid
     const paidInvoices = data.filter((item) => item.maksupvm.length > 0);
-    const upcomingInvoices = data.filter((item) => item.maksupvm.length === 0);
     const reducedDataPaid = Object.values(calculateCategorySums(paidInvoices)); // Apply reducer function
 
     return (
@@ -179,11 +178,7 @@ const Totals = () => {
                     <Button
                       variant="outline-primary"
                       size="sm"
-                      onClick={() =>
-                        navigate("/tulevatlaskut", {
-                          state: { data: upcomingInvoices },
-                        })
-                      }
+                      onClick={() => navigate("/tulevatlaskut")}
                     >
                       Näytä
                     </Button>

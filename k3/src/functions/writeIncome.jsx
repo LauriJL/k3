@@ -27,6 +27,5 @@ export const writeIncomeData = (
     huom: huom,
   }).then(() => {
     console.log("Tulo lisätty!");
-    alert(`Tulo lisätty: ${maksaja} ${summa}€,  maksupäivä: ${maksupvm}`);
   });
 };
