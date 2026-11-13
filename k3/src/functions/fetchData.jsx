@@ -15,7 +15,8 @@ const FetchData = async (setItems, cat, year) => {
     const data = snapshot.val();
     if (data) {
       const formattedData = Object.keys(data)
-        .reverse()
+        // .reverse()
+        .sort((a, b) => new Date(data[a].maksupvm) - new Date(data[b].maksupvm)) // Sort by maksupvm
         .map((key) => ({ id: key, ...data[key] }));
       setItems(formattedData);
     } else {

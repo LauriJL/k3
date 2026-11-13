@@ -1,5 +1,5 @@
 // React
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 // Redux
 import { useSelector } from "react-redux";
@@ -27,7 +27,7 @@ const TulevatLaskut2 = () => {
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   // Modals
   const [selectedId, setSelectedId] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -45,11 +45,6 @@ const TulevatLaskut2 = () => {
       FetchUnpaid(setItems, selectedYear);
     }
   }, [logged, selectedYear]);
-
-  /*   const handleTableChange = () => {
-    FetchUnpaid(setItems, selectedYear);
-    renderTableRows();
-  }; */
 
   const renderTableRows = () =>
     currentItems.map((item) => (
@@ -111,7 +106,7 @@ const TulevatLaskut2 = () => {
 
   // Number of items displayed
   const handleItemsPerPage = (event) => {
-    setItemsPerPage(event.target.value);
+    setItemsPerPage(Number(event.target.value));
   };
 
   return (
@@ -131,7 +126,7 @@ const TulevatLaskut2 = () => {
                     label="5"
                     name="group1"
                     type={type}
-                    id={`inline-${type}-1`}
+                    id={`inline-${type}-2`}
                     value="5"
                   />
                   <Form.Check
@@ -174,7 +169,13 @@ const TulevatLaskut2 = () => {
                 <tbody>{renderTableRows()}</tbody>
               </Table>
             </div>
-            &nbsp;
+            <Button
+              variant="primary"
+              onClick={() => handleShowModal(null, "createInvoice")}
+            >
+              Lisää uusi lasku
+            </Button>
+            &nbsp;&nbsp;
             <Button variant="secondary" onClick={() => navigate("/totals")}>
               Takaisin
             </Button>

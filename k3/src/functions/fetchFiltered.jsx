@@ -22,7 +22,8 @@ const FetchFiltered = async (cat, setItems, year) => {
     if (snapshot.exists()) {
       const data = snapshot.val();
       const filteredData = Object.keys(data)
-        .reverse()
+        // .reverse()
+        .sort((a, b) => new Date(data[a].maksupvm) - new Date(data[b].maksupvm)) // Sort by maksupvm
         .map((key) => ({
           id: key,
           ...data[key],

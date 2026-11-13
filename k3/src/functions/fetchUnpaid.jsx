@@ -1,8 +1,11 @@
 //Firebase
 import { getDatabase, ref, get, query } from "firebase/database";
-// const upcomingInvoices = data.filter((item) => item.maksupvm.length === 0);
 
 const FetchUnpaid = async (setItems, year) => {
+  if (!year) {
+    setItems([]);
+    return;
+  }
   const db = getDatabase();
   const itemsRef = ref(db, `menot/${year}`);
   const filteredQuery = query(itemsRef);
@@ -13,13 +16,13 @@ const FetchUnpaid = async (setItems, year) => {
       const data = snapshot.val();
 
       const filteredData = Object.keys(data)
-        .reverse()
+        .sort((a, b) => new Date(data[a].erapvm) - new Date(data[b].erapvm)) // Sort by erapvm
         .map((key) => ({
           id: key,
           ...data[key],
         }));
       const upcomingInvoices = filteredData.filter(
-        (item) => item.maksupvm.length === 0,
+        (item) => !item.maksupvm || item.maksupvm.length === 0,
       );
       setItems(upcomingInvoices);
     } else {

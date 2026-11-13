@@ -1,5 +1,5 @@
 // React
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // Redux
 import { useSelector } from "react-redux";
@@ -82,7 +82,7 @@ const Totals = () => {
       return accumulator + parseFloat(obj.summa || 0);
     }, 0);
     setUpcomingTotal(upcoming);
-  }, [items, expenditureTotal]);
+  }, [items]);
 
   useEffect(() => {
     const balanceRef = ref(mydatabase, `saldo/${selectedYear}`);
@@ -101,7 +101,7 @@ const Totals = () => {
   useEffect(() => {
     if (incomeTotalRaw.length > 0) {
       const total = incomeTotalRaw.reduce((accumulator, obj) => {
-        return accumulator + parseFloat(obj.summa);
+        return accumulator + parseFloat(obj.summa || 0);
       }, 0);
       setIncomeTotal(total);
     } else {
@@ -111,7 +111,9 @@ const Totals = () => {
 
   const TableComponent = ({ data }) => {
     // Include only invoices that have been paid
-    const paidInvoices = data.filter((item) => item.maksupvm.length > 0);
+    const paidInvoices = data.filter(
+      (item) => item.maksupvm && item.maksupvm.length > 0,
+    );
     const reducedDataPaid = Object.values(calculateCategorySums(paidInvoices)); // Apply reducer function
 
     return (
@@ -166,7 +168,7 @@ const Totals = () => {
                 </h6>
                 <h6>
                   <b>Tulot + {selectedYear - 1} loppusaldo:</b>{" "}
-                  {incomeTotal + prevYrBalance}
+                  {incomeTotal + parseFloat(prevYrBalance || 0).toFixed(2)}
                 </h6>
                 <h6>
                   <b>Menot:</b> {expenditureTotal.toFixed(2)}
@@ -174,7 +176,7 @@ const Totals = () => {
                 <h6>
                   <b>Tulevat menot:</b> {upcomingTotal.toFixed(2)}
                   &nbsp;&nbsp;&nbsp;
-                  {upcomingTotal.toFixed(2) > 0.0 ? (
+                  {upcomingTotal > 0 ? (
                     <Button
                       variant="outline-primary"
                       size="sm"
@@ -187,7 +189,11 @@ const Totals = () => {
 
                 <h6>
                   <b>Erotus:</b>{" "}
-                  {(incomeTotal + prevYrBalance - expenditureTotal).toFixed(2)}
+                  {(
+                    incomeTotal +
+                    parseFloat(prevYrBalance || 0) -
+                    parseFloat(expenditureTotal || 0)
+                  ).toFixed(2)}
                 </h6>
                 <p>
                   <b>Tiedot päivitetty</b> {pvm}
@@ -199,7 +205,11 @@ const Totals = () => {
                 <BarChart
                   expenditureTotal={expenditureTotal}
                   incomeTotal={incomeTotal}
-                  diff={incomeTotal + prevYrBalance - expenditureTotal}
+                  diff={
+                    incomeTotal +
+                    parseFloat(prevYrBalance || 0) -
+                    parseFloat(expenditureTotal || 0).toFixed(2)
+                  }
                   options={{ responsive: true, maintainAspectRatio: false }}
                 />
               </div>
